@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Flask App with Leaflet Map and Graph</title>
+    <style>
+        /* Set the height of html and body to 100% */
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+        
+        /* Define the main container to hold both sections */
+        .container {
+            display: flex;
+            flex-direction: row;
+            height: 100%;
+        }
+
+        /* Style the left and right sections */
+        .left-section {
+            flex: 1;
+            padding: 0px;
+        }
+
+        .right-section {
+            flex: 1;
+            padding: 20px;
+            background-color: #f2f2f2; /* Add background color for the right section */
+        }
+        /* Style the Iframe */
+        Iframe {
+            width: 100%;
+            height: 100%;
+        }
+        /* Style the Leaflet map container */
+        #leaflet-map {
+            width: 100%;
+            height: 100% /* Set the desired height for the map */
+        }
+
+        /* Style the graph container */
+        #graph {
+            width: 100%;
+            height: 400px; /* Set the desired height for the graph */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Left Section: Leaflet Map -->
+        <div class="left-section">
+            <h2>Leaflet Map</h2>
+            <div id="leaflet-map">
+                <!-- Include the Leaflet map here using an iframe or other method -->
+                <iframe src="{{ url_for('map') }}" style="border: none;"></iframe>
+            </div>
+        </div>
+
+        <!-- Right Section: Graph -->
+        <div class="right-section">
+            <h2>Graph</h2>
+            <div id="graph">
+            </div>
+        </div>
+    </div>
+</body>
+</html>

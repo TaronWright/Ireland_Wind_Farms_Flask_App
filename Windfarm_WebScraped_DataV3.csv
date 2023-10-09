@@ -1,0 +1,369 @@
+,Column1,Wind Farm Name,Number of Turbines,Rotor diameter,Minimum hub height,Maximum hub height,Cut-in wind speed,Cut-off wind speed,Rated wind speed,Rated power,Url,Manufacturer,Unnamed: 13,Geometry,Latitude,Longitude
+0,0,Acres Wind Farm,6.0,103.0,75.0,98.0,4.0,25.0,13.0,"2,850",https://www.thewindpower.net/windfarm_en_23735_acres.php,GE Energy,,POINT (-8.191103157247806 54.52596928820865),54.52596928820865,-8.191103157247806
+1,1,Altagowlan Wind Farm,9.0,58.0,44.0,74.0,3.0,25.0,14.5,850,https://www.thewindpower.net/windfarm_en_1737_altagowlan.php,Gamesa,,POINT (-8.144207518732035 54.12264995403498),54.12264995403498,-8.144207518732035
+2,2,An Cnoc,5.0,58.0,44.0,74.0,3.0,25.0,14.5,850,https://www.thewindpower.net/windfarm_en_27257_an-cnoc.php,Gamesa,,POINT (-7.528185066497247 52.64733953128281),52.64733953128281,-7.528185066497247
+3,3,Anarget Wind Farm (1),5.0,58.0,44.0,74.0,3.0,25.0,14.5,850,https://www.thewindpower.net/windfarm_en_27257_an-cnoc.php,Gamesa,,POINT (-8.16833821121777 54.75216441094932),54.75216441094932,-8.16833821121777
+4,4,Anarget Wind Farm (2),5.0,58.0,44.0,74.0,3.0,25.0,14.5,850,https://www.thewindpower.net/windfarm_en_27257_an-cnoc.php,Gamesa,,POINT (-8.171490084241086 54.75181857217395),54.75181857217395,-8.171490084241086
+5,5,Anarget Wind Farm (3),5.0,58.0,44.0,74.0,3.0,25.0,14.5,850,https://www.thewindpower.net/windfarm_en_27257_an-cnoc.php,Gamesa,,POINT (-8.167527579590203 54.75522935793025),54.75522935793025,-8.167527579590203
+6,6,"Arklow Bank Wind Farm (1)
+Wind (Offshore)",100.0,103.0,75.0,100.0,4.0,25.0,13.0,"3,600",https://www.thewindpower.net/windfarm_en_1741_arklow-bank.php,GE Energy,,POINT (-6.088454581225528 52.79204788555904),52.79204788555904,-6.088454581225528
+7,7,Athea,7.0,82.5,65.0,100.0,3.0,25.0,12.0,"1,600",https://www.thewindpower.net/windfarm_en_18006_athea.php,GE Energy,,POINT (-9.29802026962328 52.43899420039607),52.43899420039607,-9.29802026962328
+8,8,Ballagh Wind Farm,2.0,82.0,78.0,138.0,2.0,25.0,14.0,"2,300",https://www.thewindpower.net/windfarm_en_23059_ballagh.php,Enercon,,POINT (-9.084219299726676 52.36889598676182),52.36889598676182,-9.084219299726676
+9,9,"Ballaman (Kennystown) Wind Farm
+Wind",2.0,90.0,80.0,105.0,3.0,25.0,13.0,"1,800",https://www.thewindpower.net/windfarm_en_17466_ballaman.php,Vestas,,POINT (-6.543710570440514 52.62308674471972),52.62308674471972,-6.543710570440514
+10,10,Ballincollig Hill Wind Farm (Lee Strand),11.0,48.0,50.0,76.0,3.0,25.0,14.0,800,https://www.thewindpower.net/windfarm_en_19948_ballincollig-hill.php,Enercon,,POINT (-9.592846943426071 52.30805683656618),52.30805683656618,-9.592846943426071
+11,11,Ballincurry Wind Farm Ltd (Glengoole),,,,,,,,,,,,POINT (-7.626697484420236 52.61545961109382),52.61545961109382,-7.626697484420236
+12,12,"Ballinlough Wind Farm
+Wind",3.0,52.0,40.0,65.0,3.0,25.0,14.0,850,https://www.thewindpower.net/windfarm_en_3852_ballinlough-ikerrin.php,Vestas,,POINT (-8.011500531889673 52.83020127631763),52.83020127631763,-8.011500531889673
+13,13,"Ballinveny Wind Farm
+Wind",3.0,52.0,40.0,65.0,3.0,25.0,14.0,850,https://www.thewindpower.net/windfarm_en_1849_ballinveny.php,Vestas,,POINT (-7.953136611486344 52.81694468247969),52.81694468247969,-7.953136611486344
+14,14,Ballon Wind,0.0,52.0,40.0,65.0,3.0,25.0,14.0,850,https://www.thewindpower.net/windfarm_en_27242_ballon-wind.php,Vestas,,POINT (-6.803612061130292 52.72471708899695),52.72471708899695,-6.803612061130292
+15,15,"Ballybane (Glanta Commons) Wind Farm
+Wind",2.0,71.0,57.0,113.0,2.0,25.0,15.5,"2,300",https://www.thewindpower.net/windfarm_en_3844_ballybane.php,Enercon,,POINT (-9.379970366906262 51.63174776540333),51.63174776540333,-9.379970366906262
+16,16,Ballybane 2 (Glanta Commons) Wind Farm,2.0,71.0,57.0,113.0,2.0,25.0,15.5,"2,300",https://www.thewindpower.net/windfarm_en_6704_ballybane.php,Enercon,,POINT (-9.379970366906262 51.63174776540333),51.63174776540333,-9.379970366906262
+17,17,Ballybane 2A (Glanta Commons) Wind Farm,2.0,71.0,57.0,113.0,2.0,25.0,15.5,"2,300",https://www.thewindpower.net/windfarm_en_22490_ballybane.php,Enercon,,POINT (-9.379970366906262 51.63174776540333),51.63174776540333,-9.379970366906262
+18,18,Ballybane 2A (Glanta Commons) Wind Farm Extension,2.0,71.0,57.0,113.0,2.0,25.0,15.5,"2,300",https://www.thewindpower.net/windfarm_en_29933_ballybane.php,Enercon,,POINT (-9.379970366906262 51.63174776540333),51.63174776540333,-9.379970366906262
+19,19,Ballybane 3 (Glanta Commons) Wind Farm,,,,,,,,,,,,POINT (-9.379970366906262 51.63174776540333),51.63174776540333,-9.379970366906262
+20,20,Ballybay Wind Farm (Tullaroan),6.0,82.0,59.0,84.0,2.0,25.0,14.0,"2,350",https://www.thewindpower.net/windfarm_en_23060_ballybay.php, Enercon E82/2350,,POINT (-7.508590335291997 52.66181157314142),52.66181157314142,-7.508590335291997
+21,21,"Ballycadden Wind Farm (1)
+Wind",4.0,82.0,78.0,138.0,2.0,25.0,14.0,"2,300",https://www.thewindpower.net/windfarm_en_20104_ballycadden.php,Enercon,,POINT (-6.530214992179287 52.64630887596431),52.64630887596431,-6.530214992179287
+22,22,"Ballycadden Wind Farm (2)
+Wind",4.0,82.0,78.0,138.0,2.0,25.0,14.0,"2,300",https://www.thewindpower.net/windfarm_en_23115_ballycadden.php,Enercon,,POINT (-6.525470329800435 52.64369710871916),52.64369710871916,-6.525470329800435
+23,23,Ballycumber Wind Farm,6.0,82.0,78.0,138.0,2.0,25.0,14.0,"2,300",https://www.thewindpower.net/windfarm_en_25199_ballycumber.php,Enercon,,POINT (-6.468145104410645 52.8334134749047),52.8334134749047,-6.468145104410645
+24,24,"Ballycurreen Wind Farm
+Wind",2.0,82.0,78.0,138.0,2.0,25.0,14.0,"2,300",https://www.thewindpower.net/windfarm_en_22154_ballycurreen.php,Enercon,,POINT (-7.597861313170009 52.02934824934817),52.02934824934817,-7.597861313170009
+25,25,"Ballyduff Wind Farm
+Wind",0.0,82.0,78.0,138.0,2.0,25.0,14.0,"2,300",https://www.thewindpower.net/windfarm_en_27258_ballyduff.php,Enercon,,POINT (-6.481211171185102 52.64584362575522),52.64584362575522,-6.481211171185102
+26,26,"Ballyduff Wind Farm
+Wind",0.0,82.0,78.0,138.0,2.0,25.0,14.0,"2,300",https://www.thewindpower.net/windfarm_en_27259_ballyduff.php,Enercon,,POINT (-6.480386267124316 52.64619260066623),52.64619260066623,-6.480386267124316
+27,27,Ballymartin (1) (Smithstown),4.0,82.0,78.0,138.0,2.0,25.0,14.0,"2,300",https://www.thewindpower.net/windfarm_en_1713_ballymartin.php,Enercon,,POINT (-7.107502547503628 52.3873081863207),52.3873081863207,-7.107502547503628
+28,28,Ballymartin (2) - Smithstown,4.0,82.0,78.0,138.0,2.0,25.0,14.0,"2,300",https://www.thewindpower.net/windfarm_en_21330_ballymartin.php,Enercon,,POINT (-7.106230534857963 52.39137043932502),52.39137043932502,-7.106230534857963
+29,29,"Ballynancoran Wind Farm
+Wind",2.0,82.0,78.0,138.0,2.0,25.0,14.0,"2,300",https://www.thewindpower.net/windfarm_en_21066_ballynancoran.php,Enercon,,POINT (-6.526368498659162 52.66708804819756),52.66708804819756,-6.526368498659162
+30,30,Ballynultagh Wind Farm,,,,,,,,,,,,POINT (-6.542178659013475 52.77747543251184),52.77747543251184,-6.542178659013475
+31,31,Ballywater,5.0,70.0,64.0,113.0,2.0,25.0,14.0,"2,000",https://www.thewindpower.net/windfarm_en_350_ballywater.php,Enercon,,POINT (-6.251044023299167 52.5377926181519),52.5377926181519,-6.251044023299167
+32,32,Ballywater,5.0,70.0,64.0,113.0,2.0,25.0,14.0,"2,000",https://www.thewindpower.net/windfarm_en_18007_ballywater.php,Enercon,,POINT (-6.251044023299167 52.5377926181519),52.5377926181519,-6.251044023299167
+33,33,Barranafaddock Wind Farm,12.0,103.0,75.0,98.0,4.0,25.0,13.0,"2,850",https://www.thewindpower.net/windfarm_en_22835_barranafaddock.php,GE Energy,,POINT (-8.104218929417828 52.17700961335966),52.17700961335966,-8.104218929417828
+34,34,"Bawnmore (Burren/Carraignimma)
+Wind",11.0,82.0,78.0,138.0,2.0,25.0,14.0,"2,300",https://www.thewindpower.net/windfarm_en_1676_bawnmore.php,Enercon,,POINT (-8.905386815332974 51.95115388315384),51.95115388315384,-8.905386815332974
+35,35,Beale Hill (1),3.0,52.0,40.0,65.0,3.0,25.0,14.0,850,https://www.thewindpower.net/windfarm_en_1722_beal-hill.php,Vestas,,POINT (-9.633621839786578 52.56425072142663),52.56425072142663,-9.633621839786578
+36,36,Beale Hill (2),3.0,52.0,40.0,65.0,3.0,25.0,14.0,850,https://www.thewindpower.net/windfarm_en_1723_beal-hill.php,Vestas,,POINT (-9.633419546371108 52.56357034375535),52.56357034375535,-9.633419546371108
+37,37,Beale Hill (3) Wind Farm,3.0,52.0,40.0,65.0,3.0,25.0,14.0,850,https://www.thewindpower.net/windfarm_en_25200_beal-hill.php,Vestas,,POINT (-9.635935497513215 52.56498284110891),52.56498284110891,-9.635935497513215
+38,38,Beallough Wind Farm,2.0,52.0,40.0,65.0,3.0,25.0,14.0,850,https://www.thewindpower.net/windfarm_en_3854_beallough.php,Vestas,,POINT (-7.341297916261948 52.27330245509233),52.27330245509233,-7.341297916261948
+39,39,"Beam Hill Wind Farm
+Wind",8.0,103.0,60.0,78.0,3.5,25.0,16.0,"1,750",https://www.thewindpower.net/windfarm_en_1851_beam-hill.php,GE Energy,,POINT (-7.430812487600621 55.19066290887727),55.19066290887727,-7.430812487600621
+40,40,Beenageeha Wind Farm,6.0,47.0,40.0,55.0,4.5,25.0,14.0,660,https://www.thewindpower.net/windfarm_en_1720_beenageeha.php,"Hansen, Flender, Valmet",,POINT (-9.564541785204923 52.33340758200742),52.33340758200742,-9.564541785204923
+41,41,Beenanaspuck &  Tobertoreen,,,,,,,,,,,,POINT (-9.222233168551567 52.43442648931723),52.43442648931723,-9.222233168551567
+42,42,Bellacorrick Wind Farm,20.0,31.0,31.0,35.0,5.5,23.0,15.0,300,https://www.thewindpower.net/windfarm_en_1732_bellacorick.php,LM Glasfiber,,POINT (-9.550890627719653 54.13188601747368),54.13188601747368,-9.550890627719653
+43,43,Bindoo,,,,,,,,,,,,POINT (-7.136913713299223 54.00494273224134),54.00494273224134,-7.136913713299223
+44,44,Black Banks (1),8.0,52.0,40.0,65.0,3.0,25.0,14.0,850,https://www.thewindpower.net/windfarm_en_1728_blackbanks.php,Vestas,,POINT (-8.19508060806836 54.14422494567684),54.14422494567684,-8.19508060806836
+45,45,Black Banks (2),8.0,52.0,40.0,65.0,3.0,25.0,14.0,850,https://www.thewindpower.net/windfarm_en_1729_blackbanks.php,Vestas,,POINT (-8.19508060806836 54.14422494567684),54.14422494567684,-8.19508060806836
+46,46,Black Lough Wind farm,,,,,,,,,,,,POINT (-8.955458555333573 54.15886064904222),54.15886064904222,-8.955458555333573
+47,47,Boggeragh,19.0,90.0,65.0,105.0,3.5,25.0,16.5,"3,000",https://www.thewindpower.net/windfarm_en_11134_boggeragh.php,Vestas,,POINT (-8.920661904069759 52.03491431153052),52.03491431153052,-8.920661904069759
+48,48,Boggeragh,,,,,,,,,,,,POINT (-8.908912421650486 52.03769330444162),52.03769330444162,-8.908912421650486
+49,49,Boolard Wind Farm,,,,,,,,,,,,POINT (-8.757343565381325 52.32471973025979),52.32471973025979,-8.757343565381325
+50,50,Boolinrudda,,,,,,,,,,,,POINT (-9.289101515208174 52.83082419362944),52.83082419362944,-9.289101515208174
+51,51,Booltiagh,13.0,90.0,65.0,105.0,3.5,25.0,16.5,"3,000",https://www.thewindpower.net/windfarm_en_1696_booltiagh.php,Vestas,,POINT (-9.246021694542211 52.78006879669262),52.78006879669262,-9.246021694542211
+52,52,Booltiagh,6.0,90.0,65.0,105.0,3.5,25.0,16.5,"3,000",https://www.thewindpower.net/windfarm_en_21325_booltiagh-2.php,Vestas,,POINT (-9.240872842387803 52.77415449325298),52.77415449325298,-9.240872842387803
+53,53,Boolynagleragh (1),18.0,90.0,65.0,105.0,3.5,25.0,16.5,"3,000",https://www.thewindpower.net/windfarm_en_32647_boolynagleragh.php,Vestas,,POINT (-9.15265838569183 52.78037443172728),52.78037443172728,-9.15265838569183
+54,54,Bruckana,14.0,101.0,74.5,142.5,3.5,25.0,14.5,"3,000",https://www.thewindpower.net/windfarm_en_22493_bruckana.php,Siemens,,POINT (-7.670579972250433 52.78503954445071),52.78503954445071,-7.670579972250433
+55,55,Bunnahowen Wind Farm (Temp),,,,,,,,,,,,POINT (-9.890284267869893 54.19183190518746),54.19183190518746,-9.890284267869893
+56,56,Bunnyconnellan Wind Farm,12.0,71.0,57.0,113.0,2.0,25.0,15.5,"2,300",https://www.thewindpower.net/windfarm_en_7257_bunnyconnellan.php,Enercon,,POINT (-8.993998168382737 54.1007406733569),54.1007406733569,-8.993998168382737
+57,57,Burtonport Harbour Single Turbine,0.0,47.0,40.0,55.0,4.5,25.0,14.0,660,https://www.thewindpower.net/windfarm_en_1710_burtonport.php,"Hansen, Flender, Valmet",,POINT (-8.440190638715835 54.98065604631591),54.98065604631591,-8.440190638715835
+58,58,Burtonstown,,,,,,,,,,,,POINT (-6.510788545969492 53.61715868427295),53.61715868427295,-6.510788545969492
+59,59,Burtonstown Autoproducer,,,,,,,,,,,,POINT (-6.510788545969492 53.61715868427295),53.61715868427295,-6.510788545969492
+60,60,"Caherdowney Wind Farm
+Wind",4.0,71.0,57.0,113.0,2.0,25.0,15.5,"2,300",https://www.thewindpower.net/windfarm_en_6701_caher-downey.php,Enercon,,POINT (-9.118224057321447 52.00257814719278),52.00257814719278,-9.118224057321447
+61,61,Cahermurphy Wind Farm,,,,,,,,,,,,POINT (-9.336598386262132 52.76817093826488),52.76817093826488,-9.336598386262132
+62,62,Cappawhite A Wind Farm (Gate 2),15.0,103.0,69.0,94.0,4.0,25.0,12.5,"3,450",https://www.thewindpower.net/windfarm_en_25196_cappawhite-a.php,GE Energy,,POINT (-8.15287070514374 52.59595968498831),52.59595968498831,-8.15287070514374
+63,63,Cappawhite A Wind Farm (Gate 3),,,,,,,,,,,,POINT (-8.15287070514374 52.59595968498831),52.59595968498831,-8.15287070514374
+64,64,"Cappawhite B Wind Farm (Cappagh White)
+Wind",4.0,103.0,75.0,100.0,4.0,25.0,13.0,"3,450",https://www.thewindpower.net/windfarm_en_25198_cappawhite-b.php,GE Energy,,POINT (-8.163075979098073 52.6015546317536),52.6015546317536,-8.163075979098073
+65,65,Cark,25.0,43.0,40.0,56.5,3.0,25.0,15.5,600,https://www.thewindpower.net/windfarm_en_1705_cark.php,LM Glasfiber,,POINT (-7.896798847494533 54.89689115252893),54.89689115252893,-7.896798847494533
+66,66,Carnsore Wind Farm,14.0,52.0,40.0,65.0,3.0,25.0,14.0,850,https://www.thewindpower.net/windfarm_en_411_carnsore.php,Vestas,,POINT (-6.361852168504458 52.17841049573332),52.17841049573332,-6.361852168504458
+67,67,"Carraigcannon Wind Farm
+Wind",10.0,71.0,57.0,113.0,2.0,25.0,15.5,"2,300",https://www.thewindpower.net/windfarm_en_1683_carrigcannon.php,Enercon,,POINT (-8.892134695785108 52.06693743434548),52.06693743434548,-8.892134695785108
+68,68,Carrane Hill Wind Farm,4.0,52.0,44.0,65.0,4.0,25.0,16.0,850,https://www.thewindpower.net/windfarm_en_1852_carranne-hill.php,Gamesa,,POINT (-8.233405356677938 54.13884617627499),54.13884617627499,-8.233405356677938
+69,69,Carrickallen Wind Farm,2.0,92.5,63.75,100.0,3.5,22.0,13.0,"2,050",https://www.thewindpower.net/windfarm_en_29941_carrickallen.php,Power Blades,,POINT (-7.170746434533928 54.01578462299731),54.01578462299731,-7.170746434533928
+70,70,Carrickeeny Wind Farm,4.0,92.5,63.75,100.0,3.5,22.0,13.0,"2,050",https://www.thewindpower.net/windfarm_en_17349_carrickeeney.php,Power Blades,,POINT (-8.277432774204518 54.33092823319221),54.33092823319221,-8.277432774204518
+71,71,"Carrig Wind Farm
+Wind",3.0,52.0,40.0,65.0,3.0,25.0,14.0,850,https://www.thewindpower.net/windfarm_en_3847_carrig.php,Vestas,,POINT (-7.97835411724381 53.02927429847751),53.02927429847751,-7.97835411724381
+72,72,Carrons (A&B) Wind Farm,2.0,82.0,78.0,138.0,2.0,25.0,14.0,"2,300",https://www.thewindpower.net/windfarm_en_17367_carrons.php,Enercon,,POINT (-9.069659017529448 52.54102715700549),52.54102715700549,-9.069659017529448
+73,73,Carrowleagh Wind Farm (1),14.0,71.0,57.0,113.0,2.0,25.0,15.5,"2,300",https://www.thewindpower.net/windfarm_en_1688_carrowleagh-1.php,Enercon,,POINT (-8.954306822612873 54.13342111765927),54.13342111765927,-8.954306822612873
+74,74,Carrowleagh Wind Farm Ext. (2),,,,,,,,,,,,POINT (-8.954306822612873 54.13342111765927),54.13342111765927,-8.954306822612873
+75,75,Carrownaweelaun Wind Farm,2.0,71.0,57.0,113.0,2.0,25.0,15.5,"2,300",https://www.thewindpower.net/windfarm_en_18633_carrownaweelaun-wind-farm.php,Enercon,,POINT (-9.724425798086843 52.63405779034721),52.63405779034721,-9.724425798086843
+76,76,Castledockrell,7.0,82.0,78.0,138.0,2.0,25.0,14.0,"2,300",https://www.thewindpower.net/windfarm_en_15879_castledockrell.php,Enercon,,POINT (-6.637558914747097 52.58797882004605),52.58797882004605,-6.637558914747097
+77,77,Castledockrell,7.0,82.0,78.0,138.0,2.0,25.0,14.0,"2,300",https://www.thewindpower.net/windfarm_en_18010_castledockrell.php,Enercon,,POINT (-6.637558914747097 52.58797882004605),52.58797882004605,-6.637558914747097
+78,78,Castledockrell,7.0,82.0,78.0,138.0,2.0,25.0,14.0,"2,300",https://www.thewindpower.net/windfarm_en_18011_castledockrell.php,Enercon,,POINT (-6.637558914747097 52.58797882004605),52.58797882004605,-6.637558914747097
+79,79,Castledockrell,7.0,82.0,78.0,138.0,2.0,25.0,14.0,"2,300",https://www.thewindpower.net/windfarm_en_18048_castledockrell.php,Enercon,,POINT (-6.637558914747097 52.58797882004605),52.58797882004605,-6.637558914747097
+80,80,Castlepook (1),14.0,90.0,65.0,80.0,3.0,25.0,13.5,"2,500",https://www.thewindpower.net/windfarm_en_26592_castlepook.php,"LM Glasfiber, Nordex",,POINT (-8.542933071496421 52.28679919454638),52.28679919454638,-8.542933071496421
+81,81,Clahane,20.0,70.0,64.0,113.0,2.0,25.0,14.0,"2,000",https://www.thewindpower.net/windfarm_en_3827_clahane.php,Enercon,,POINT (-9.54774810256517 52.37859312015904),52.37859312015904,-9.54774810256517
+82,82,Cleanrath Wind Farm,,,,,,,,,,,,POINT (-9.138907455022906 51.87628428433515),51.87628428433515,-9.138907455022906
+83,83,Cloghaneleskirt Wind Farm,5.0,82.0,78.0,138.0,2.0,25.0,14.0,"2,300",https://www.thewindpower.net/windfarm_en_29947_cloghaneleskirt.php,Enercon,,POINT (-9.533183362927543 52.34315861062158),52.34315861062158,-9.533183362927543
+84,84,Cloghboola,16.0,82.0,59.0,84.0,2.0,25.0,17.0,"3,000",https://www.thewindpower.net/windfarm_en_18501_cloghboola.php,Enercon,,POINT (-9.438120946412784 52.33051972135152),52.33051972135152,-9.438120946412784
+85,85,Clogheravaddy Wind Farm (Phase 1),3.0,103.0,75.0,100.0,3.0,25.0,13.0,"3,600",https://www.thewindpower.net/windfarm_en_19303_clogheravaddy.php,GE Energy,,POINT (-8.269181874084007 54.71453357934305),54.71453357934305,-8.269181874084007
+86,86,Clogheravaddy Wind Farm (Phase 2),3.0,103.0,75.0,100.0,3.0,25.0,13.0,"3,600",https://www.thewindpower.net/windfarm_en_32462_clogheravaddy-ii.php,GE Energy,,POINT (-8.272489077498033 54.71014155691302),54.71014155691302,-8.272489077498033
+87,87,Cloncreen,0.0,47.0,40.0,55.0,4.5,25.0,14.0,"3,600",https://www.thewindpower.net/windfarm_en_7401_cloncreen.php,"Hansen, Flender, Valmet",,POINT (-7.124993347956691 53.28338830585668),53.28338830585668,-7.124993347956691
+88,88,Cloonlusk Wind Farm,2.0,103.0,75.0,100.0,3.0,25.0,13.0,"3,600",https://www.thewindpower.net/windfarm_en_29948_cloonlusk.php,GE Energy,,POINT (-8.800904408729087 53.46895404938205),53.46895404938205,-8.800904408729087
+89,89,"Clydaghroe Wind Farm
+Wind",2.0,71.0,57.0,113.0,2.0,25.0,15.5,"2,300",https://www.thewindpower.net/windfarm_en_9663_clydraghroe.php,Enercon,,POINT (-9.161180974981821 51.99039532805474),51.99039532805474,-9.161180974981821
+90,90,Collon Wind Power Limited (Gate 2),0.0,82.0,59.0,84.0,2.0,25.0,17.0,"3,000",https://www.thewindpower.net/windfarm_en_24927_collon.php,Enercon,,POINT (-6.53310366511256 53.78598153091148),53.78598153091148,-6.53310366511256
+91,91,Collon Wind Power Limited (Gate 3),,,,,,,,,,,,POINT (-6.53310366511256 53.78598153091148),53.78598153091148,-6.53310366511256
+92,92,Coollegrean Wind Farm,7.0,90.0,65.0,80.0,3.0,25.0,13.5,"2,500",https://www.thewindpower.net/windfarm_en_23827_coollegrean.php,"LM Glasfiber, Nordex",,POINT (-9.268414967115026 52.2642547248321),52.2642547248321,-9.268414967115026
+93,93,Cooly Wind Farm,0.0,90.0,65.0,80.0,3.0,25.0,13.5,"2,500",https://www.thewindpower.net/windfarm_en_29949_cooly.php,"LM Glasfiber, Nordex",,POINT (-7.103685814270579 55.21545354367021),55.21545354367021,-7.103685814270579
+94,94,Coomacheo,18.0,82.4,58.5,100.0,3.5,25.0,15.0,"2,300",https://www.thewindpower.net/windfarm_en_3836_coomacheo.php,Siemens,,POINT (-9.158833281885686 52.0212791130184),52.0212791130184,-9.158833281885686
+95,95,Coomacheo,8.0,82.4,58.5,100.0,3.5,25.0,15.0,"2,300",https://www.thewindpower.net/windfarm_en_6693_coomacheo-extension.php,Siemens,,POINT (-9.158833281885686 52.0212791130184),52.0212791130184,-9.158833281885686
+96,96,Coomagearlahy,10.0,52.0,40.0,65.0,3.0,25.0,14.0,850,https://www.thewindpower.net/windfarm_en_6695_coomagearlaghy-ii.php,Vestas,,POINT (-9.321381996140953 51.93400502550987),51.93400502550987,-9.321381996140953
+97,97,Coomagearlahy,13.0,90.0,65.0,80.0,3.0,25.0,13.5,"2,500",https://www.thewindpower.net/windfarm_en_6696_coomagearlaghy-iii.php,"LM Glasfiber, Nordex",,POINT (-9.308392619440673 51.88790723712497),51.88790723712497,-9.308392619440673
+98,98,Coomagearlahy,,,,,,,,,,,,POINT (-9.347960886135118 51.93527684746584),51.93527684746584,-9.347960886135118
+99,99,"Coomatallin Wind Farm
+Wind",4.0,90.0,65.0,80.0,3.0,25.0,13.5,"2,500",https://www.thewindpower.net/windfarm_en_1700_coomatallin.php,"LM Glasfiber, Nordex",,POINT (-9.092664602461152 51.65732872518634),51.65732872518634,-9.092664602461152
+100,100,Cordal,12.0,90.0,65.0,80.0,3.0,25.0,13.5,"2,500",https://www.thewindpower.net/windfarm_en_27248_cordal-1.php,"LM Glasfiber, Nordex",,POINT (-9.28134190191993 52.22986642322923),52.22986642322923,-9.28134190191993
+101,101,Cordal,11.0,90.0,65.0,80.0,3.0,25.0,13.5,"2,500",https://www.thewindpower.net/windfarm_en_27249_cordal-2.php,"LM Glasfiber, Nordex",,POINT (-9.276116730695584 52.2319456018478),52.2319456018478,-9.276116730695584
+102,102,Corkermore Wind Farm Phase 1,5.0,80.0,60.0,100.0,3.5,25.0,15.0,"2,000",https://www.thewindpower.net/windfarm_en_19357_corkermore.php,Gamesa,,POINT (-8.35618879201886 54.71339271529236),54.71339271529236,-8.35618879201886
+103,103,CORNEEN Wind Farm,2.0,70.5,65.0,100.0,3.5,25.0,11.0,"1,500",https://www.thewindpower.net/windfarm_en_1693_corneen.php,"VEM, Loher",,POINT (-7.637573127053639 54.13350387076888),54.13350387076888,-7.637573127053639
+104,104,Corrie Mt.,8.0,42.0,40.5,53.0,4.5,25.0,16.0,600,https://www.thewindpower.net/windfarm_en_1726_corry-mountain.php,Vestas,,POINT (-8.153060211939458 54.12974675960881),54.12974675960881,-8.153060211939458
+105,105,Corvin Wind Turbine,,,,,,,,,,,,POINT (-7.389281112752842 55.13482176851534),55.13482176851534,-7.389281112752842
+106,106,Country Crest,0.0,48.0,50.0,76.0,3.0,25.0,14.0,800,https://www.thewindpower.net/windfarm_en_1691_country-crest.php,Enercon,,POINT (-6.175441224184424 53.54780218985795),53.54780218985795,-6.175441224184424
+107,107,"Crocane Wind Farm
+Wind",2.0,48.0,50.0,76.0,3.0,25.0,14.0,800,https://www.thewindpower.net/windfarm_en_1685_crocane.php,Enercon,,POINT (-8.156606125572253 51.84315518796245),51.84315518796245,-8.156606125572253
+108,108,Crockahenny,10.0,40.0,42.0,65.0,2.5,25.0,13.5,500,https://www.thewindpower.net/windfarm_en_1704_crockahenny.php,Enercon,,POINT (-7.271127409333323 55.14621167358148),55.14621167358148,-7.271127409333323
+109,109,Cronalaght Wind Farm 2,3.0,47.0,40.0,55.0,4.5,25.0,14.0,660,https://www.thewindpower.net/windfarm_en_1702_cronalaght.php,"Hansen, Flender, Valmet",,POINT (-8.215930486948135 55.06046762484883),55.06046762484883,-8.215930486948135
+110,110,Cronelea Upper Wind Farm,3.0,52.0,40.0,65.0,3.0,25.0,14.0,850,https://www.thewindpower.net/windfarm_en_1742_cronelea-upper.php,Vestas,,POINT (-6.557413870636472 52.77710438634515),52.77710438634515,-6.557413870636472
+111,111,Cronelea Upper Wind Farm (2),0.0,52.0,40.0,65.0,3.0,25.0,14.0,850,https://www.thewindpower.net/windfarm_en_3921_cronelea-upper-2.php,Vestas,,POINT (-6.547339987868869 52.78005554390842),52.78005554390842,-6.547339987868869
+112,112,Cronelea Wind Farm,2.0,71.0,57.0,113.0,2.0,25.0,15.5,"2,300",https://www.thewindpower.net/windfarm_en_3850_cronelea-i.php,Enercon,,POINT (-6.547589651245881 52.78057094872134),52.78057094872134,-6.547589651245881
+113,113,Cronelea Wind Farm (2),2.0,71.0,57.0,113.0,2.0,25.0,15.5,"2,300",https://www.thewindpower.net/windfarm_en_11131_cronelea-ii.php,Enercon,,POINT (-6.555292344582769 52.77984704323014),52.77984704323014,-6.555292344582769
+114,114,Cuillalea Wind Farm,4.0,52.0,40.0,65.0,3.0,25.0,14.0,850,https://www.thewindpower.net/windfarm_en_1734_cuillalea.php,Vestas,,POINT (-9.07269505010192 53.84850683700273),53.84850683700273,-9.07269505010192
+115,115,Cuillalea Wind Farm (2),4.0,52.0,40.0,65.0,3.0,25.0,14.0,850,https://www.thewindpower.net/windfarm_en_11137_cuillalea.php,Vestas,,POINT (-9.076004219928125 53.8483513942379),53.8483513942379,-9.076004219928125
+116,116,Culliagh Wind Farm (Meenbog),18.0,47.0,40.0,55.0,4.5,25.0,14.0,660,https://www.thewindpower.net/windfarm_en_1707_culliagh.php,"Hansen, Flender, Valmet",,POINT (-7.884463617695902 54.87108519832377),54.87108519832377,-7.884463617695902
+117,117,Currabwee Wind Farm,7.0,47.0,40.0,55.0,4.5,25.0,14.0,660,https://www.thewindpower.net/windfarm_en_1697_currabwee.php,"Hansen, Flender, Valmet",,POINT (-9.121214168914928 51.68146715819464),51.68146715819464,-9.121214168914928
+118,118,Curraghderrig,0.0,47.0,40.0,55.0,4.5,25.0,14.0,660,https://www.thewindpower.net/windfarm_en_27251_curragh-derrig.php,"Hansen, Flender, Valmet",,POINT (-9.59777967799111 52.55336878568561),52.55336878568561,-9.59777967799111
+119,119,"CURRAGHGRAIGUE (2) Wind Farm
+Wind",3.0,52.0,40.0,65.0,3.0,25.0,14.0,850,https://www.thewindpower.net/windfarm_en_18005_curraghgraigue.php,Vestas,,POINT (-8.1025230862312 52.79769385030053),52.79769385030053,-8.1025230862312
+120,120,Curraghgraigue Wind Farm,3.0,52.0,40.0,65.0,3.0,25.0,14.0,850,https://www.thewindpower.net/windfarm_en_1740_curraghgraigue.php,Vestas,,POINT (-8.105187801079305 52.79587598949525),52.79587598949525,-8.105187801079305
+121,121,DePuy 3MW Wind Turbine,0.0,101.0,99.0,149.0,2.0,25.0,13.0,"3,000",https://www.thewindpower.net/windfarm_en_22488_depuy.php,Enercon,,POINT (-8.305439262356602 51.82681706444884),51.82681706444884,-8.305439262356602
+122,122,Derrybrien,70.0,52.0,40.0,65.0,3.0,25.0,14.0,850,https://www.thewindpower.net/windfarm_en_1719_derrybrien.php,Vestas,,POINT (-8.607948289841637 53.09369992513383),53.09369992513383,-8.607948289841637
+123,123,Derrynadivva Extension,,,,,,,,,,,,POINT (-9.343155220063643 53.91946730466974),53.91946730466974,-9.343155220063643
+124,124,Derrynadivva Wind Farm (prev. sd),,,,,,,,,,,,POINT (-9.339209260583667 53.90558180618625),53.90558180618625,-9.339209260583667
+125,125,Derrysallagh Wind Farm (Formerly Kilronan 2),,,,,,,,,,,,POINT (-8.187167736802744 54.09668479276711),54.09668479276711,-8.187167736802744
+126,126,Donaghmede Fr Collins Park Wind Farm,0.0,52.0,40.0,65.0,3.0,25.0,14.0,850,https://www.thewindpower.net/windfarm_en_1675_donaghmede-fr-collins-park.php,Vestas,,POINT (-6.16214952576344 53.40759139587571),53.40759139587571,-6.16214952576344
+127,127,Dromada,19.0,82.5,59.0,100.0,3.5,20.0,12.0,"1,500",https://www.thewindpower.net/windfarm_en_17331_dromada.php,"LM Glasfiber, GE Energy",,POINT (-9.222233168551567 52.43442648931723),52.43442648931723,-9.222233168551567
+128,128,"Dromdeeveen Wind Farm (1)
+Wind",6.0,80.0,60.0,100.0,3.5,25.0,14.5,"2,000",https://www.thewindpower.net/windfarm_en_18140_dromdeveen-1.php,Vestas,,POINT (-9.03912563316182 52.33213233162971),52.33213233162971,-9.03912563316182
+129,129,"Dromdeeveen Wind Farm (2)
+Wind",8.0,80.0,60.0,100.0,3.5,25.0,14.5,"2,000",https://www.thewindpower.net/windfarm_en_24077_dromdeveen-2.php,Vestas,,POINT (-9.030245777595129 52.32758983878279),52.32758983878279,-9.030245777595129
+130,130,Drumlough Hill (2) (Lough Doo),12.0,52.0,44.0,65.0,4.0,25.0,16.0,850,https://www.thewindpower.net/windfarm_en_11115_drumlough-hill-extension.php,Gamesa,,POINT (-7.441968858251897 55.20030969459173),55.20030969459173,-7.441968858251897
+131,131,"Drumlough Hill Wind Farm
+Wind",8.0,47.0,40.0,55.0,4.5,25.0,14.0,660,https://www.thewindpower.net/windfarm_en_1703_drumlough-hill.php,"Hansen, Flender, Valmet",,POINT (-7.438520690305142 55.20423797754429),55.20423797754429,-7.438520690305142
+132,132,"Dundalk IT Wind Turbine
+Wind",0.0,52.0,40.0,65.0,3.0,25.0,14.0,850,https://www.thewindpower.net/windfarm_en_1731_dundalk-it.php,Vestas,,POINT (-6.391145453775204 53.98363130608549),53.98363130608549,-6.391145453775204
+133,133,Dunmore 2,2.0,44.0,45.0,55.0,3.0,25.0,17.0,900,https://www.thewindpower.net/windfarm_en_11133_dunmore-(ie).php,Enercon,,POINT (-6.53310366511256 53.78598153091148),53.78598153091148,-6.53310366511256
+134,134,Dunmore Wind Farm,2.0,44.0,45.0,55.0,3.0,25.0,17.0,900,https://www.thewindpower.net/windfarm_en_3842_dunmore-(ie).php,Enercon,,POINT (-6.53281593382875 53.78770354266177),53.78770354266177,-6.53281593382875
+135,135,Enros - Sorne Hill Single Turbine,,,,,,,,,,,,POINT (-7.355792266608876 55.13527827603005),55.13527827603005,-7.355792266608876
+136,136,Esk Wind Farm Phase 1,8.0,44.0,45.0,55.0,3.0,25.0,17.0,900,https://www.thewindpower.net/windfarm_en_32648_esk.php,Enercon,,POINT (-8.846824263047278 52.01638409932585),52.01638409932585,-8.846824263047278
+137,137,Esk Wind Farm Phase 1,,,,,,,,,,,,POINT (-8.870572798736402 52.0194381196076),52.0194381196076,-8.870572798736402
+138,138,Esk Wind Farm Phase 2,,,,,,,,,,,,POINT (-8.7860566261151 52.03631167801474),52.03631167801474,-8.7860566261151
+139,139,Faughary Wind Farm,3.0,82.0,78.0,138.0,2.0,25.0,12.5,"2,000",https://www.thewindpower.net/windfarm_en_22460_faughary.php,Enercon,,POINT (-8.137586281114555 54.34015415537524),54.34015415537524,-8.137586281114555
+140,140,Flughland,4.0,71.0,57.0,113.0,2.0,25.0,15.5,"2,300",https://www.thewindpower.net/windfarm_en_19355_flughland.php,Enercon,,POINT (-7.275820006256636 55.14175638690676),55.14175638690676,-7.275820006256636
+141,141,Foyle Wind Farm (prev Holmes Hill),4.0,71.0,57.0,113.0,2.0,25.0,15.5,"2,300",https://www.thewindpower.net/windfarm_en_27252_foyle.php,Enercon,,POINT (-7.461565725650879 52.63908311597067),52.63908311597067,-7.461565725650879
+142,142,Garracummer (2),17.0,90.0,65.0,80.0,3.0,25.0,13.5,"2,500",https://www.thewindpower.net/windfarm_en_24929_garracummer.php,"LM Glasfiber, Nordex",,POINT (-8.148249706643552 52.64372799949334),52.64372799949334,-8.148249706643552
+143,143,"Garracummer Wind Farm
+Wind",17.0,90.0,65.0,80.0,3.0,25.0,13.5,"2,500",https://www.thewindpower.net/windfarm_en_17358_garracummer.php,"LM Glasfiber, Nordex",,POINT (-8.186797797992321 52.63953901892847),52.63953901892847,-8.186797797992321
+144,144,Garranereagh Wind Farm,4.0,82.0,78.0,138.0,2.0,25.0,14.0,"2,300",https://www.thewindpower.net/windfarm_en_21327_garranareagh.php,Enercon,,POINT (-8.932479024240054 51.81585809416095),51.81585809416095,-8.932479024240054
+145,145,"Gartnaneane (1) Wind Farm
+Wind",3.0,70.5,54.7,100.0,3.0,24.0,13.0,"1,500",https://www.thewindpower.net/windfarm_en_1694_gartnaneane.php,"LM Glasfiber, GE Energy",,POINT (-6.927101275840504 53.94436481991163),53.94436481991163,-6.927101275840504
+146,146,"Gartnaneane II Wind Farm
+Wind",3.0,70.5,54.7,100.0,3.0,24.0,13.0,"1,500",https://www.thewindpower.net/windfarm_en_24075_gartnaneane.php,"LM Glasfiber, GE Energy",,POINT (-6.968983428433685 53.88907815655331),53.88907815655331,-6.968983428433685
+147,147,Garvagh,13.0,80.0,60.0,100.0,3.5,25.0,14.5,"2,000",https://www.thewindpower.net/windfarm_en_18028_garvagh-glebe.php,Vestas,,POINT (-8.2007471063204 54.15128740497325),54.15128740497325,-8.2007471063204
+148,148,Garvagh,,,,,,,,,,,,POINT (-8.133526076591682 54.1166687693056),54.1166687693056,-8.133526076591682
+149,149,Geevagh Wind Farm,6.0,52.0,44.0,65.0,4.0,25.0,16.0,850,https://www.thewindpower.net/windfarm_en_1850_geevagh.php,Gamesa,,POINT (-8.26851806580144 54.14228641951959),54.14228641951959,-8.26851806580144
+150,150,"Gibbet Hill Wind Farm
+Wind",6.0,90.0,65.0,80.0,3.0,25.0,13.5,"2,500",https://www.thewindpower.net/windfarm_en_20344_gibbet-hill.php,"LM Glasfiber, Nordex",,POINT (-6.577870081707594 52.67924977679553),52.67924977679553,-6.577870081707594
+151,151,Glackmore Hill (1),0.0,90.0,65.0,80.0,3.0,25.0,13.5,"2,500",https://www.thewindpower.net/windfarm_en_6697_glackmore-i.php,"LM Glasfiber, Nordex",,POINT (-7.260917293459636 55.12488388173428),55.12488388173428,-7.260917293459636
+152,152,"Glackmore Hill (2)
+Wind",0.0,71.0,57.0,113.0,2.0,25.0,15.5,"2,300",https://www.thewindpower.net/windfarm_en_6698_glackmore-ii.php,Enercon,,POINT (-7.268970588472128 55.12260546813781),55.12260546813781,-7.268970588472128
+153,153,"Glackmore Hill (3)
+Wind",0.0,71.0,57.0,113.0,2.0,25.0,15.5,"2,300",https://www.thewindpower.net/windfarm_en_6699_glackmore-iii.php,Enercon,,POINT (-7.269476805304424 55.122356937239),55.122356937239,-7.269476805304424
+154,154,Glanaruddery 1 (formerly Dromadda More Wind Farm),11.0,103.0,69.0,94.0,4.0,25.0,12.5,"3,450",https://www.thewindpower.net/windfarm_en_29937_glanaruderry.php,GE Energy,,POINT (-9.4611305926279 52.31189933060623),52.31189933060623,-9.4611305926279
+155,155,Glanaruddery 2 (formerly Dromadda More 2),,,,,,,,,,,,POINT (-9.4611305926279 52.31189933060623),52.31189933060623,-9.4611305926279
+156,156,Glantaunyalkeen Windfarm,,,,,,,,,,,,POINT (-9.438238467611495 52.32961937159609),52.32961937159609,-9.438238467611495
+157,157,Glencarbry Wind Farm,5.0,90.0,65.0,80.0,3.0,25.0,13.5,"2,500",https://www.thewindpower.net/windfarm_en_24666_glencarbry-wind-farm.php,"LM Glasfiber, Nordex",,POINT (-8.102615981913045 52.62274434811803),52.62274434811803,-8.102615981913045
+158,158,Glenough Wind Farm,,,,,,,,,,,,POINT (-8.069925923109617 52.64681107929903),52.64681107929903,-8.069925923109617
+159,159,Gneeves Wind Farm,11.0,52.0,40.0,65.0,3.0,25.0,14.0,850,https://www.thewindpower.net/windfarm_en_1699_gneeves.php,Vestas,,POINT (-9.120455584776623 52.01320037000803),52.01320037000803,-9.120455584776623
+160,160,Golagh,,,,,,,,,,,,POINT (-7.945639365549868 54.68883592044301),54.68883592044301,-7.945639365549868
+161,161,Gortahile Wind Farm,8.0,90.0,65.0,80.0,3.0,25.0,13.5,"2,500",https://www.thewindpower.net/windfarm_en_16072_gortahile.php,"LM Glasfiber, Nordex",,POINT (-7.05876717545569 52.82347736388753),52.82347736388753,-7.05876717545569
+162,162,Gortnacloghy Wind Farm,0.0,90.0,65.0,80.0,3.0,25.0,13.5,"2,500",https://www.thewindpower.net/windfarm_en_29950_gortnacloghy-wind-farm.php,"LM Glasfiber, Nordex",,POINT (-9.086064619881627 52.36450148369891),52.36450148369891,-9.086064619881627
+163,163,Gortnahalla,,,,,,,,,,,,POINT (-7.999644773382389 52.71747688897345),52.71747688897345,-7.999644773382389
+164,164,Grady Joinery Wind Farm,0.0,82.0,78.0,138.0,2.0,25.0,12.5,"2,000",https://www.thewindpower.net/windfarm_en_29951_grady-joinery.php,Enercon,,POINT (-8.747689097036718 53.96938470488255),53.96938470488255,-8.747689097036718
+165,165,"Greenoge Wind Farm
+Wind",,,,,,,,,,,,POINT (-6.723400176972635 52.65731171511751),52.65731171511751,-6.723400176972635
+166,166,Grouse Lodge Wind Farm,6.0,90.0,65.0,80.0,3.0,25.0,13.5,"2,500",https://www.thewindpower.net/windfarm_en_16094_grouse-lodge.php,"LM Glasfiber, Nordex",,POINT (-9.103978604986905 52.52101802867234),52.52101802867234,-9.103978604986905
+167,167,Grousemount,,,,,,,,,,,,POINT (-9.314718866488532 51.87269802297969),51.87269802297969,-9.314718866488532
+168,168,Grove Hill Windfarm (formerly Tullynageer WF),0.0,90.0,65.0,80.0,3.0,25.0,13.5,"2,500",https://www.thewindpower.net/windfarm_en_24928_grove-hill.php,"LM Glasfiber, Nordex",,POINT (-6.700502848015811 54.1907131713937),54.1907131713937,-6.700502848015811
+169,169,Gurteen Lower Wind Farm,0.0,90.0,65.0,80.0,3.0,25.0,13.5,"2,500",https://www.thewindpower.net/windfarm_en_27256_gurteen-lower.php,"LM Glasfiber, Nordex",,POINT (-7.59563666950489 52.6305655033421),52.6305655033421,-7.59563666950489
+170,170,"Hollyford(Holyford) Wind Farm
+Wind",3.0,101.0,74.5,142.5,3.5,25.0,14.5,"3,000",https://www.thewindpower.net/windfarm_en_21091_hollyford.php,Siemens,,POINT (-8.069674452322245 52.64664944383266),52.64664944383266,-8.069674452322245
+171,171,"Kealkil Wind Farm
+Wind",10.0,52.0,44.0,65.0,4.0,25.0,16.0,850,https://www.thewindpower.net/windfarm_en_3837_kealkill.php,Gamesa,,POINT (-9.320215549914193 51.8124139011893),51.8124139011893,-9.320215549914193
+172,172,Kelwin,,,,,,,,,,,,POINT (-9.513217875444944 52.52976036291969),52.52976036291969,-9.513217875444944
+173,173,Kilberehert Wind Farm,0.0,52.0,44.0,65.0,4.0,25.0,16.0,850,https://www.thewindpower.net/windfarm_en_25028_kilberehert.php,Gamesa,,POINT (-8.85750785844934 52.26156308905698),52.26156308905698,-8.85750785844934
+174,174,"Kilbranish Wind Farm
+Wind",4.0,90.0,65.0,80.0,3.0,25.0,13.5,"2,500",https://www.thewindpower.net/windfarm_en_1692_kilbranish.php,"LM Glasfiber, Nordex",,POINT (-6.723400176972635 52.65731171511751),52.65731171511751,-6.723400176972635
+175,175,Kill Hill,0.0,90.0,65.0,80.0,3.0,25.0,13.5,"2,500",https://www.thewindpower.net/windfarm_en_27244_killin-hill.php,"LM Glasfiber, Nordex",,POINT (-7.784292531567703 52.5394074879359),52.5394074879359,-7.784292531567703
+176,176,Killala Wind Farm (Phase 1),5.0,103.0,74.5,94.0,3.0,25.0,13.0,"3,400",https://www.thewindpower.net/windfarm_en_32265_killala.php,GE Energy,,POINT (-9.224208487504548 54.19109748693889),54.19109748693889,-9.224208487504548
+177,177,Killaveenoge Windfarm - (Derryvacorneen merge with Barrboy),10.0,90.0,65.0,80.0,3.0,25.0,13.5,"2,500",https://www.thewindpower.net/windfarm_en_27826_killaveenoge.php,"LM Glasfiber, Nordex",,POINT (-9.25214278165053 51.73676293605197),51.73676293605197,-9.25214278165053
+178,178,Killaveenoge Windfarm (Derryvacorneen merge with Barrboy Windfarm),,,,,,,,,,,,POINT (-9.246844157880382 51.82301362774484),51.82301362774484,-9.246844157880382
+179,179,Killin Hill Wind Farm,0.0,90.0,65.0,80.0,3.0,25.0,13.5,"2,500",https://www.thewindpower.net/windfarm_en_27244_killin-hill.php,"LM Glasfiber, Nordex",,POINT (-8.290818461557015 54.70406110733207),54.70406110733207,-8.290818461557015
+180,180,Killybegs Wind Farm,3.0,44.0,45.0,55.0,3.0,25.0,17.0,900,https://www.thewindpower.net/windfarm_en_1854_killybegs.php,Enercon,,POINT (-8.45893880029227 54.65831961068084),54.65831961068084,-8.45893880029227
+181,181,Kilmeedy Wind Farm,0.0,44.0,45.0,55.0,3.0,25.0,17.0,900,https://www.thewindpower.net/windfarm_en_29952_kilmeedy.php,Enercon,,POINT (-8.891127749030321 52.42506179837494),52.42506179837494,-8.891127749030321
+182,182,Kilpatrick Wind,,,,,,,,,,,,POINT (-8.700611125671116 51.77448944466406),51.77448944466406,-8.700611125671116
+183,183,Kilronan,10.0,39.0,40.0,53.0,4.5,25.0,15.5,500,https://www.thewindpower.net/windfarm_en_1735_kilronan.php,Vestas,,POINT (-8.146812452494599 54.08060226601279),54.08060226601279,-8.146812452494599
+184,184,Kiltumper Wind Farm,,,,,,,,,,,,POINT (-9.31182669192227 52.74964363568818),52.74964363568818,-9.31182669192227
+185,185,Kilvinane Wind Farm,2.0,80.0,60.0,100.0,3.5,25.0,15.0,"2,000",https://www.thewindpower.net/windfarm_en_26588_kilvinane.php,Gamesa,,POINT (-8.99187850363832 51.70564428199769),51.70564428199769,-8.99187850363832
+186,186,Kingsmountain,10.0,80.0,60.0,105.0,4.0,25.0,15.0,"2,500",https://www.thewindpower.net/windfarm_en_1738_kingsmountain-1.php,LM Glasfiber,,POINT (-8.790275463235647 54.20434065546121),54.20434065546121,-8.790275463235647
+187,187,Kingsmountain,13.0,52.0,40.0,65.0,3.0,25.0,14.0,850,https://www.thewindpower.net/windfarm_en_19365_kingsmountain-2.php,Vestas,,POINT (-8.821510026699992 54.21342317478299),54.21342317478299,-8.821510026699992
+188,188,Knock South Wind Farm (2),,,,,,,,,,,,POINT (-9.369027882429197 53.26503367038818),53.26503367038818,-9.369027882429197
+189,189,Knock South Wind Farm (Inverin),,,,,,,,,,,,POINT (-9.368179747935173 53.26523215001833),53.26523215001833,-9.368179747935173
+190,190,Knockacummer,5.0,90.0,65.0,80.0,3.0,25.0,13.5,"2,500",https://www.thewindpower.net/windfarm_en_21329_knockacummer.php,"LM Glasfiber, Nordex",,POINT (-9.100450969375183 52.2596924289923),52.2596924289923,-9.100450969375183
+191,191,Knockalassa,11.0,90.0,65.0,80.0,3.0,25.0,13.5,"2,500",https://www.thewindpower.net/windfarm_en_29939_knockalough.php,"LM Glasfiber, Nordex",,POINT (-8.669228256641594 53.07873053135388),53.07873053135388,-8.669228256641594
+192,192,Knockalough,11.0,90.0,65.0,80.0,3.0,25.0,13.5,"2,500",https://www.thewindpower.net/windfarm_en_29939_knockalough.php,"LM Glasfiber, Nordex",,POINT (-9.243556532349633 53.30015693746744),53.30015693746744,-9.243556532349633
+193,193,Knockaneden Wind Farm,3.0,71.0,57.0,113.0,2.0,25.0,15.5,"2,300",https://www.thewindpower.net/windfarm_en_20267_knockaneden.php,Enercon,,POINT (-10.09890834649712 51.93682176677912),51.93682176677912,-10.09890834649712
+194,194,"Knockastanna Wind Farm
+Wind",4.0,71.0,57.0,113.0,2.0,25.0,15.5,"2,300",https://www.thewindpower.net/windfarm_en_17465_knockastanna.php,Enercon,,POINT (-8.213937197197922 52.66336525547621),52.66336525547621,-8.213937197197922
+195,195,Knockawarriga Extension (Knockacummer & Caherlevoy) Wind Farm,9.0,90.0,65.0,80.0,3.0,25.0,13.5,"2,500",https://www.thewindpower.net/windfarm_en_3833_knockawarriga.php,"LM Glasfiber, Nordex",,POINT (-9.21968285595155 52.34467167785956),52.34467167785956,-9.21968285595155
+196,196,"Knockawarriga Wind Farm
+Wind",,,,,,,,,,,,POINT (-9.20539893057002 52.34240024236953),52.34240024236953,-9.20539893057002
+197,197,"Knocknagoum (1)
+Wind",6.0,80.0,60.0,100.0,3.5,25.0,14.5,"2,000",https://www.thewindpower.net/windfarm_en_24675_knocknagoum.php,Vestas,,POINT (-9.529779852030195 52.32747150074518),52.32747150074518,-9.529779852030195
+198,198,"Knocknagoum (2)
+Wind",6.0,80.0,60.0,100.0,3.5,25.0,14.5,"2,000",https://www.thewindpower.net/windfarm_en_24676_knocknagoum.php,Vestas,,POINT (-9.544890100810662 52.28908816523703),52.28908816523703,-9.544890100810662
+199,199,"Knocknalour Wind Farm (1)
+Wind",2.0,82.0,78.0,138.0,2.0,25.0,14.0,"2,300",https://www.thewindpower.net/windfarm_en_21333_knocknalour.php,Enercon,,POINT (-6.564116558500746 52.68103448977176),52.68103448977176,-6.564116558500746
+200,200,"Knocknalour Wind Farm G3
+Wind",2.0,82.0,78.0,138.0,2.0,25.0,14.0,"2,300",https://www.thewindpower.net/windfarm_en_21334_knocknalour.php,Enercon,,POINT (-6.557309924778298 52.68158103900787),52.68158103900787,-6.557309924778298
+201,201,Knocknatallig Wind Farm (formerly Buttevant Wind Farm),6.0,103.0,75.0,100.0,4.0,25.0,13.0,"3,200",https://www.thewindpower.net/windfarm_en_27827_knocknatallig.php,GE Energy,,POINT (-8.620949359013673 52.28959675334487),52.28959675334487,-8.620949359013673
+202,202,KWT Energy Ltd,,,,,,,,,,,,POINT (-7.424725567914138 52.21036787350898),52.21036787350898,-7.424725567914138
+203,203,Lackan Wind Farm,3.0,70.0,64.0,113.0,2.0,25.0,14.0,"2,000",https://www.thewindpower.net/windfarm_en_1853_lackan.php,Enercon,,POINT (-9.070943195160707 54.24562952708098),54.24562952708098,-9.070943195160707
+204,204,"Lahanaght Hill Wind Farm
+Wind",5.0,52.0,40.0,65.0,3.0,25.0,14.0,850,https://www.thewindpower.net/windfarm_en_3839_lahanaght-hill.php,Vestas,,POINT (-9.217587303785992 51.65076889702033),51.65076889702033,-9.217587303785992
+205,205,Largan Hill,9.0,47.0,40.0,55.0,4.5,25.0,14.0,660,https://www.thewindpower.net/windfarm_en_1736_largan-hill.php,"Hansen, Flender, Valmet",,POINT (-8.567459826699338 53.94809436013644),53.94809436013644,-8.567459826699338
+206,206,Leabeg Wind Farm,2.0,92.0,78.0,138.0,2.0,25.0,13.0,"2,350",https://www.thewindpower.net/windfarm_en_23057_leabeg.php,Enercon,,POINT (-7.768261940812356 53.23457148705784),53.23457148705784,-7.768261940812356
+207,207,Leanamore Wind Farm (Tarbert Wind Farm) Wind,9.0,101.0,80.0,100.0,3.0,20.0,12.0,"2,300",https://www.thewindpower.net/windfarm_en_26342_leanamore.php,Siemens,,POINT (-9.424498831460642 52.53920318300765),52.53920318300765,-9.424498831460642
+208,208,Leitir Guingaid Wind Farm,7.0,82.0,59.0,84.0,2.0,25.0,17.0,"3,000",https://www.thewindpower.net/windfarm_en_22155_leitir-guingaid.php,Enercon,,POINT (-9.196098847605024 53.28605548951147),53.28605548951147,-9.196098847605024
+209,209,Lenanavea (Burren) Wind Farm,,,,,,,,,,,,POINT (-9.343155220063643 53.91946730466974),53.91946730466974,-9.343155220063643
+210,210,Liffey Autoproduction Project,0.0,101.0,99.0,149.0,2.0,25.0,13.0,"3,000",https://www.thewindpower.net/windfarm_en_29953_liffey-autoproduction-project.php,Enercon,,POINT (-7.204393586288859 53.85156263011655),53.85156263011655,-7.204393586288859
+211,211,Liffey Autoproduction Project (extension),,,,,,,,,,,,POINT (-7.204393586288859 53.85156263011655),53.85156263011655,-7.204393586288859
+212,212,Lios na Carraige,,,,,,,,,,,,POINT (-6.79054830751773 53.90662655294492),53.90662655294492,-6.79054830751773
+213,213,Lisdowney Wind Farm,4.0,82.0,78.0,138.0,2.0,25.0,14.0,"2,300",https://www.thewindpower.net/windfarm_en_24925_lisdowney.php,Enercon,,POINT (-7.430139187718755 52.78450593938314),52.78450593938314,-7.430139187718755
+214,214,Lisheen,12.0,90.0,80.0,125.0,3.0,25.0,13.5,"2,000",https://www.thewindpower.net/windfarm_en_17333_lisheen.php,Vestas,,POINT (-7.691159682808515 52.75726855244516),52.75726855244516,-7.691159682808515
+215,215,Lisheen,12.0,90.0,80.0,125.0,3.0,25.0,13.5,"2,000",https://www.thewindpower.net/windfarm_en_21332_lisheen.php,Vestas,,POINT (-7.68169465208935 52.75096101698443),52.75096101698443,-7.68169465208935
+216,216,Lissycasey Wind Farm,,,,,,,,,,,,POINT (-9.207559196470315 52.75985626050475),52.75985626050475,-9.207559196470315
+217,217,Loughderryduff Wind Farm,9.0,52.0,40.0,65.0,3.0,25.0,14.0,850,https://www.thewindpower.net/windfarm_en_3848_loughderryduff.php,Vestas,,POINT (-8.380527970905623 54.81997800731057),54.81997800731057,-8.380527970905623
+218,218,Lurganboy Wind Farm,6.0,44.0,45.0,55.0,3.0,25.0,17.0,900,https://www.thewindpower.net/windfarm_en_3823_lurganboy.php,Enercon,,POINT (-7.617931347483675 55.11289684364568),55.11289684364568,-7.617931347483675
+219,219,Mace Upper Wind Farm,3.0,48.0,50.0,76.0,3.0,25.0,14.0,800,https://www.thewindpower.net/windfarm_en_3920_mace-upper.php,Enercon,,POINT (-8.968259019024586 53.76763480515034),53.76763480515034,-8.968259019024586
+220,220,Magheramore and Cloontooa Wind Farm,0.0,48.0,50.0,76.0,3.0,25.0,14.0,800,https://www.thewindpower.net/windfarm_en_7260_magheramore.php,Enercon,,POINT (-8.917271482524452 53.7631829882611),53.7631829882611,-8.917271482524452
+221,221,Mauricetown (Glenduff)  Wind Farm,,,,,,,,,,,,POINT (-9.043417858149509 52.34119120733457),52.34119120733457,-9.043417858149509
+222,222,Meade Potato Company,0.0,48.0,50.0,76.0,3.0,25.0,14.0,800,https://www.thewindpower.net/windfarm_en_29954_meade-potato-company.php,Enercon,,POINT (-6.613396137134364 53.78885126127357),53.78885126127357,-6.613396137134364
+223,223,Meenachullalan Wind Farm,6.0,71.0,57.0,113.0,2.0,25.0,15.5,"2,300",https://www.thewindpower.net/windfarm_en_6702_meenachullalan.php,Enercon,,POINT (-8.492240522870985 54.69007678560302),54.69007678560302,-8.492240522870985
+224,224,Meenadreen Wind Farm,36.0,90.0,65.0,80.0,3.0,25.0,13.5,"2,500",https://www.thewindpower.net/windfarm_en_27245_meenadreen-ii.php,"LM Glasfiber, Nordex",,POINT (-7.960940456022537 54.66354924804836),54.66354924804836,-7.960940456022537
+225,225,Meenanilta (3),4.0,48.0,50.0,76.0,3.0,25.0,14.0,800,https://www.thewindpower.net/windfarm_en_19360_meenanilta-iii.php,Enercon,,POINT (-7.822972403073742 54.84963662959191),54.84963662959191,-7.822972403073742
+226,226,Meenanilta Wind Farm (1),,,,,,,,,,,,POINT (-7.829949647529897 54.84930518190571),54.84930518190571,-7.829949647529897
+227,227,Meenanilta Wind Farm (2),,,,,,,,,,,,POINT (-7.81766204640764 54.84977252716596),54.84977252716596,-7.81766204640764
+228,228,Meenaward Wind Farm (Formerly Beam Hill 2),0.0,48.0,50.0,76.0,3.0,25.0,14.0,800,https://www.thewindpower.net/windfarm_en_27246_meenaward.php,Enercon,,POINT (-7.440450283213533 55.19770627651661),55.19770627651661,-7.440450283213533
+229,229,Meenkeeragh Wind Farm,2.0,70.0,64.0,113.0,2.0,25.0,14.0,"2,000",https://www.thewindpower.net/windfarm_en_19356_meenkeeragh-i.php,Enercon,,POINT (-7.39197916587776 55.12961530802457),55.12961530802457,-7.39197916587776
+230,230,Meenkeeragh Wind Farm (2),0.0,70.0,64.0,113.0,2.0,25.0,14.0,"2,000",https://www.thewindpower.net/windfarm_en_19359_meenkeeragh-ii.php,Enercon,,POINT (-7.39197916587776 55.12961530802457),55.12961530802457,-7.39197916587776
+231,231,Meentycat,15.0,70.0,64.0,113.0,2.0,25.0,14.0,"2,000",https://www.thewindpower.net/windfarm_en_1714_meentycat.php,Enercon,,POINT (-7.862268515271414 54.86948076354176),54.86948076354176,-7.862268515271414
+232,232,Meentycat,7.0,70.0,64.0,113.0,2.0,25.0,14.0,"2,000",https://www.thewindpower.net/windfarm_en_17334_meentycat-2.php,Enercon,,POINT (-7.883904254734794 54.88140801016966),54.88140801016966,-7.883904254734794
+233,233,Meenwaun Wind Farm,4.0,103.0,85.0,139.0,3.0,25.0,12.5,"2,750",https://www.thewindpower.net/windfarm_en_27253_meenwaun.php,GE Energy,,POINT (-7.921047071060448 53.16092314645419),53.16092314645419,-7.921047071060448
+234,234,Michael Aylward,0.0,101.0,85.0,139.0,3.0,25.0,12.5,"2,750",https://www.thewindpower.net/windfarm_en_24926_michael-aylward-windfarm.php,Enercon,,POINT (-7.072299563982313 52.33209804064469),52.33209804064469,-7.072299563982313
+235,235,Midas,,,,,,,,,,,,POINT (-9.306967333546249 51.92590447351402),51.92590447351402,-9.306967333546249
+236,236,Milane Hill Wind Farm,9.0,47.0,40.0,55.0,4.5,25.0,14.0,660,https://www.thewindpower.net/windfarm_en_1698_milane-hill.php,"Hansen, Flender, Valmet",,POINT (-9.21252347986815 51.68954100772094),51.68954100772094,-9.21252347986815
+237,237,"Moanmore Wind Farm
+Wind",7.0,70.0,64.0,113.0,2.0,25.0,14.0,"2,000",https://www.thewindpower.net/windfarm_en_1695_moanmore.php,Enercon,,POINT (-9.488160988460269 52.67087051679631),52.67087051679631,-9.488160988460269
+238,238,Monaincha Bog Wind Farm (Gate 2),15.0,103.0,91.0,141.0,3.0,20.0,11.0,"2,400",https://www.thewindpower.net/windfarm_en_22153_monaincha-bog.php,GE Energy,,POINT (-7.719008101606604 52.93710104862456),52.93710104862456,-7.719008101606604
+239,239,Monaincha Bog Wind Farm (Gate 3),,,,,,,,,,,,POINT (-7.719008101606604 52.93710104862456),52.93710104862456,-7.719008101606604
+240,240,Moneenatieve Wind Farm (1),5.0,58.0,44.0,74.0,3.0,25.0,14.5,850,https://www.thewindpower.net/windfarm_en_1730_moneenatieve-1.php,Gamesa,,POINT (-8.158680243935136 54.14305635818167),54.14305635818167,-8.158680243935136
+241,241,Moneenatieve Wind Farm (2),0.0,58.0,44.0,74.0,3.0,25.0,14.5,850,https://www.thewindpower.net/windfarm_en_19362_moneenatieve-2.php,Gamesa,,POINT (-8.158317409001992 54.13219307174718),54.13219307174718,-8.158317409001992
+242,242,Moneypoint,5.0,103.0,69.0,94.0,4.0,25.0,12.5,"3,450",https://www.thewindpower.net/windfarm_en_27243_moneypoint.php,GE Energy,,POINT (-9.423213685445512 52.61019438911185),52.61019438911185,-9.423213685445512
+243,243,Mossedge Wind Farm,,,,,,,,,,,,POINT (-7.278713329768117 55.11873729246109),55.11873729246109,-7.278713329768117
+244,244,Mount Cronalaght,,,,,,,,,,,,POINT (-8.218010360817054 55.06298852837855),55.06298852837855,-8.218010360817054
+245,245,Mount Eagle Wind Farm,6.0,52.0,40.0,65.0,3.0,25.0,14.0,850,https://www.thewindpower.net/windfarm_en_1725_mount-eagle-windfarm-i.php,Vestas,,POINT (-9.322854469638944 52.24202029481307),52.24202029481307,-9.322854469638944
+246,246,Mount Eagle Wind Farm (2),2.0,52.0,40.0,65.0,3.0,25.0,14.0,850,https://www.thewindpower.net/windfarm_en_3826_mount-eagle-windfarm-ii.php,Vestas,,POINT (-9.322336511825885 52.24183732531075),52.24183732531075,-9.322336511825885
+247,247,Mountain Lodge,2.0,70.5,54.7,100.0,3.0,24.0,13.0,"1,500",https://www.thewindpower.net/windfarm_en_6705_mountain-lodge-1.php,"LM Glasfiber, GE Energy",,POINT (-7.107941901830997 54.02149957563525),54.02149957563525,-7.107941901830997
+248,248,Mountain Lodge,17.0,70.5,54.7,100.0,3.0,24.0,13.0,"1,500",https://www.thewindpower.net/windfarm_en_6700_mountain-lodge-2.php,"LM Glasfiber, GE Energy",,POINT (-7.107941901830997 54.02149957563525),54.02149957563525,-7.107941901830997
+249,249,"Mountain Lodge Wind Farm
+Wind",4.0,70.5,54.7,100.0,3.0,24.0,13.0,"1,500",https://www.thewindpower.net/windfarm_en_19364_mountain-lodge-3.php,"LM Glasfiber, GE Energy",,POINT (-7.107941901830997 54.02149957563525),54.02149957563525,-7.107941901830997
+250,250,Mountlucas,,,,,,,,,,,,POINT (-7.236684448153066 53.27338874945291),53.27338874945291,-7.236684448153066
+251,251,Mounvaun (Mienvee) Wind Farm,0.0,52.0,40.0,65.0,3.0,25.0,14.0,850,https://www.thewindpower.net/windfarm_en_1739_mienvee.php,Vestas,,POINT (-8.144190966374618 52.64965609784392),52.64965609784392,-8.144190966374618
+252,252,Mounvaun (Mienvee) Wind Farm (2),0.0,52.0,40.0,65.0,3.0,25.0,14.0,850,https://www.thewindpower.net/windfarm_en_20220_mienvee-2.php,Vestas,,POINT (-8.142339027432651 52.64822025804474),52.64822025804474,-8.142339027432651
+253,253,Moyvane Wind,,,,,,,,,,,,POINT (-9.386652589351762 52.46234815454094),52.46234815454094,-9.386652589351762
+254,254,Muine Bheag Wind,,,,,,,,,,,,POINT (-6.946392174358769 52.69431603155311),52.69431603155311,-6.946392174358769
+255,255,"Muingnaminnane Wind Farm
+Wind",15.0,52.0,40.0,65.0,3.0,25.0,14.0,850,https://www.thewindpower.net/windfarm_en_6703_muingnaminanne.php,Vestas,,POINT (-9.539070812603502 52.28952373380011),52.28952373380011,-9.539070812603502
+256,256,Mullananalt Wind Farm,5.0,52.0,40.0,65.0,3.0,25.0,14.0,850,https://www.thewindpower.net/windfarm_en_3851_mullananalt.php,Vestas,,POINT (-6.91241278518763 54.07673753890494),54.07673753890494,-6.91241278518763
+257,257,Mulreavy,,,,,,,,,,,,POINT (-7.97193455769582 54.65668779095461),54.65668779095461,-7.97193455769582
+258,258,Mulreavy,,,,,,,,,,,,POINT (-7.935770485516613 54.65262179854071),54.65262179854071,-7.935770485516613
+259,259,Oweninny,31.0,103.0,91.0,141.0,3.0,25.0,13.0,"3,600",https://www.thewindpower.net/windfarm_en_7250_oweninny.php,GE Energy,,POINT (-9.548391881111856 54.13545897377362),54.13545897377362,-9.548391881111856
+260,260,Owenstown,,,,,,,,,,,,POINT (-6.553308136800078 53.40646473218563),53.40646473218563,-6.553308136800078
+261,261,Pallas,,,,,,,,,,,,POINT (-9.54774810256517 52.37859312015904),52.37859312015904,-9.54774810256517
+262,262,Patrick Costello Wind Turbine,,,,,,,,,,,,POINT (-8.055458035334318 52.65773014469097),52.65773014469097,-8.055458035334318
+263,263,Patrick Costello Wind Turbine Ext,,,,,,,,,,,,POINT (-8.055310464591003 52.65791896098874),52.65791896098874,-8.055310464591003
+264,264,Pluckanes Wind Farm,0.0,52.0,91.0,141.0,3.0,25.0,13.0,"3,600",https://www.thewindpower.net/windfarm_en_21328_pluckanes.php,Vestas,,POINT (-8.700671809563508 52.00261082273742),52.00261082273742,-8.700671809563508
+265,265,Raheen Barr Wind Farm,22.0,52.0,40.0,65.0,3.0,25.0,14.0,850,https://www.thewindpower.net/windfarm_en_1733_raheen-barr.php,Vestas,,POINT (-9.336146445639331 53.90498685391744),53.90498685391744,-9.336146445639331
+266,266,Raheenleagh (1),11.0,103.0,75.0,100.0,4.0,25.0,13.0,"3,200",https://www.thewindpower.net/windfarm_en_24079_raheenleagh.php,GE Energy,,POINT (-6.291402519982768 52.79604325196885),52.79604325196885,-6.291402519982768
+267,267,Rahora Wind Farm,5.0,48.0,50.0,76.0,3.0,25.0,14.0,800,https://www.thewindpower.net/windfarm_en_3919_rahora.php,Enercon,,POINT (-7.052531725625157 52.39541960228326),52.39541960228326,-7.052531725625157
+268,269,"Rathcahill West Wind Farm
+Wind",5.0,100.0,75.0,100.0,3.0,25.0,11.5,"2,500",https://www.thewindpower.net/windfarm_en_17365_rathcahill.php,LM Glasfiber,,POINT (-9.130708395779125 52.40324711690273),52.40324711690273,-9.130708395779125
+269,270,Rathnacally Wind Farm,2.0,114.0,93.0,143.0,3.5,22.0,13.0,"3,200",https://www.thewindpower.net/windfarm_en_29942_rathnacally.php,Power Blades,,POINT (-8.69843212899884 52.32958601466868),52.32958601466868,-8.69843212899884
+270,271,Reenascreena Wind Farm,5.0,48.0,50.0,76.0,3.0,25.0,14.0,800,https://www.thewindpower.net/windfarm_en_11139_reenascreena.php,Enercon,,POINT (-9.036328783321958 51.62332725927826),51.62332725927826,-9.036328783321958
+271,272,"Richfield Wind Farm (2)
+Wind",,,,,,,,,,,,POINT (-6.591926770153186 52.21499241309496),52.21499241309496,-6.591926770153186
+272,273,"Richfield Wind Farm
+Wind",18.0,70.5,54.7,100.0,3.0,24.0,13.0,"1,500",https://www.thewindpower.net/windfarm_en_3830_richfield.php,"LM Glasfiber, GE Energy",,POINT (-6.594227581971263 52.21674579467525),52.21674579467525,-6.594227581971263
+273,274,Roosky Wind Farm,2.0,92.0,78.0,138.0,2.0,25.0,13.0,"2,350",https://www.thewindpower.net/windfarm_en_23058_roosky.php,Enercon,,POINT (-8.585476907856535 53.87814907873501),53.87814907873501,-8.585476907856535
+274,275,Rossaveel Wind Farm,,,,,,,,,,,,POINT (-9.983564516692482 53.49648174178383),53.49648174178383,-9.983564516692482
+275,276,Scartaglen 2 Wind Farm,,,,,,,,,,,,POINT (-9.315160166566779 52.16251539500141),52.16251539500141,-9.315160166566779
+276,277,Scartaglen Wind Farm,12.0,92.0,78.0,138.0,2.0,25.0,13.0,"2,350",https://www.thewindpower.net/windfarm_en_29938_scartaglen.php,Enercon,,POINT (-9.315160166566779 52.16251539500141),52.16251539500141,-9.315160166566779
+277,279,Seltanaveeny Wind Farm,2.0,71.0,57.0,113.0,2.0,25.0,15.5,"2,300",https://www.thewindpower.net/windfarm_en_18141_seltenaveeny.php,Enercon,,POINT (-8.116665541328503 54.10931795592608),54.10931795592608,-8.116665541328503
+278,278,Seecon,,,,,,,,,,,,POINT (-9.372283421036292 53.35260852544229),53.35260852544229,-9.372283421036292
+279,279,Seltanaveeny Wind Farm,,,,,,,,,,https://www.thewindpower.net/windfarm_en_18141_seltenaveeny.php,,POINT (-8.116665541328503 54.10931795592608),54.10931795592608,-8.116665541328503
+280,280,Shalvey Poultry WT,,,,,,,,,,,,POINT (-7.056220373471763 54.02432177948901),54.02432177948901,-7.056220373471763
+281,281,Shannagh (Kilcar),3.0,44.0,45.0,55.0,3.0,25.0,17.0,900,https://www.thewindpower.net/windfarm_en_11135_shannagh.php,Enercon,,POINT (-8.582709111329597 54.66827313467795),54.66827313467795,-8.582709111329597
+282,282,"Skehanagh Wind Farm
+Wind",5.0,52.0,40.0,65.0,3.0,25.0,14.0,850,https://www.thewindpower.net/windfarm_en_3828_skehanagh.php,Vestas,,POINT (-7.983232484869579 53.02006298613971),53.02006298613971,-7.983232484869579
+283,283,Skrine Wind Farm,2.0,71.0,57.0,113.0,2.0,25.0,15.5,"2,300",https://www.thewindpower.net/windfarm_en_18142_skrine.php,Enercon,,POINT (-8.181871968776871 53.56925659723377),53.56925659723377,-8.181871968776871
+284,284,Sliabh Bawn,20.0,101.0,74.5,99.5,3.0,25.0,12.5,"3,200",https://www.thewindpower.net/windfarm_en_24390_sliabh-bawn.php,Siemens,,POINT (-8.053792117724766 53.74907589288794),53.74907589288794,-8.053792117724766
+285,285,Slievereagh Wind Farm (1),0.0,71.0,57.0,113.0,2.0,25.0,15.5,"2,300",https://www.thewindpower.net/windfarm_en_17449_slievereagh.php,Enercon,,POINT (-8.389333880751375 52.37308406954953),52.37308406954953,-8.389333880751375
+286,286,Slievereagh Wind Farm (2),0.0,71.0,57.0,113.0,2.0,25.0,15.5,"2,300",https://www.thewindpower.net/windfarm_en_22491_slievereagh-2.php,Enercon,,POINT (-8.389333880751375 52.37308406954953),52.37308406954953,-8.389333880751375
+287,287,Sonnagh Old Phase 1,9.0,52.0,40.0,65.0,3.0,25.0,14.0,850,https://www.thewindpower.net/windfarm_en_1718_sonnagh-old.php,Vestas,,POINT (-8.637908638889531 53.13074213056948),53.13074213056948,-8.637908638889531
+288,288,Sorne Hill (2),3.0,71.0,57.0,113.0,2.0,25.0,15.5,"2,300",https://www.thewindpower.net/windfarm_en_3923_sorne-hill-ii.php,Enercon,,POINT (-7.355484815507949 55.13100005546953),55.13100005546953,-7.355484815507949
+289,289,Sorne Hill Wind Farm,16.0,70.0,64.0,113.0,2.0,25.0,14.0,"2,000",https://www.thewindpower.net/windfarm_en_3840_sorne-hill.php,Enercon,,POINT (-7.355602459775861 55.12661626677207),55.12661626677207,-7.355602459775861
+290,290,Sorrell Island (Glenmore) WF Ext,,,,,,,,,,,,POINT (-9.26414675050163 52.7661248268654),52.7661248268654,-9.26414675050163
+291,291,Sorrell Island (Prev Glenmore),,,,,,,,,,,,POINT (-9.26414675050163 52.7661248268654),52.7661248268654,-9.26414675050163
+292,292,Spion Kop Wind Farm,2.0,42.0,40.5,53.0,4.5,25.0,16.0,600,https://www.thewindpower.net/windfarm_en_1727_spion-kop.php,Vestas,,POINT (-8.13828123668295 54.13456303218253),54.13456303218253,-8.13828123668295
+293,293,"St Patricks Missionary Society, Co. Wicklow",0.0,42.0,40.5,53.0,4.5,25.0,16.0,600,https://www.thewindpower.net/windfarm_en_24919_st-patricks-missionary-society.php,Vestas,,POINT (-6.558350818867698 52.90159700766657),52.90159700766657,-6.558350818867698
+294,294,Taghart Wind Farm (formerly Cregg WF),0.0,42.0,40.5,53.0,4.5,25.0,16.0,600,https://www.thewindpower.net/windfarm_en_7233_taghart.php,Vestas,,POINT (-6.874385510989415 53.96227784214874),53.96227784214874,-6.874385510989415
+295,295,"Taurbeg Wind Farm
+Wind",11.0,82.4,80.0,100.0,3.5,25.0,17.0,"2,300",https://www.thewindpower.net/windfarm_en_3834_taurbeg.php,Siemens,,POINT (-9.135498732100299 52.25023667303629),52.25023667303629,-9.135498732100299
+296,296,Teevurcher Wind Farm,5.0,82.0,58.5,80.0,4.0,22.0,14.5,"2,050",https://www.thewindpower.net/windfarm_en_26532_teevurcher.php,Power Blades,,POINT (-6.919937999272139 53.88258094684267),53.88258094684267,-6.919937999272139
+297,297,"Templederry Wind Farm
+Wind",2.0,71.0,57.0,113.0,2.0,25.0,15.5,"2,300",https://www.thewindpower.net/windfarm_en_17359_templederry.php,Enercon,,POINT (-8.147873184978732 52.77731564217861),52.77731564217861,-8.147873184978732
+298,298,Tesco Donabate,0.0,71.0,57.0,113.0,2.0,25.0,15.5,"2,300",https://www.thewindpower.net/windfarm_en_29955_tesco-donabate.php,Enercon,,POINT (-6.190919279174804 53.48883358622148),53.48883358622148,-6.190919279174804
+299,299,Three Trees,,,,,,,,,,,,POINT (-7.262612809659485 55.12561291429262),55.12561291429262,-7.262612809659485
+300,300,Tournafulla (2) Wind Farm,13.0,71.0,57.0,113.0,2.0,25.0,15.5,"2,300",https://www.thewindpower.net/windfarm_en_3831_tournafulla-ii.php,Enercon,,POINT (-9.16178639187259 52.37563763802461),52.37563763802461,-9.16178639187259
+301,301,"Tournafulla Wind Farm (1)
+Wind",5.0,71.0,57.0,113.0,2.0,25.0,15.5,"2,300",https://www.thewindpower.net/windfarm_en_3832_tournafulla.php,Enercon,,POINT (-9.16178639187259 52.37563763802461),52.37563763802461,-9.16178639187259
+302,302,Tullabrack Wind Farm,6.0,71.0,57.0,113.0,2.0,25.0,15.5,"2,300",https://www.thewindpower.net/windfarm_en_27829_tullabrack-wind-farm.php,Enercon,,POINT (-9.478093407374404 52.67925716357632),52.67925716357632,-9.478093407374404
+303,303,Tullow Mushroom Growers Ltd,0.0,71.0,57.0,113.0,2.0,25.0,15.5,"2,300",https://www.thewindpower.net/windfarm_en_203_tullow-mushroom-growers-ltd.php,Enercon,,POINT (-6.758990558960259 52.84718305435683),52.84718305435683,-6.758990558960259
+304,304,Tullynamalra Wind Farm,,,,,,,,,,,,POINT (-6.813136405811043 54.06044122354747),54.06044122354747,-6.813136405811043
+305,305,Tullynamoyle,4.0,71.0,57.0,113.0,2.0,25.0,15.5,"2,300",https://www.thewindpower.net/windfarm_en_19363_tullynamoyle.php,Enercon,,POINT (-8.13490850296559 54.22673293672712),54.22673293672712,-8.13490850296559
+306,306,Tullynamoyle 2 Wind Farm,5.0,71.0,57.0,113.0,2.0,25.0,15.5,"2,300",https://www.thewindpower.net/windfarm_en_27254_tullynamoyle-2.php,Enercon,,POINT (-8.120575907760283 54.22890467263275),54.22890467263275,-8.120575907760283
+307,307,Tullynamoyle Wind Farm 3 (Carrane Hill Merged Capacity),6.0,71.0,57.0,113.0,2.0,25.0,15.5,"2,300",https://www.thewindpower.net/windfarm_en_27255_tullynamoyle-3.php,Enercon,,POINT (-8.13490850296559 54.22673293672712),54.22673293672712,-8.13490850296559
+308,308,Tullynamoyle Wind Farm 3 (Formerly Geevagh 2),,,,,,,,,,,,POINT (-8.13490850296559 54.22673293672712),54.22673293672712,-8.13490850296559
+309,309,"Tursillagh (2) Wind Farm
+Wind",8.0,52.0,40.0,65.0,3.0,25.0,14.0,850,https://www.thewindpower.net/windfarm_en_1724_tursillagh.php,Vestas,,POINT (-9.606067177272932 52.31471871219317),52.31471871219317,-9.606067177272932
+310,310,Tursillagh Wind Farm,8.0,52.0,40.0,65.0,3.0,25.0,14.0,850,https://www.thewindpower.net/windfarm_en_1721_tursillagh.php,Vestas,,POINT (-9.596714307505197 52.31364095429129),52.31364095429129,-9.596714307505197
+311,311,Uggool,,,,,,,,,,,,POINT (-9.352753165512247 53.36676233851839),53.36676233851839,-9.352753165512247
+312,312,"WEDcross Wind Farm
+Wind",2.0,82.0,78.0,138.0,2.0,25.0,14.0,"2,300",https://www.thewindpower.net/windfarm_en_1673_wedcross.php,Enercon,,POINT (-9.228600248520692 52.15307519294701),52.15307519294701,-9.228600248520692
+313,314,Woodhouse,3.0,90.0,65.0,80.0,3.0,25.0,13.5,"2,500",https://www.thewindpower.net/windfarm_en_22883_woodhouse.php,"LM Glasfiber, Nordex",,POINT (-7.777068081525129 52.08133005156486),52.08133005156486,-7.777068081525129
