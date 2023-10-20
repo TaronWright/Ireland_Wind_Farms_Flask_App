@@ -18,6 +18,7 @@ class Config:
 
 # create app
 app = Flask(__name__)
+app.debug = True
 app.config.from_object(Config())
 
 # initialize scheduler
@@ -34,9 +35,7 @@ def job1():
 
 @app.route("/")
 def index():
-    df = pd.read_csv("Windfarm_WebScraped_DataV3.csv")
-    df_dict = df.to_dict(orient="records")
-    return render_template("index.html", windfarms = df_dict)
+    return render_template("index.html")
 
 @app.route("/map")
 def map():
