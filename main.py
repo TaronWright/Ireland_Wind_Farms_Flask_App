@@ -7,19 +7,41 @@ from geoalchemy2 import Geometry
 import csv
 import folium
 import geopandas as gpd
-import datetime
+from datetime import datetime, timedelta
 import requests
 import xml.etree.ElementTree as ET
 from flask_apscheduler import APScheduler
+import os
 
 # set configuration values
 class Config:
     SCHEDULER_API_ENABLED = True
 
-# create app
+# Initialize app
 app = Flask(__name__)
 app.debug = True
 app.config.from_object(Config())
+basedir = os.path.abspath(os.path.dirname(__file__))
+
+# Database
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, 'db,sqlite')
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+# Init database
+db = SQLAlchemy(app)
+
+# Product Class/Model
+class WindfarmWindSpeed(db.Model):
+    id = db.Column(db.Integer,primary_key = True)
+    timestamp = db.Column(db.DateTime)
+    name = db.Column(db.String(255))
+    windspeed = db.Column(db.Float)
+
+    def __init__(self,timestamp,name,windspeed):
+        self.timestamp = timestamp
+        self.name = name
+        self.windspeed = windspeed
+
 
 # initialize scheduler
 scheduler = APScheduler()
@@ -31,6 +53,7 @@ scheduler.start()
 # interval example
 @scheduler.task('interval', id='do_job_1', seconds=300, misfire_grace_time=900)
 def job1():
+
     print('Job 1 executed')
 
 @app.route("/")
@@ -90,13 +113,21 @@ def map():
 def data():
     return render_template("data.html")
 
+@app.route("/database")
+def database():
+    data = WindfarmWindSpeed.query.all()
+    return render_template("sqlitedatabase.html", data = data)
+
 @app.route("/windspeed")
 def windspeed():
     df = pd.read_csv("Windfarm_WebScraped_DataV3.csv")
-    current_time = datetime.datetime.now().strftime('%Y-%m-%dT%H:%M')
-    hour_ago_time = datetime.datetime.now() - datetime.timedelta(hours = -1)
-    hour_ago_time = hour_ago_time.strftime('%Y-%m-%dT%H:%M')
+    now = datetime.now().replace(microsecond=0, second=0, minute=0)
+    current_time = now.strftime('%Y-%m-%dT%H:%M')
+    database_timestamp = datetime.strptime(current_time,"%Y-%m-%dT%H:%M")
     url = 'http://metwdb-openaccess.ichec.ie/metno-wdb2ts/locationforecast'
+
+
+
 
     windspeeds= []
 
@@ -104,14 +135,20 @@ def windspeed():
         lat = str(row['Latitude'])
         long = str(row['Longitude'])
         qfrom = current_time
-        qto = hour_ago_time
+        qto = current_time
         query= {"lat": lat, "long": long, "from":qfrom, "to": qto}
         response = requests.get(url, params = query)
         root = ET.fromstring(response.content)
         x = [time.attrib['from'] for time in root.iter('time')]
         x = [item for item in x[::2]]
-        x = [datetime.datetime.strptime(time,"%Y-%m-%dT%H:%M:%SZ") for time in x]
+        x = [datetime.strptime(time,"%Y-%m-%dT%H:%M:%SZ") for time in x]
         y = [windSpeed.attrib['mps'] for windSpeed in root.iter('windSpeed')]
         y = [float(speed) for speed in y]
         windspeeds.append(y)
+        new_row = WindfarmWindSpeed(database_timestamp,row['Wind Farm Name'],y[0])
+        db.session.add(new_row)
+        db.session.commit()
     return render_template("windspeed.html", windspeeds = windspeeds)
+
+if __name__ == '__main__':
+    app.run(debug=True)
