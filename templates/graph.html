@@ -1,0 +1,48 @@
+<!-- Inside your windfarm_graph.html template -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Windfarm Windspeed Graph</title>
+    <!-- Include Chart.js library -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <canvas id="windfarmGraph" width="800" height="400"></canvas>
+
+    <script>
+        // Get data passed from Flask
+        var timestamps = {{ json.dumps(timestamps) }};
+        var windspeeds = {{ json.dumps(windspeeds) }};
+
+        // Create a time-series chart using Chart.js
+        var ctx = document.getElementById('windfarmGraph').getContext('2d');
+        var windfarmChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: timestamps,
+                datasets: [{
+                    label: 'Windspeed',
+                    data: windspeeds,
+                    fill: false,
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    x: {
+                        type: 'time',
+                        time: {
+                            unit: 'day'
+                        }
+                    },
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
