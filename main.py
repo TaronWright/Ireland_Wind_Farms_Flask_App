@@ -142,10 +142,9 @@ def windspeed():
         x = [time.attrib['from'] for time in root.iter('time')]
         x = [item for item in x[::2]]
         x = [datetime.strptime(time,"%Y-%m-%dT%H:%M:%SZ") for time in x]
-        y = [windSpeed.attrib['mps'] for windSpeed in root.iter('windSpeed')]
-        y = [float(speed) for speed in y]
-        windspeeds.append(y)
-        new_row = WindfarmWindSpeed(database_timestamp,row['Wind Farm Name'],y[0])
+        windSpeed = [windSpeed.attrib['mps'] for windSpeed in root.iter('windSpeed')]
+        windSpeed = [float(speed) for speed in windSpeed]
+        new_row = WindfarmWindSpeed(database_timestamp,row['Wind Farm Name'],windSpeed[0])
         db.session.add(new_row)
         db.session.commit()
     return render_template("windspeed.html", windspeeds = windspeeds)
