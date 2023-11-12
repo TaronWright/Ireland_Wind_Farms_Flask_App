@@ -12,8 +12,8 @@
 
     <script>
         // Get data passed from Flask
-        var timestamps = {{ json.dumps(timestamps) }};
-        var windspeeds = {{ json.dumps(windspeeds) }};
+        var timestamps = {{ timestamps | tojson }};
+        var windspeeds = {{ windspeeds | tojson }}
 
         // Create a time-series chart using Chart.js
         var ctx = document.getElementById('windfarmGraph').getContext('2d');
