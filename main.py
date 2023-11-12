@@ -51,33 +51,37 @@ scheduler.init_app(app)
 scheduler.start()
 
 # # interval example
-# @scheduler.task('interval', id='do_job_1', seconds=300, misfire_grace_time=900)
-# def job1():
-#     df = pd.read_csv("Windfarm_WebScraped_DataV3.csv")
-#     now = datetime.now().replace(microsecond=0, second=0, minute=0)
-#     current_time = now.strftime('%Y-%m-%dT%H:%M')
-#     database_timestamp = datetime.strptime(current_time,"%Y-%m-%dT%H:%M")
-#     url = 'http://metwdb-openaccess.ichec.ie/metno-wdb2ts/locationforecast'
+@scheduler.task('interval', id='do_scrape_windspeed_data', hours= 1, misfire_grace_time=900)
+def scrape_windspeed_data():
+    df = pd.read_csv("Windfarm_WebScraped_DataV3.csv")
+    now = datetime.now().replace(microsecond=0, second=0, minute=0)
+    current_time = now.strftime('%Y-%m-%dT%H:%M')
+    database_timestamp = datetime.strptime(current_time,"%Y-%m-%dT%H:%M")
+    url = 'http://metwdb-openaccess.ichec.ie/metno-wdb2ts/locationforecast'
 
-#     windspeeds= []
+    windspeeds= []
 
-#     for index,row in df.iterrows():
-#         lat = str(row['Latitude'])
-#         long = str(row['Longitude'])
-#         qfrom = current_time
-#         qto = current_time
-#         query= {"lat": lat, "long": long, "from":qfrom, "to": qto}
-#         response = requests.get(url, params = query)
-#         root = ET.fromstring(response.content)
-#         x = [time.attrib['from'] for time in root.iter('time')]
-#         x = [item for item in x[::2]]
-#         x = [datetime.strptime(time,"%Y-%m-%dT%H:%M:%SZ") for time in x]
-#         windSpeed = [windSpeed.attrib['mps'] for windSpeed in root.iter('windSpeed')]
-#         windSpeed = [float(speed) for speed in windSpeed]
-#         new_row = WindfarmWindSpeed(database_timestamp,row['Wind Farm Name'],windSpeed[0])
-#         db.session.add(new_row)
-#         db.session.commit()
-#     print('Job 1 executed')
+    for index,row in df.iterrows():
+        lat = str(row['Latitude'])
+        long = str(row['Longitude'])
+        qfrom = current_time
+        qto = current_time
+        query= {"lat": lat, "long": long, "from":qfrom, "to": qto}
+        response = requests.get(url, params = query)
+        root = ET.fromstring(response.content)
+        x = [time.attrib['from'] for time in root.iter('time')]
+        x = [item for item in x[::2]]
+        x = [datetime.strptime(time,"%Y-%m-%dT%H:%M:%SZ") for time in x]
+        windSpeed = [windSpeed.attrib['mps'] for windSpeed in root.iter('windSpeed')]
+        windSpeed = [float(speed) for speed in windSpeed]
+        new_row = WindfarmWindSpeed(database_timestamp,row['Wind Farm Name'],windSpeed[0])
+        db.session.add(new_row)
+        db.session.commit()
+    print('Job 1 executed')
+
+#Uncomment if function needs to be run on app startup to get more data
+# with app.app_context():
+#     scrape_windspeed_data()
 
 @app.route("/")
 def index():
@@ -136,9 +140,14 @@ def graph():
     #Query data from the db.sqlite database
     windfarms = WindfarmWindSpeed.query.all()
     timestamps = [windfarm.timestamp for windfarm in windfarms]
+    
+    # Convert datetime objects to strings
+    formatted_timestamps = [dt.strftime('%Y-%m-%d %H:%M:%S') for dt in timestamps]
+
     names = [windfarm.name for windfarm in windfarms]
     windspeeds = [windfarm.windspeed for windfarm in windfarms]
-    return render_template("graph.html", timestamps = timestamps, names = names, windspeeds = windspeeds)
+    test_type = type(formatted_timestamps[0])
+    return render_template("graph.html", timestamps = formatted_timestamps, names = names, windspeeds = windspeeds,test_type = test_type )
 
 
 @app.route("/data")
