@@ -1,19 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
 <head>
-	<!-- Load plotly.js into the DOM -->
-	<script src='https://cdn.plot.ly/plotly-2.27.0.min.js'></script>
+    <!-- Load plotly.js into the DOM -->
+    <script src='https://cdn.plot.ly/plotly-2.27.0.min.js'></script>
 </head>
-
 <body>
-	<div id='myDiv'><!-- Plotly chart will be drawn inside this DIV --></div>
-    <div> {{ test_type }}</div>
-</body>
-<script>
-var data = {
-    x: '{{ timestamps }}',
-    y: ' {{ windspeeds }}',
-    type: 'scatter'
-  };
-  
+    <div id='myDiv'><!-- Plotly chart will be drawn inside this DIV --></div>
+    <div>{{ timestamps | tojson }}</div>
+    <div> {{ windspeeds | tojson }}</div>
+    <script>
+        // Get the datetime values and windspeeds from Flask
+        var timestamps = {{ timestamps | tojson }};
+        var windspeeds = {{ windspeeds | tojson }};
 
-  Plotly.newPlot('myDiv', data);
-</script>
+        var data = [{
+            x: timestamps,
+            y: windspeeds,
+            mode: 'markers',
+            type: 'scatter'
+        }];
+
+        var layout = {
+            title: 'Plotly Scatter Plot Example',
+            xaxis: {
+                title: 'Timestamp'
+            },
+            yaxis: {
+                title: 'Windspeed'
+            }
+        };
+
+        Plotly.newPlot('myDiv', data, layout);
+    </script>
+</body>
+</html>

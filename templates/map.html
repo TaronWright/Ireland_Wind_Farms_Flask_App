@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wind Farm Map</title>
+    <!-- Correct the paths to Leaflet CSS and JS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+</head>
+<body>
+    <h1>Wind Farm Map</h1>
+    <div id="map" style="height: 500px;"></div>
+    <div id="wind-speeds"></div>
+
+    <script>
+        var map = L.map('map').setView([52.349805, -7.26031], 6);
+    
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+    
+        // Add markers for wind farms
+        var windFarms = {{ wind_farms.to_json(orient='records')|tojson }};
+        console.log(windFarms);  // Log data structure
+        var windSpeedsEndpoint = "/get_wind_speeds";
+
+        for (var i = 0; i < windFarms.length; i++) {
+            var farm = windFarms[i];
+            console.log([farm.Latitude, farm.Longitude]);  // Log coordinates
+
+            var marker = L.marker([parseFloat(farm.Latitude), parseFloat(farm.Longitude)]).addTo(map);
+            marker.bindPopup(farm.WindFarm);
+
+            marker.on('click', function(e) {
+                // When marker is clicked, fetch wind speeds for the selected wind farm
+                var selectedWindFarm = e.target.getPopup().getContent();
+                $.ajax({
+                    type: "POST",
+                    contentType: "application/json;charset=utf-8",
+                    url: windSpeedsEndpoint,
+                    data: JSON.stringify({"wind_farm": selectedWindFarm}),
+                    dataType: "json",
+                    success: function(response) {
+                        // Display the graph with the fetched wind speeds
+                        $('#wind-speeds').html('<h2>Wind Speeds for ' + selectedWindFarm + '</h2>');
+                        // Add code here to create a Plotly graph using the 'response' data
+                    },
+                    error: function(error) {
+                        console.error("Error fetching wind speeds:", error);
+                    }
+                });
+            });
+        }
+    </script>
+</body>
+</html>

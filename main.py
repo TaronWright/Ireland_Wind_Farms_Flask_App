@@ -12,6 +12,8 @@ import requests
 import xml.etree.ElementTree as ET
 from flask_apscheduler import APScheduler
 import os
+from requests import request
+import jsonify
 
 # set configuration values
 class Config:
@@ -83,9 +85,15 @@ def scrape_windspeed_data():
 # with app.app_context():
 #     scrape_windspeed_data()
 
-@app.route("/")
+windfarms_data = pd.read_csv("Windfarm_WebScraped_DataV3.csv")
+
+@app.route('/')
 def index():
-    return render_template("index.html")
+    #Read Windfarm data into a pandas dataframe
+    windfarm_data = pd.read_csv("Windfarm_WebScraped_Datav3.csv")
+    print(windfarm_data.to_json(orient="records"))
+    return render_template('index.html',windfarm_data = windfarm_data.to_json(orient="records"))
+
 
 @app.route("/map")
 def map():
@@ -139,10 +147,9 @@ def map():
 def graph():
     #Query data from the db.sqlite database
     windfarms = WindfarmWindSpeed.query.all()
-    timestamps = [windfarm.timestamp for windfarm in windfarms]
-    
+
     # Convert datetime objects to strings
-    formatted_timestamps = [dt.strftime('%Y-%m-%d %H:%M:%S') for dt in timestamps]
+    formatted_timestamps = [windfarm.timestamp.strftime('%Y-%m-%d %H:%M:%S') for windfarm in windfarms]
 
     names = [windfarm.name for windfarm in windfarms]
     windspeeds = [windfarm.windspeed for windfarm in windfarms]
