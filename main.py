@@ -1,10 +1,12 @@
 from flask import Flask
+from flask import request as flask_request
 from flask import render_template
 from folium.plugins import MarkerCluster
 import pandas as pd
 from flask_sqlalchemy import SQLAlchemy
 from geoalchemy2 import Geometry
 import csv
+from dataclasses import dataclass
 import folium
 import geopandas as gpd
 from datetime import datetime, timedelta
@@ -33,11 +35,12 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
 # Product Class/Model
+@dataclass
 class WindfarmWindSpeed(db.Model):
-    id = db.Column(db.Integer,primary_key = True)
-    timestamp = db.Column(db.DateTime)
-    name = db.Column(db.String(255))
-    windspeed = db.Column(db.Float)
+    id:int = db.Column(db.Integer,primary_key = True)
+    timestamp:datetime = db.Column(db.DateTime)
+    name:str = db.Column(db.String(255))
+    windspeed:int = db.Column(db.Float)
 
     def __init__(self,timestamp,name,windspeed):
         self.timestamp = timestamp
@@ -161,9 +164,24 @@ def graph():
 def data():
     return render_template("data.html")
 
+@app.route("/lookup", methods=['POST'])
+def lookup():
+    if flask_request.method == 'POST':
+        windfarm_name = flask_request.form.get('Windfarm')
+        print(windfarm_name)
+        windfarm_query = WindfarmWindSpeed.query.filter_by(name=windfarm_name).all()
+        for row in windfarm_query:
+            print(row.timestamp)
+            print(row.windspeed)
+    return windfarm_query
+
+@app.route("/messages")
+def messages():
+    return "Bye"
+
+
 @app.route("/database")
 def database():
-    data = WindfarmWindSpeed.query.all()
     return render_template("sqlitedatabase.html", data = data)
 
 @app.route("/windspeed")

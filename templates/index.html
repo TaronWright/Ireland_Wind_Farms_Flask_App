@@ -12,12 +12,56 @@
      <!-- Make sure you put this AFTER Leaflet's CSS -->
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
     crossorigin=""></script>
+    <!-- Import jquery ajax-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <!-- Include htmx via CDN -->
+    <script src="https://unpkg.com/htmx.org/dist/htmx.min.js"></script>
+    <!-- Include Chartjs via CDN-->
+    <script
+    src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js">
+    </script>
     <style>#map { height: 500px; }</style>
 <body>
     <h1>Wind Farms Map</h1>
     <div id="map"></div>
     <div id="test"></div>
+    <div id="result-container"></div>
+    <button id="Wind" type= >Wind Speeds</button>
+    <button id="Energy" type></button>
+    <canvas id="windChart" style="width:100%;max-width:1200px;height:800px"></canvas>
 
+
+    <script>
+    //data block 
+    const data = {
+            labels: [],
+            datasets: [{
+                label: 'My Chart',
+                data: [],
+                borderColor: 'rgba(75, 192, 192, 1)',
+                borderWidth: 2,
+                fill: false
+            }]
+        }
+    // config 
+    const config = {
+      type: 'line',
+      data,
+      options: {
+            scales: {
+                x: {
+                    type: 'linear',
+                    position: 'bottom'
+                }
+            }
+        }
+    };
+    // render init block
+        const windChart = new Chart(
+      document.getElementById('windChart'),
+      config
+    );
+    </script>
     <script>
         //Set the map with center of London
         var map = L.map('map').setView([52.505, -7.09], 7);
@@ -48,9 +92,29 @@
             .on("click", clickMarker);
         };
     function clickMarker(e) {
-            document.getElementById("test").innerText = e.target._popup._content;
-            console.log(e)
+            var windfarmName = e.target._popup._content;
+            document.getElementById("test").innerText = windfarmName;
+            // Use ajax to send a POST request to the server
+            $.ajax({
+            type: "POST",
+            url: "{{ url_for('lookup') }}",
+            data: {"Windfarm": windfarmName},
+            success: function(data){
+
+            let xValues = new Array();
+            let yValues = new Array();
+                for (const element of data) {
+                    xValues.push(element.timestamp);
+                    yValues.push(element.windspeed);
+                };
+
+            windChart.data.labels = xValues
+            windChart.data.datasets[0].data = yValues
+            windChart.update();
+    }});
     }
+    
     </script>
+
 </body>
 </html>
