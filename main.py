@@ -41,12 +41,17 @@ class WindfarmWindSpeed(db.Model):
     timestamp:datetime = db.Column(db.DateTime)
     name:str = db.Column(db.String(255))
     windspeed:int = db.Column(db.Float)
+    windpower:int = db.Column(db.Float)
 
-    def __init__(self,timestamp,name,windspeed):
+    def __init__(self,timestamp,name,windspeed,windpower):
         self.timestamp = timestamp
         self.name = name
         self.windspeed = windspeed
+        self.windpower = windpower
 
+# Create database if one does not already exist  
+with app.app_context():     
+    db.create_all()
 
 # initialize scheduler
 scheduler = APScheduler()
@@ -79,7 +84,17 @@ def scrape_windspeed_data():
         x = [datetime.strptime(time,"%Y-%m-%dT%H:%M:%SZ") for time in x]
         windSpeed = [windSpeed.attrib['mps'] for windSpeed in root.iter('windSpeed')]
         windSpeed = [float(speed) for speed in windSpeed]
-        new_row = WindfarmWindSpeed(database_timestamp,row['Wind Farm Name'],windSpeed[0])
+        
+        cutin_speed = row['Cut-in wind speed']
+        cutoff_speed = row['Cut-off wind speed']
+        rotor_radius = row['Rotor diameter']
+        number_of_turbines = row['Number of Turbines']
+        if windSpeed:
+            if cutin_speed <= windSpeed[0] <= cutoff_speed:
+                wind_power = (0.5*1.225*3.14*(rotor_radius**2)*(windSpeed[0]**3)*0.4)
+            else:
+                wind_power = 0
+        new_row = WindfarmWindSpeed(database_timestamp,row['Wind Farm Name'],windSpeed[0],wind_power)
         db.session.add(new_row)
         db.session.commit()
     print('Job 1 executed')
@@ -87,6 +102,7 @@ def scrape_windspeed_data():
 #Uncomment if function needs to be run on app startup to get more data
 # with app.app_context():
 #     scrape_windspeed_data()
+
 
 windfarms_data = pd.read_csv("Windfarm_WebScraped_DataV3.csv")
 
@@ -98,91 +114,18 @@ def index():
     return render_template('index.html',windfarm_data = windfarm_data.to_json(orient="records"))
 
 
-@app.route("/map")
-def map():
-    #Read the geojson file into a geodataframe
-    geo_df = gpd.read_file("Counties_-_National_Statutory_Boundaries_-_2019_-_Generalised_20m.geojson")
-
-    #Create a folium map object
-    m = folium.Map(location = [53.4287,-8.3321], zoom_start= 7 , dragging = False)
-
-    #Create a MarkerCluster object
-    # marker_cluster = MarkerCluster().add_to(m)
-
-    #Creat a Choropleth layer and add it to the map
-    folium.Choropleth(
-    geo_data=geo_df,
-    fill_opacity=0.3,
-    line_weight=2,
-    ).add_to(m)
-
-    #Read Windfarm data into a pandas dataframe
-    df = pd.read_csv("Windfarm_WebScraped_Datav3.csv")
-
-    df_dict = df.to_dict(orient="records")
-
-    #Create a geopandas dataframe with a geometry column from the Long and Lat columns in the dataframe
-    gdf = gpd.GeoDataFrame(df, geometry=gpd.points_from_xy(df['Longitude'], df['Latitude']), crs="EPSG:4326")
-
-     #Create the geojson layer with tooltips and popups
-    folium.GeoJson(
-    gdf,
-    name="Wind farms",
-    zoom_on_click=True,
-    tooltip=folium.GeoJsonTooltip(fields=["Wind Farm Name","Minimum hub height","Maximum hub height","Cut-in wind speed","Cut-off wind speed","Rated wind speed","Rated power","Manufacturer"]),
-    popup=folium.GeoJsonPopup(fields=["Wind Farm Name","Minimum hub height","Maximum hub height","Cut-in wind speed","Cut-off wind speed","Rated wind speed","Rated power","Manufacturer"])
-    ).add_to(m)
-
-    # locations = list(zip(gdf['Latitude'], gdf['Longitude']))
-    # popups = ["lon:{}<br>lat:{}".format(lon, lat) for (lat, lon) in locations]
-
-    # marker_cluster = MarkerCluster(
-    # locations= locations,
-    # popups=folium.GeoJsonPopup(fields=["Wind Farm Name","Minimum hub height","Maximum hub height","Cut-in wind speed","Cut-off wind speed","Rated wind speed","Rated power","Manufacturer"]),
-    # name="1000 clustered icons",
-    # overlay=True,
-    # control=True
-    # )
-    m.save("templates/footprint.html")
-    return render_template("footprint.html")
-
-@app.route("/graph")
-def graph():
-    #Query data from the db.sqlite database
-    windfarms = WindfarmWindSpeed.query.all()
-
-    # Convert datetime objects to strings
-    formatted_timestamps = [windfarm.timestamp.strftime('%Y-%m-%d %H:%M:%S') for windfarm in windfarms]
-
-    names = [windfarm.name for windfarm in windfarms]
-    windspeeds = [windfarm.windspeed for windfarm in windfarms]
-    test_type = type(formatted_timestamps[0])
-    return render_template("graph.html", timestamps = formatted_timestamps, names = names, windspeeds = windspeeds,test_type = test_type )
-
-
-@app.route("/data")
-def data():
-    return render_template("data.html")
-
 @app.route("/lookup", methods=['POST'])
 def lookup():
     if flask_request.method == 'POST':
-        windfarm_name = flask_request.form.get('Windfarm')
+        windfarm_name = flask_request.json['Windfarm']
         print(windfarm_name)
         windfarm_query = WindfarmWindSpeed.query.filter_by(name=windfarm_name).all()
         for row in windfarm_query:
             print(row.timestamp)
             print(row.windspeed)
+            print(row.windpower)
     return windfarm_query
 
-@app.route("/messages")
-def messages():
-    return "Bye"
-
-
-@app.route("/database")
-def database():
-    return render_template("sqlitedatabase.html", data = data)
 
 @app.route("/windspeed")
 def windspeed():
@@ -191,9 +134,6 @@ def windspeed():
     current_time = now.strftime('%Y-%m-%dT%H:%M')
     database_timestamp = datetime.strptime(current_time,"%Y-%m-%dT%H:%M")
     url = 'http://metwdb-openaccess.ichec.ie/metno-wdb2ts/locationforecast'
-
-
-
 
     windspeeds= []
 

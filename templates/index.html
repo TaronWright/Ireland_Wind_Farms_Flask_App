@@ -26,12 +26,18 @@
     <div id="map"></div>
     <div id="test"></div>
     <div id="result-container"></div>
-    <button id="Wind" type= >Wind Speeds</button>
-    <button id="Energy" type></button>
+
+    <!-- Radio buttons for data selection -->
+    <label>
+        <input type="radio" name="dataSet" value="Windspeeds"> Wind Speed
+    </label>
+    <label>
+        <input type="radio" name="dataSet" value="Windpowers" checked> Wind Power
+    </label>
     <canvas id="windChart" style="width:100%;max-width:1200px;height:800px"></canvas>
 
 
-    <script>
+<script>
     //data block 
     const data = {
             labels: [],
@@ -61,60 +67,134 @@
       document.getElementById('windChart'),
       config
     );
-    </script>
-    <script>
-        //Set the map with center of London
-        var map = L.map('map').setView([52.505, -7.09], 7);
+</script>
 
-        //Set the tile layer of the map using openstreetmap
-        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        maxZoom: 19,
-        attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-        }).addTo(map);
+<script>
+    //Set the map with center of London
+    let map = L.map('map').setView([52.505, -7.09], 7);
 
-        //Set a onclick function for the map to capture user click coordinates
-        var popup = L.popup();
+    //Set the tile layer of the map using openstreetmap
+    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    maxZoom: 19,
+    attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+    }).addTo(map);
 
-            function onMapClick(e) {
-                popup
-                    .setLatLng(e.latlng)
-                    .setContent("You clicked the map at " + e.latlng.toString())
-                    .openOn(map);
-            }
-            map.on('click', onMapClick);
-        
-        //Set all windfarm location markers
-        var windfarm_data = {{windfarm_data | safe}}
-        for (var i = 0; i < windfarm_data.length; i++){
-            marker = new L.marker([windfarm_data[i]['Latitude'], windfarm_data[i]['Longitude']])
-            .bindPopup(windfarm_data[i]['Wind Farm Name'])
-            .addTo(map)
-            .on("click", clickMarker);
-        };
-    function clickMarker(e) {
-            var windfarmName = e.target._popup._content;
-            document.getElementById("test").innerText = windfarmName;
-            // Use ajax to send a POST request to the server
-            $.ajax({
-            type: "POST",
-            url: "{{ url_for('lookup') }}",
-            data: {"Windfarm": windfarmName},
-            success: function(data){
-
-            let xValues = new Array();
-            let yValues = new Array();
-                for (const element of data) {
-                    xValues.push(element.timestamp);
-                    yValues.push(element.windspeed);
-                };
-
-            windChart.data.labels = xValues
-            windChart.data.datasets[0].data = yValues
-            windChart.update();
-    }});
-    }
+    //Set a onclick function for the map to capture user click coordinates
+    let popup = L.popup();
     
-    </script>
+    //Set all windfarm location markers
+    windfarm_data = {{windfarm_data | safe}}
+
+    // Loop through all windfarms and add a marker on the map for each
+    for (let i = 0; i < windfarm_data.length; i++){
+        tableHtml = `
+        <table>
+            <tr>
+                <th>Windfarm Name</th>
+                <td>${windfarm_data[i]["Wind Farm Name"]}</td>
+            </tr>
+            <tr>
+                <th>Minimum hub height</th>
+                <td>${windfarm_data[i]["Minimum hub height"]}</td>
+            </tr>
+            <tr>
+                <th>Maximum hub height</th>
+                <td>${windfarm_data[i]["Maximum hub height"]}</td>
+            </tr>
+            <tr>
+                <th>Cut-in wind speed</th>
+                <td>${windfarm_data[i]["Cut-in wind speed"]}</td>
+            </tr>
+            <tr>
+                <th>Cut-off wind speed</th>
+                <td>${windfarm_data[i]["Cut-off wind speed"]}</td>
+            </tr>
+            <tr>
+                <th>Rated wind speed</th>
+                <td>${windfarm_data[i]["Rated wind speed"]}</td>
+            </tr>
+            <tr>
+                <th>Rated power</th>
+                <td>${windfarm_data[i]["Rated power"]}</td>
+            </tr>
+            <tr>
+                <th>Manufacturer</th>
+                <td>${windfarm_data[i]["Manufacturer"]}</td>
+            </tr>
+        </table> `;
+        marker = new L.marker([windfarm_data[i]['Latitude'], windfarm_data[i]['Longitude']])
+        .bindPopup(windfarm_data[i]['Wind Farm Name'])
+        .addTo(map)
+        .on("click", clickMarker); };
+
+    // Set values in global scope
+    let timestamp_values;
+    let windspeed_values;
+    let windpower_values;
+    // Function for clicking on map markers that makes call to the server for the windspeed data for that windfarm
+    function clickMarker(e) {
+        // Set to empty array on every click so values do not stack
+        timestamp_values = [];
+        windspeed_values = [];
+        windpower_values = [];
+        console.log(e)
+        // Set windfarm name to the popup content
+        let windfarmName = e.target._popup._content
+        //Set url to the url for the lookup route on flask server-side
+        const lookup_url = {{ url_for('lookup')|tojson }} 
+        //Set data to be posted to flask api
+        let data = {"Windfarm": windfarmName}
+        // fetch post request with data
+        fetch(lookup_url, {
+        "method": "POST",
+        "headers": {"Content-Type": "application/json"},
+        "body": JSON.stringify(data),
+         })
+        .then(function(response){
+            return response.json();
+        })
+        .then(function(json){
+            // Loop through the objects returned by server to get each object data and then add timestamps and windspeeds to an array
+            for (const element of json) {
+                timestamp_values.push(element.timestamp);
+                windspeed_values.push(element.windspeed);
+                windpower_values.push(element.windpower);
+            };
+            // Populate windChart x and y values with data 
+            windChart.data.labels = timestamp_values
+            windChart.data.datasets[0].data = windspeed_values
+
+            // Update the windchart with the new data rather than adding another layer everytime function is called
+            updateChartData(windspeed_values, windpower_values) 
+        })
+        
+    };
+
+        // Function to update chart data based on selected radio button
+        function updateChartData(windspeeds, windpowers) {
+        let selectedDataSet = document.querySelector('input[name="dataSet"]:checked').value;
+
+        if (selectedDataSet === 'Windspeeds') {
+            windChart.data.datasets[0].data = windspeeds;
+            windChart.data.datasets[0].label = 'Wind Speed';
+        } else if (selectedDataSet === 'Windpowers') {
+            windChart.data.datasets[0].data = windpowers;
+            windChart.data.datasets[0].label = 'Wind Power';
+        }
+
+        // Update the windchart with the new data rather than adding another layer everytime function is called
+        windChart.update();
+
+        
+    }
+    console.log(windspeed_values)
+    // // Add event listener to radio buttons
+    let radioButtons = document.querySelectorAll('input[name="dataSet"]');
+    radioButtons.forEach(function (radioButton) {
+    radioButton.addEventListener('change', function() {updateChartData(windspeed_values, windpower_values)} )
+    });
+    
+</script>
 
 </body>
 </html>
