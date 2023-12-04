@@ -6,35 +6,47 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Wind Farm Map</title>
+    <link href="{{url_for('static',filename='css/main.css')}}" rel="stylesheet">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
      integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
      crossorigin=""/>
+     <!-- Turf CDN-->
+     <script src='https://unpkg.com/@turf/turf@6/turf.min.js'></script>
      <!-- Make sure you put this AFTER Leaflet's CSS -->
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
     crossorigin=""></script>
-    <!-- Import jquery ajax-->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-    <!-- Include htmx via CDN -->
-    <script src="https://unpkg.com/htmx.org/dist/htmx.min.js"></script>
     <!-- Include Chartjs via CDN-->
     <script
     src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js">
     </script>
-    <style>#map { height: 500px; }</style>
+    <style>
+        #map { height:100%; }
+    </style>
 <body>
     <h1>Wind Farms Map</h1>
-    <div id="map"></div>
-    <div id="test"></div>
-    <div id="result-container"></div>
+    <div class="grid grid-rows-6 grid-cols-5 gap-4 m-4 h-screen">
+        <div class="row-span-1 col-span-5 bg-white dark:bg-slate-900 rounded-lg px-6 py-8 ring-1 ring-slate-900/5 shadow-xl"> Windfarm Dashboard</div>
+        <button class="row-start-1 row-span-1 col-start-2 col-end-3" onclick="getChoropleth()"></button>
+        <div class="row-start-2 col-start-2 col-span-1 bg-white dark:bg-slate-900 rounded-lg px-6 py-8 ring-1 ring-slate-900/5 shadow-xl"></div>
+        <div class="row-start-2 col-start-3 col-span-1 bg-white dark:bg-slate-900 rounded-lg px-6 py-8 ring-1 ring-slate-900/5 shadow-xl"></div>
+        <div class="row-start-2 col-start-4 col-span-1 bg-white dark:bg-slate-900 rounded-lg px-6 py-8 ring-1 ring-slate-900/5 shadow-xl"></div>
+        <div class="row-start-3 row-end-7 col-start-1 col-end-3 bg-white dark:bg-slate-900 rounded-lg px-6 py-8 ring-1 ring-slate-900/5 shadow-xl" id="map">01</div>
+         <!-- Radio buttons for data selection -->
+         <div class="row-start-1 row-end-2 col-start-3 col-end-6"> 
+            <label>
+                <input type="radio" name="dataSet" value="Windspeeds"> Wind Speed
+            </label>
+            <label>
+                <input type="radio" name="dataSet" value="Windpowers" checked> Wind Power
+            </label>
+         </div>
+            
+        <div class="row-start-3 row-end-7 col-start-3 col-end-6 bg-white dark:bg-slate-900 rounded-lg px-6 py-8 ring-1 ring-slate-900/5 shadow-xl"><canvas class="h-full w-full" id="windChart"></canvas></div>
+    </div>
+    
+    
 
-    <!-- Radio buttons for data selection -->
-    <label>
-        <input type="radio" name="dataSet" value="Windspeeds"> Wind Speed
-    </label>
-    <label>
-        <input type="radio" name="dataSet" value="Windpowers" checked> Wind Power
-    </label>
-    <canvas id="windChart" style="width:100%;max-width:1200px;height:800px"></canvas>
+   
 
 
 <script>
@@ -63,7 +75,7 @@
         }
     };
     // render init block
-        const windChart = new Chart(
+    const windChart = new Chart(
       document.getElementById('windChart'),
       config
     );
@@ -187,13 +199,40 @@
 
         
     }
-    console.log(windspeed_values)
     // // Add event listener to radio buttons
     let radioButtons = document.querySelectorAll('input[name="dataSet"]');
     radioButtons.forEach(function (radioButton) {
+    // Reference function pass to addEventlistener
     radioButton.addEventListener('change', function() {updateChartData(windspeed_values, windpower_values)} )
     });
     
+</script>
+
+<script>
+     async function getChoropleth(){
+        let choropleth_url = {{ url_for('choropleth')|tojson }};
+        const response = await fetch(choropleth_url)
+        const choropleth_json = await response.json()
+        console.log(choropleth_json['features'])
+        // Perform the point-in-polygon check
+        for (let i = 0; i < windfarm_data.length; i++){
+            console.log([windfarm_data[i]['Longitude'],windfarm_data[i]['Latitude']])
+            for (let j = 0; j < choropleth_json['features'].length; j++){
+                console.log(choropleth_json['features'][j]['properties']['ENGLISH'])
+                let isPointInside = turf.booleanPointInPolygon([windfarm_data[i]['Longitude'],windfarm_data[i]['Latitude']], choropleth_json['features'][j].geometry);
+                console.log(isPointInside)
+                    if (isPointInside) {
+                        console.log("Worked");
+
+                        break;
+    
+                    }
+            }
+            
+        }
+            L.geoJson(choropleth_json).addTo(map);
+            console.log(choropleth_json)
+    }
 </script>
 
 </body>
