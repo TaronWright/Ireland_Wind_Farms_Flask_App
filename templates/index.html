@@ -168,8 +168,9 @@
         .then(function(json){
             // Loop through the objects returned by server to get each object data and then add timestamps and windspeeds to an array
             for (const element of json) {
-                timestamp_values.push(element.timestamp);
-                windspeed_values.push(element.windspeed);
+                timestamp_values.push(element['timestamp']['$date']);
+                console.log(element['windspeed'])
+                windspeed_values.push(element['windspeed']);
                 windpower_values.push(element.windpower);
             };
             // Populate windChart x and y values with data 
