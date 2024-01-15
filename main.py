@@ -12,7 +12,6 @@ import xml.etree.ElementTree as ET
 from flask_apscheduler import APScheduler
 from apscheduler.schedulers.background import BackgroundScheduler
 import os
-from requests import request
 from dotenv import load_dotenv, find_dotenv
 from pymongo import MongoClient
 import asyncio
@@ -35,48 +34,54 @@ collection = db['Test']
 def insert_many_windspeeds(data):
     collection = db['Test']
     collection.insert_many(data)
+    print(f"Windspeed data inserted into database at {datetime.now()}")
 
-async def gather_wind_data():
+def gather_wind_data():
+    print(f"Background Task started at {datetime.now()}")
     windfarm_df = pd.read_csv("Windfarm_WebScraped_DataV3.csv")
     now = datetime.now().replace(microsecond=0, second=0, minute=0)
     current_time = now.strftime('%Y-%m-%dT%H:%M')
     timestamp = datetime.today().replace(microsecond=0, second=0, minute=0)
-    async with aiohttp.ClientSession() as session:  
-        semaphore = asyncio.Semaphore(7)  # Limit concurrency to 5
-        async with asyncio.TaskGroup() as task_group:
-                # Create a list of the task coroutine results using list comprehension 
-                windspeeds = [task_group.create_task(gather_session_urls(semaphore,session,name = row['Wind Farm Name'],lon = row['Longitude'],lat = row['Latitude'],current_time = current_time,timestamp = timestamp)) for index, row in windfarm_df.iterrows()]
-        windspeeds = [windspeed.result() for windspeed in windspeeds]
+    #Begin a session which keeps the same connection open for all api calls
+    with requests.Session() as session:
+        # Create a list of the wind speed results results using list comprehension 
+        windspeeds = [gather_session_urls(session = session,name = row['Wind Farm Name'],lon = row['Longitude'],lat = row['Latitude'],current_time = current_time,timestamp = timestamp) for index, row in windfarm_df.iterrows()]
+        for windspeed in windspeeds:
+            print(windspeed)
         insert_many_windspeeds(windspeeds)
+
         
 
 
 
-async def gather_session_urls(semaphore,session,name,lon,lat,current_time,timestamp):
+def gather_session_urls(session,name,lon,lat,current_time,timestamp):
     url = 'http://metwdb-openaccess.ichec.ie/metno-wdb2ts/locationforecast'
     qto = current_time
     qfrom = qto
-    params= {"lat": lat, "long": lon, "from":qfrom, "to": qto}  
-    async with semaphore:  # Enforce concurrency limit
-        async with session.get(url, params=params) as resp:
-            try:
-                response_text = await resp.text()
-                root = ET.fromstring(response_text)
-                wind_speed_element = root.find(".//windSpeed")
-                # Extract the mps attribute value
-                if wind_speed_element is not None:
-                    print(f"Wind Speed for {name} at lat={lat}, lon={lon}: {wind_speed_element.get('mps')}")
-                    windspeed = wind_speed_element.get("mps")
-                    data = {"metadata":{"Wind Farm Name":name},
-                            "timestamp": timestamp,
-                            "windspeed":windspeed}
-                    return data
-                else:
-                    print("Wind Speed element not found in the XML.")
-                    return None
-            except Exception as e:
-                print(f"Error processing wind data for lat={lat}, lon={lon}: {e}")
+    params= {"lat": lat, "long": lon, "from":qfrom, "to": qto}
+    with session.get(url, params=params) as resp:
+        try:
+            response_text = resp.text
+            root = ET.fromstring(response_text)
+            wind_speed_element = root.find(".//windSpeed")
+            # Extract the mps attribute value
+            if wind_speed_element is not None:
+                print(f"Wind Speed for {name} at lat={lat}, lon={lon}: {wind_speed_element.get('mps')}")
+                windspeed = wind_speed_element.get("mps")
+                data = {"metadata":{"Wind Farm Name":name},
+                        "timestamp": timestamp,
+                        "windspeed":windspeed}
+                print(f"Background Task Executed at {datetime.now()}")
+                return data
+            else:
+                print("Wind Speed element not found in the XML.")
                 return None
+        except Exception as e:
+            print(f"Error processing wind data for lat={lat}, lon={lon}: {e}")
+            return None
+            
+def test_scheduler():
+    print("Hello World")
 
 # set configuration values
 class Config:
@@ -91,7 +96,11 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 # Initialize scheduler
 scheduler = BackgroundScheduler()
 # Add the task to the scheduler to run at the start of every hour
-scheduler.add_job(gather_wind_data, 'cron', hour='*', minute=53)
+scheduler.add_job(gather_wind_data, 'cron', hour = "*", minute="0")
+
+# Add a test task to the scheduler to run at the start of every hour
+scheduler.add_job(test_scheduler, 'cron', minute="*")
+
 # Start the scheduler
 scheduler.start()
 
@@ -129,5 +138,4 @@ def lookup():
 
 
 if __name__ == '__main__':
-    # asyncio.run(gather_wind_data())
     app.run(debug=True)
