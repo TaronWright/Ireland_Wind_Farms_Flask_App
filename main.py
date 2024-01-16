@@ -136,6 +136,10 @@ def lookup():
         print(json.loads(json_util.dumps(return_query)) ) 
     return json.loads(json_util.dumps(return_query))
 
+@app.route("/dashboard")
+def dashboard():
+    return render_template('dashboard.html')
+
 
 if __name__ == '__main__':
     app.run(debug=True)

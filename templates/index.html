@@ -20,30 +20,63 @@
     src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js">
     </script>
     <style>
-        #map { height:100%; }
+        #map { height:100%; 
+        }
+
+        body {
+            height: 100vh; /* Ensure the body takes the full height of the viewport */
+            width: 100vw; /* Ensure the body takes the full width of the viewport */
+        }
+        .container {
+            display: grid;
+            grid-template-rows: repeat(4, 1fr); /* Split into four rows */
+            grid-template-columns: repeat(6, 1fr);
+            gap: 1rem;
+            max-width: 100%; /* Set to 100% to take up full width of the viewport */
+            width: 100vw; /* Ensure the container takes the full width of the viewport */
+            height: 100%; /* Ensure the container takes the full height of the viewport */
+        }
+
+        .container > div {
+            background-color: white;
+            box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+        } 
+
+        .header {
+            grid-row: 1;
+            grid-column: 1/7;
+        }
+
+        .map {
+            grid-row: 2/4;
+            grid-column: 1/4;
+        }
+        
+        .chart{
+            grid-row: 2/4;
+            grid-column: 4/7;
+        }
+        canvas {
+            /* Additional styles for the content inside grid items */
+            max-width: 100%; /* Ensure content doesn't exceed the width of the grid item */
+            max-height: 100%; /* Ensure content doesn't exceed the height of the grid item */
+        }
     </style>
 <body>
-    <h1>Wind Farms Map</h1>
-    <div class="grid grid-rows-6 grid-cols-5 gap-4 m-4 h-screen">
-        <div class="row-span-1 col-span-5 bg-white dark:bg-slate-900 rounded-lg px-6 py-8 ring-1 ring-slate-900/5 shadow-xl"> Windfarm Dashboard</div>
-        <button class="row-start-1 row-span-1 col-start-2 col-end-3" onclick="getChoropleth()"></button>
-        <div class="row-start-2 col-start-2 col-span-1 bg-white dark:bg-slate-900 rounded-lg px-6 py-8 ring-1 ring-slate-900/5 shadow-xl"></div>
-        <div class="row-start-2 col-start-3 col-span-1 bg-white dark:bg-slate-900 rounded-lg px-6 py-8 ring-1 ring-slate-900/5 shadow-xl"></div>
-        <div class="row-start-2 col-start-4 col-span-1 bg-white dark:bg-slate-900 rounded-lg px-6 py-8 ring-1 ring-slate-900/5 shadow-xl"></div>
-        <div class="row-start-3 row-end-7 col-start-1 col-end-3 bg-white dark:bg-slate-900 rounded-lg px-6 py-8 ring-1 ring-slate-900/5 shadow-xl" id="map">01</div>
-         <!-- Radio buttons for data selection -->
-         <div class="row-start-1 row-end-2 col-start-3 col-end-6"> 
+<div class="container">
+    <div class="header"><h1>Wind Farms Map</h1></div>
+        <div class="map" id="map"></div>
+        <!-- Radio buttons for data selection -->
+        <div class="buttons"> 
             <label>
                 <input type="radio" name="dataSet" value="Windspeeds"> Wind Speed
             </label>
             <label>
                 <input type="radio" name="dataSet" value="Windpowers" checked> Wind Power
             </label>
-         </div>
-            
-        <div class="row-start-3 row-end-7 col-start-3 col-end-6 bg-white dark:bg-slate-900 rounded-lg px-6 py-8 ring-1 ring-slate-900/5 shadow-xl"><canvas class="h-full w-full" id="windChart"></canvas></div>
-    </div>
-    
+        </div>
+        <div class="chart"><canvas class="h-full w-full" id="windChart"></canvas></div>
+</div>
     
 
    
