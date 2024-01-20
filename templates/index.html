@@ -16,9 +16,9 @@
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
     crossorigin=""></script>
     <!-- Include Chartjs via CDN-->
-    <script
-    src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js">
-    </script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
+
     <style>
         #map { height:100%; 
         }
@@ -161,7 +161,7 @@
 
 <script>
     //data block 
-    const data = {
+    data = {
             labels: [],
             datasets: [{
                 label: 'My Chart',
@@ -178,14 +178,18 @@
       options: {
             scales: {
                 x: {
-                    type: 'linear',
-                    position: 'bottom'
+                    type: 'time',
+                    time: {
+                            unit: 'day',
+                    },
+                    min: Date(),
+                    max: Date()
                 }
             }
         }
     };
     // render init block
-    const windChart = new Chart(
+    let windChart = new Chart(
       document.getElementById('windChart'),
       config
     );
@@ -301,20 +305,56 @@
         .then(function(response){
             return response.json();
         }).then(function(json){
-            console.log(json)
-            console.log(json[0])
-            document.querySelector('.windfarmname').textContent = json[0]['Wind Farm Name']
-            document.querySelector('.numberturbines').textContent = json[0]['Number of Turbines']
-            document.querySelector('.rotordiameter').textContent  = json[0]['Rotor diameter'] + "m"
-            document.querySelector('.minhubheight').textContent  = json[0]['Minimum hub height'] + "m"
-            document.querySelector('.maxhubheight').textContent = json[0]['Maximum hub height'] + "m"
-            document.querySelector('.cutinspeed').textContent = json[0]['Cut-in wind speed']  +"m/s"
-            document.querySelector('.cutoffspeed').textContent = json[0]['Cut-off wind speed'] + "m/s"
-            document.querySelector('.ratedspeed').textContent = json[0]['Rated wind speed'] + "m/s"
-            document.querySelector('.ratedpower').textContent = json[0]['Rated power'] + "W"
-            document.querySelector('.manufacturer').textContent = json[0]['Manufacturer']
-            
-
+            if (json[0]['Wind Farm Name'] != null ){
+                document.querySelector('.windfarmname').textContent = json[0]['Wind Farm Name']
+            } else{
+                document.querySelector('.windfarmname').textContent = "N/A"
+            }
+            if (json[0]['Number of Turbines'] != null ){
+                document.querySelector('.numberturbines').textContent = json[0]['Number of Turbines']
+            } else{
+                document.querySelector('.numberturbines').textContent = "N/A"
+            }
+            if (json[0]['Rotor diameter'] != null ){
+                document.querySelector('.rotordiameter').textContent  = json[0]['Rotor diameter'] + "m"
+            } else{
+                document.querySelector('.rotordiameter').textContent = "N/A"
+            }
+            if (json[0]['Minimum hub height']  != null ){
+                document.querySelector('.minhubheight').textContent  = json[0]['Minimum hub height'] + "m"
+            } else{
+                document.querySelector('.minhubheight').textContent = "N/A"
+            }
+            if (json[0]['Maximum hub height']  != null ){
+                document.querySelector('.maxhubheight').textContent = json[0]['Maximum hub height'] + "m"
+            } else{
+                document.querySelector('.maxhubheight').textContent = "N/A"
+            }
+            if (json[0]['Cut-in wind speed']  != null ){
+                document.querySelector('.cutinspeed').textContent = json[0]['Cut-in wind speed']  +"m/s"
+            } else{
+                document.querySelector('.cutinspeed').textContent = "N/A"
+            }
+            if (json[0]['Cut-off wind speed']  != null ){
+                document.querySelector('.cutoffspeed').textContent = json[0]['Cut-off wind speed'] + "m/s"
+            } else{
+                document.querySelector('.cutoffspeed').textContent = "N/A"
+            }
+            if (json[0]['Rated wind speed']  != null ){
+                document.querySelector('.ratedspeed').textContent = json[0]['Rated wind speed'] + "m/s"
+            } else{
+                document.querySelector('.ratedspeed').textContent = "N/A"
+            }
+            if (json[0]['Rated power']   != null ){
+                document.querySelector('.ratedpower').textContent = json[0]['Rated power'] + "W"
+            } else{
+                document.querySelector('.ratedpower').textContent = "N/A"
+            }
+            if (json[0]['Manufacturer']  != null ){
+                document.querySelector('.manufacturer').textContent = json[0]['Manufacturer']
+            } else{
+                document.querySelector('.manufacturer').textContent = "N/A"
+            }
         }
         )
     };
