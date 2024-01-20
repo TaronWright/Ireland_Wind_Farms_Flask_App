@@ -111,6 +111,19 @@ def index():
     print(windfarm_data.to_json(orient="records"))
     return render_template('index.html',windfarm_data = windfarm_data.to_json(orient="records"))
 
+@app.route("/windfarm_details", methods = ['POST'])
+def windfarm_details():
+    #Read Windfarm data into a pandas dataframe
+    windfarm_data = pd.read_csv("Windfarm_WebScraped_Datav3.csv")
+    if flask_request.method == 'POST':
+        windfarm_name = flask_request.json['Windfarm']
+        windfarm_details= windfarm_data.loc[windfarm_data['Wind Farm Name']== windfarm_name ]
+        # Convert DataFrame to JSON string
+        json_data = windfarm_details.to_json(orient='records')
+        print(json_data)
+    # Return JSON response
+    return json.loads(json_data)
+
 @app.route("/choropleth")
 def choropleth():
     geojson_path = 'Counties_-_National_Statutory_Boundaries_-_2019_-_Generalised_20m.geojson'
@@ -129,6 +142,7 @@ def lookup():
     if flask_request.method == 'POST':
         windfarm_name = flask_request.json['Windfarm']
         print(windfarm_name)
+        #This is a MongoDB Query on a collection to check the data for a Wind farm
         windfarm_query = collection.find({"metadata":{"Wind Farm Name": windfarm_name}})
         return_query = []
         for row in windfarm_query:
@@ -136,9 +150,9 @@ def lookup():
         print(json.loads(json_util.dumps(return_query)) ) 
     return json.loads(json_util.dumps(return_query))
 
-@app.route("/dashboard")
-def dashboard():
-    return render_template('dashboard.html')
+@app.route("/wind")
+def wind():
+    return render_template('wind.html')
 
 
 if __name__ == '__main__':

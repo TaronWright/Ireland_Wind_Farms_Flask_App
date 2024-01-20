@@ -25,48 +25,124 @@
 
         body {
             height: 100vh; /* Ensure the body takes the full height of the viewport */
-            width: 100vw; /* Ensure the body takes the full width of the viewport */
+            width: 100%; /* Ensure the body takes the full width of the viewport */
         }
         .container {
             display: grid;
-            grid-template-rows: repeat(4, 1fr); /* Split into four rows */
-            grid-template-columns: repeat(6, 1fr);
-            gap: 1rem;
+            grid-template-rows: repeat(10, 1fr); /* Split into four rows */
+            grid-template-columns: repeat(10, 1fr);
+            gap: 25px;
             max-width: 100%; /* Set to 100% to take up full width of the viewport */
-            width: 100vw; /* Ensure the container takes the full width of the viewport */
+            /* width: 100vw; Ensure the container takes the full width of the viewport */
             height: 100%; /* Ensure the container takes the full height of the viewport */
         }
 
         .container > div {
             background-color: white;
+            border-radius: 25px;
             box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
         } 
 
         .header {
-            grid-row: 1;
-            grid-column: 1/7;
+            display: block;
         }
 
         .map {
-            grid-row: 2/4;
+            grid-row: 4/11;
             grid-column: 1/4;
         }
         
-        .chart{
-            grid-row: 2/4;
-            grid-column: 4/7;
+        
+        .turbineDetails{
+            grid-row: 4/11;
+            grid-column: 4/6;
         }
+
+        .chart{
+            grid-row: 4/11;
+            grid-column: 6/11;
+        }
+
         canvas {
             /* Additional styles for the content inside grid items */
             max-width: 100%; /* Ensure content doesn't exceed the width of the grid item */
             max-height: 100%; /* Ensure content doesn't exceed the height of the grid item */
         }
+        .card1{
+            grid-row: 1/4;
+            grid-column: 2/4;
+        }
+
+        .card2{
+            grid-row: 1/4;
+            grid-column: 5/7;
+        }
+
+        .card3{
+            grid-row: 1/4;
+            grid-column: 8/10;
+        }
+
+        .detailsContainer {
+            display: grid;
+            grid-template-rows: repeat(10,  minmax(0, 1fr)); /* Split into ten rows */
+            grid-template-columns: repeat(2, 1fr);
+            column-gap: 25px;
+            margin: 10px;
+            max-width: 100%; /* Set to 100% to take up full width of the viewport */
+            /* width: 100vw; Ensure the container takes the full width of the viewport */
+            height: 100%; /* Ensure the container takes the full height of the viewport */
+        }
+
+        .detailsContainer > div {
+            align-self: center;
+            justify-self: center;
+            font-size: 11px;
+            font-weight: bold;
+        }
     </style>
 <body>
+<!-- <div class="header"><h1>Wind Farms Map</h1></div> -->
 <div class="container">
-    <div class="header"><h1>Wind Farms Map</h1></div>
-        <div class="map" id="map"></div>
-        <!-- Radio buttons for data selection -->
+    <div class="card1"></div>
+    <div class="card2"></div>
+    <div class="card3"></div>
+    <div class="map" id="map"></div>
+    <!-- Radio buttons for data selection -->
+    <div class="turbineDetails">
+        <div class = "detailsContainer">
+                <div>Windfarm Name:</div>
+                <div class="windfarmname"></div>
+
+                <div>Number of turbines:</div>
+                <div class="numberturbines"></div>
+
+                <div>Rotor Diameter:</div>
+                <div class="rotordiameter"></div>
+
+                <div>Minimum hub height:</div>
+                <div class="minhubheight"></div>
+
+                <div>Maximum hub height:</div>
+                <div class="maxhubheight"></div>
+ 
+                <div>Cut-in wind speed:</div>
+                <div class="cutinspeed"></div>
+
+                <div>Cut-off wind speed:</div>
+                <div class="cutoffspeed"></div>
+
+                <div>Rated wind speed:</div>
+                <div class="ratedspeed"></div>
+
+                <div>Rated power:</div>
+                <div class="ratedpower"></div>
+
+                <div>Manufacturer:</div>
+                <div class="manufacturer"></div>
+        </div>
+    </div>
+    <div class="chart">
         <div class="buttons"> 
             <label>
                 <input type="radio" name="dataSet" value="Windspeeds"> Wind Speed
@@ -75,7 +151,8 @@
                 <input type="radio" name="dataSet" value="Windpowers" checked> Wind Power
             </label>
         </div>
-        <div class="chart"><canvas class="h-full w-full" id="windChart"></canvas></div>
+        <canvas class="h-full w-full" id="windChart"></canvas>
+    </div>
 </div>
     
 
@@ -135,39 +212,40 @@
         tableHtml = `
         <table>
             <tr>
-                <th>Windfarm Name</th>
-                <td>${windfarm_data[i]["Wind Farm Name"]}</td>
+                <div>Windfarm Name</div>
+                <div>${windfarm_data[i]["Wind Farm Name"]}</div>
             </tr>
             <tr>
-                <th>Minimum hub height</th>
-                <td>${windfarm_data[i]["Minimum hub height"]}</td>
+                <div>Minimum hub height</div>
+                <div>${windfarm_data[i]["Minimum hub height"]}</div>
             </tr>
             <tr>
-                <th>Maximum hub height</th>
-                <td>${windfarm_data[i]["Maximum hub height"]}</td>
+                <div>Maximum hub height</div>
+                <div>${windfarm_data[i]["Maximum hub height"]}</div>
             </tr>
             <tr>
-                <th>Cut-in wind speed</th>
-                <td>${windfarm_data[i]["Cut-in wind speed"]}</td>
+                <div>Cut-in wind speed</div>
+                <div>${windfarm_data[i]["Cut-in wind speed"]}</div>
             </tr>
             <tr>
-                <th>Cut-off wind speed</th>
-                <td>${windfarm_data[i]["Cut-off wind speed"]}</td>
+                <div>Cut-off wind speed</div>
+                <div>${windfarm_data[i]["Cut-off wind speed"]}</div>
             </tr>
             <tr>
-                <th>Rated wind speed</th>
-                <td>${windfarm_data[i]["Rated wind speed"]}</td>
+                <div>Rated wind speed</div>
+                <div>${windfarm_data[i]["Rated wind speed"]}</div>
             </tr>
             <tr>
-                <th>Rated power</th>
-                <td>${windfarm_data[i]["Rated power"]}</td>
+                <div>Rated power</div>
+                <div>${windfarm_data[i]["Rated power"]}</div>
             </tr>
             <tr>
-                <th>Manufacturer</th>
-                <td>${windfarm_data[i]["Manufacturer"]}</td>
+                <div>Manufacturer</div>
+                <div>${windfarm_data[i]["Manufacturer"]}</div>
             </tr>
         </table> `;
         marker = new L.marker([windfarm_data[i]['Latitude'], windfarm_data[i]['Longitude']])
+        //Bind Popup text to the Wind Farm Name which then is used by the onclick event to retrieve that wind farm's data from the server
         .bindPopup(windfarm_data[i]['Wind Farm Name'])
         .addTo(map)
         .on("click", clickMarker); };
@@ -186,7 +264,7 @@
         // Set windfarm name to the popup content
         let windfarmName = e.target._popup._content
         //Set url to the url for the lookup route on flask server-side
-        const lookup_url = {{ url_for('lookup')|tojson }} 
+        let lookup_url = {{ url_for('lookup')|tojson }} 
         //Set data to be posted to flask api
         let data = {"Windfarm": windfarmName}
         // fetch post request with data
@@ -213,7 +291,32 @@
             // Update the windchart with the new data rather than adding another layer everytime function is called
             updateChartData(windspeed_values, windpower_values) 
         })
-        
+        //Set url to the url for the windturbine detials route on flask server-side
+        lookup_url = {{ url_for('windfarm_details')|tojson }} 
+        fetch(lookup_url, {
+        "method": "POST",
+        "headers": {"Content-Type": "application/json"},
+        "body": JSON.stringify(data),
+         })
+        .then(function(response){
+            return response.json();
+        }).then(function(json){
+            console.log(json)
+            console.log(json[0])
+            document.querySelector('.windfarmname').textContent = json[0]['Wind Farm Name']
+            document.querySelector('.numberturbines').textContent = json[0]['Number of Turbines']
+            document.querySelector('.rotordiameter').textContent  = json[0]['Rotor diameter'] + "m"
+            document.querySelector('.minhubheight').textContent  = json[0]['Minimum hub height'] + "m"
+            document.querySelector('.maxhubheight').textContent = json[0]['Maximum hub height'] + "m"
+            document.querySelector('.cutinspeed').textContent = json[0]['Cut-in wind speed']  +"m/s"
+            document.querySelector('.cutoffspeed').textContent = json[0]['Cut-off wind speed'] + "m/s"
+            document.querySelector('.ratedspeed').textContent = json[0]['Rated wind speed'] + "m/s"
+            document.querySelector('.ratedpower').textContent = json[0]['Rated power'] + "W"
+            document.querySelector('.manufacturer').textContent = json[0]['Manufacturer']
+            
+
+        }
+        )
     };
 
         // Function to update chart data based on selected radio button
