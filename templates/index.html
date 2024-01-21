@@ -106,7 +106,7 @@
 <div class="container">
     <div class="card1"><button type="button" onclick= "getChoropleth()">choropleth layer</button></div>
     <div class="card2"><button type="button" onclick= "getWindPowerPerCounty()">Get Wind Power by County</button></div>
-    <div class="card3"></div>
+    <div class="card3"><button type="button" onclick= "getWindFarmWindPower()">Get Wind Power for all Windfarms</button></div>
     <div class="map" id="map"></div>
     <!-- Radio buttons for data selection -->
     <div class="turbineDetails">
@@ -304,41 +304,6 @@
 
     // Loop through all windfarms and add a marker on the map for each
     for (let i = 0; i < windfarm_data.length; i++){
-        tableHtml = `
-        <table>
-            <tr>
-                <div>Windfarm Name</div>
-                <div>${windfarm_data[i]["Wind Farm Name"]}</div>
-            </tr>
-            <tr>
-                <div>Minimum hub height</div>
-                <div>${windfarm_data[i]["Minimum hub height"]}</div>
-            </tr>
-            <tr>
-                <div>Maximum hub height</div>
-                <div>${windfarm_data[i]["Maximum hub height"]}</div>
-            </tr>
-            <tr>
-                <div>Cut-in wind speed</div>
-                <div>${windfarm_data[i]["Cut-in wind speed"]}</div>
-            </tr>
-            <tr>
-                <div>Cut-off wind speed</div>
-                <div>${windfarm_data[i]["Cut-off wind speed"]}</div>
-            </tr>
-            <tr>
-                <div>Rated wind speed</div>
-                <div>${windfarm_data[i]["Rated wind speed"]}</div>
-            </tr>
-            <tr>
-                <div>Rated power</div>
-                <div>${windfarm_data[i]["Rated power"]}</div>
-            </tr>
-            <tr>
-                <div>Manufacturer</div>
-                <div>${windfarm_data[i]["Manufacturer"]}</div>
-            </tr>
-        </table> `;
         marker = new L.marker([windfarm_data[i]['Latitude'], windfarm_data[i]['Longitude']])
         //Bind Popup text to the Wind Farm Name which then is used by the onclick event to retrieve that wind farm's data from the server
         .bindPopup(windfarm_data[i]['Wind Farm Name'])
@@ -475,7 +440,6 @@
     });
     
 </script>
-
 <script>
      async function getChoropleth(){
         let choropleth_url = {{ url_for('choropleth')|tojson }}
@@ -489,86 +453,117 @@
 
 <script>
     async function getWindPowerPerCounty(){
+        //Declare arrays
+        let timestamp_values = [];
+        let windspeed_values = [];
+        let windpower_values = [];
+        let windpower_sum = 0;
         let choropleth_url = {{ url_for('choropleth')|tojson }}
-        let choro_response = await fetch(choropleth_url)
-        let choro_json = await choro_response.json()
-       // Perform the point-in-polygon check
-       // Begin looping through the counties
-       for (let j = 0; j < choro_json['features'].length; j++){
-            console.log(choro_json['features'][j]['properties']['ENGLISH'])
-           // Begin looping through the wind farms
-           for (let j = 0; j < windfarm_data.length; j++){
-            console.log([windfarm_data[i]['Longitude'],windfarm_data[i]['Latitude']])
-               // Check if the wind farm coordinates are within the a counties boundaries
-               let isPointInside = turf.booleanPointInPolygon([windfarm_data[i]['Longitude'],windfarm_data[i]['Latitude']], choro_json['features'][j].geometry);
-               console.log(isPointInside)
-                   if (isPointInside) {
+
+        let choro_response = await fetch(choropleth_url);
+        let choro_json = await choro_response.json();
+
+        // Perform the point-in-polygon check
+        // Begin looping through the counties
+        for (let j = 0; j < choro_json['features'].length; j++){
+                console.log("j:" + j)
+                windpower_sum = 0
+                console.log(windfarm_data.length)
+            // Begin looping through the wind farms
+            for (let i = 0; i < windfarm_data.length; i++){
+                // Check if the wind farm coordinates are within the a counties boundaries
+                let isPointInside = turf.booleanPointInPolygon([windfarm_data[i]['Longitude'],windfarm_data[i]['Latitude']], choro_json['features'][j].geometry);
+                if (isPointInside) {
                     //Set url to the url for the lookup route on flask server-side
-                        let lookup_url = {{ url_for('lookup')|tojson }} 
-                        //Set data to be posted to flask api
-                        let data = {"Windfarm": windfarm_data[i]['Wind Farm Name']}
-                        // fetch post request with data
-                        fetch(lookup_url, {
-                        "method": "POST",
-                        "headers": {"Content-Type": "application/json"},
-                        "body": JSON.stringify(data),
+                    let lookup_url = {{ url_for('lookup')|tojson }} 
+                    //Set data to be posted to flask api
+                    let data = {"Windfarm": windfarm_data[i]['Wind Farm Name']}
+                    // fetch post request with data
+                    fetch(lookup_url, {
+                    "method": "POST",
+                    "headers": {"Content-Type": "application/json"},
+                    "body": JSON.stringify(data)
+                    })
+                    .then(function(response){
+                        return response.json();
+                    })
+                    .then(function(json){
+                        // Loop through the objects returned by server to get each object data and then add timestamps and windspeeds to an array
+                        for (const element of json) {
+                            timestamp_values.push(element['timestamp']['$date']);
+                            windspeed_values.push(element['windspeed']);
+                            windpower_values.push(element.windpower);
+                        };
+                        // calculate sum using forEach() method
+                        windpower_values.forEach( windpower => {
+                            if(windpower != undefined){
+                                windpower_sum += parseFloat(windpower);
+                            }                  
                         })
-                        .then(function(response){
-                            return response.json();
-                        })
-                        .then(function(json){
-                            // Loop through the objects returned by server to get each object data and then add timestamps and windspeeds to an array
-                            for (const element of json) {
-                                timestamp_values.push(element['timestamp']['$date']);
-                                console.log(element['windspeed'])
-                                windspeed_values.push(element['windspeed']);
-                                windpower_values.push(element.windpower);
-                            };
-                            // calculate sum using forEach() method
-                            windpower_values.forEach( windpower => {
-                                windpower_sum += windpower;
-                            })
-                            
-
-                         })
-                        //Add that wind farms wind power to the counties total
-
-                       console.log("Worked");
-                       //If the coordinate is inside the county boundaries then stop the check we have found the county
-                       break;
-   
-                   }
-           }
-           
-       }
-           L.geoJson(choro_json).addTo(map);
-           console.log(choro_json)
-   }
+                        console.log(windfarm_data[i]['Wind Farm Name']+ " at index " + "i:" + i + "has a summed windpower of " + windpower_sum)
+                        choro_json['features'][j]['properties']['windpower'] = windpower_sum
+                    })
+                }
+            }  
+        }
+        L.geoJson(choro_json, {style: style}).addTo(map);
+    }
 </script>
 
 <script>
-    async function getWindFarmData(){
-        // fetch post request with data
-        fetch(lookup_url, {
-        "method": "POST",
-        "headers": {"Content-Type": "application/json"},
-        "body": JSON.stringify(data),
-         })
-        .then(function(response){
-            return response.json();
-        })
-        .then(function(json){
-            // Loop through the objects returned by server to get each object data and then add timestamps and windspeeds to an array
-            for (const element of json) {
-                timestamp_values.push(element['timestamp']['$date']);
-                console.log(element['windspeed'])
-                windspeed_values.push(element['windspeed']);
-                windpower_values.push(element.windpower);
-            };
-            
-        })
+    function getColor(windpower) {
+        console.log("HERE" + windpower)
+    return  windpower > 10000000 ? '#edf8e9' :
+            windpower > 8000000 ? '#c7e9c0' :
+            windpower > 6000000 ? '#a1d99b' :
+            windpower > 4000000 ? '#74c476' :
+            windpower > 2000000 ? '#31a354' :
+                                    '#006d2c' ;
+}
+</script>
+
+<script>
+    
+    function style(feature) {
+        console.log("Feature.properties" + feature.properties.windpower)
+        return {
+            fillColor: getColor(feature.properties.windpower),
+            weight: 2,
+            opacity: 1,
+            color: 'white',
+            dashArray: '3',
+            fillOpacity: 0.7
+        };
+    }
+
+</script>
+
+<script>
+    async function getWindFarmWindPower(){
+        // Url for windpower
+        let windpower_url = {{url_for('aggregate_windpower')|tojson}};
+        
+        // Fetch request with data
+        fetch(windpower_url)
+            .then(response => {
+                // Check if the response is not okay
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+                
+                // Parse the JSON data from the response
+                response.json();
+            })
+            .then(json => {
+                console.log("Json response: ", json);
+                // Handle the JSON data here as needed
+            })
+            .catch(error => {
+                console.error('Error fetching windpower data:', error);
+            });
     }
 </script>
+
 
 </body>
 </html>
