@@ -104,8 +104,8 @@
 <body>
 <!-- <div class="header"><h1>Wind Farms Map</h1></div> -->
 <div class="container">
-    <div class="card1"></div>
-    <div class="card2"></div>
+    <div class="card1"><button type="button" onclick= "getChoropleth()">choropleth layer</button></div>
+    <div class="card2"><button type="button" onclick= "getWindPowerPerCounty()">Get Wind Power by County</button></div>
     <div class="card3"></div>
     <div class="map" id="map"></div>
     <!-- Radio buttons for data selection -->
@@ -151,13 +151,97 @@
                 <input type="radio" name="dataSet" value="Windpowers" checked> Wind Power
             </label>
         </div>
+        <button type="button" onclick="dayFilter()">Day</button>
+        <button type="button" onclick="weekFilter()">Week</button>
+        <button type="button" onclick="monthFilter()">Month</button>
+        <button type="button" onclick="yearFilter()">Year</button>
         <canvas class="h-full w-full" id="windChart"></canvas>
     </div>
 </div>
     
+<script>
+    function getLastYearsDate() {
+        const now = new Date();
 
-   
+        return new Date(
+            now.getFullYear()-1,
+            now.getMonth(),
+            now.getDate(),
+  );
+}
+</script>
+<script>
+    function getLastmonthsDate() {
+        const now = new Date();
 
+        return new Date(
+            now.getFullYear(),
+            now.getMonth()-1,
+            now.getDate(),
+  );
+}
+</script>  
+<script>
+    function getLastWeeksDate() {
+        const now = new Date();
+
+        return new Date(
+            now.getFullYear(),
+            now.getMonth(),
+            now.getDate() - 7,
+  );
+}
+</script>
+
+<script>
+    function getYesterdaysDate() {
+        const now = new Date();
+
+        return new Date(
+            now.getFullYear(),
+            now.getMonth(),
+            now.getDate(),
+            now.getHours() -24
+  );
+}
+</script>
+
+
+<script>
+    function dayFilter(){
+        windChart.config.options.scales.x.time.unit = 'hour'
+        windChart.config.options.scales.x.ticks.count = 24
+        windChart.config.options.scales.x.ticks.maxTicksLimit = 24
+        windChart.config.options.scales.x.min = getYesterdaysDate()
+        windChart.config.options.scales.x.max = Date()
+        windChart.update();
+    }
+    function weekFilter(){
+        windChart.config.options.scales.x.time.unit = 'day'
+        windChart.config.options.scales.x.ticks.count = 7
+        windChart.config.options.scales.x.ticks.maxTicksLimit = 7
+        windChart.config.options.scales.x.min = getLastWeeksDate()
+        windChart.config.options.scales.x.max = Date()
+        windChart.update();
+    }
+
+    function monthFilter(){
+        windChart.config.options.scales.x.time.unit = 'week'
+        windChart.config.options.scales.x.ticks.count = 4
+        windChart.config.options.scales.x.ticks.maxTicksLimit = 4
+        windChart.config.options.scales.x.min = getLastmonthsDate()
+        windChart.config.options.scales.x.max = Date()
+        windChart.update();
+    }
+    function yearFilter(){
+        windChart.config.options.scales.x.time.unit = 'month'
+        windChart.config.options.scales.x.ticks.count = 12
+        windChart.config.options.scales.x.ticks.maxTicksLimit = 12
+        windChart.config.options.scales.x.min = getLastYearsDate()
+        windChart.config.options.scales.x.max = Date()
+        windChart.update();
+    }
+</script>
 
 <script>
     //data block 
@@ -180,10 +264,17 @@
                 x: {
                     type: 'time',
                     time: {
-                            unit: 'day',
+                            unit: 'hour',
                     },
-                    min: Date(),
-                    max: Date()
+                    ticks: {
+                        count: 24,
+                        maxTicksLimit: 24
+                    },
+                    min: getYesterdaysDate(),
+                    max: Date(),
+                },
+                y: {
+                    min: 0
                 }
             }
         }
@@ -387,28 +478,95 @@
 
 <script>
      async function getChoropleth(){
-        let choropleth_url = {{ url_for('choropleth')|tojson }};
-        const response = await fetch(choropleth_url)
-        const choropleth_json = await response.json()
+        let choropleth_url = {{ url_for('choropleth')|tojson }}
+        let response = await fetch(choropleth_url)
+        let choropleth_json = await response.json()
         console.log(choropleth_json['features'])
-        // Perform the point-in-polygon check
-        for (let i = 0; i < windfarm_data.length; i++){
-            console.log([windfarm_data[i]['Longitude'],windfarm_data[i]['Latitude']])
-            for (let j = 0; j < choropleth_json['features'].length; j++){
-                console.log(choropleth_json['features'][j]['properties']['ENGLISH'])
-                let isPointInside = turf.booleanPointInPolygon([windfarm_data[i]['Longitude'],windfarm_data[i]['Latitude']], choropleth_json['features'][j].geometry);
-                console.log(isPointInside)
-                    if (isPointInside) {
-                        console.log("Worked");
-
-                        break;
-    
-                    }
-            }
-            
-        }
             L.geoJson(choropleth_json).addTo(map);
             console.log(choropleth_json)
+    }
+</script>
+
+<script>
+    async function getWindPowerPerCounty(){
+        let choropleth_url = {{ url_for('choropleth')|tojson }}
+        let choro_response = await fetch(choropleth_url)
+        let choro_json = await choro_response.json()
+       // Perform the point-in-polygon check
+       // Begin looping through the counties
+       for (let j = 0; j < choro_json['features'].length; j++){
+            console.log(choro_json['features'][j]['properties']['ENGLISH'])
+           // Begin looping through the wind farms
+           for (let j = 0; j < windfarm_data.length; j++){
+            console.log([windfarm_data[i]['Longitude'],windfarm_data[i]['Latitude']])
+               // Check if the wind farm coordinates are within the a counties boundaries
+               let isPointInside = turf.booleanPointInPolygon([windfarm_data[i]['Longitude'],windfarm_data[i]['Latitude']], choro_json['features'][j].geometry);
+               console.log(isPointInside)
+                   if (isPointInside) {
+                    //Set url to the url for the lookup route on flask server-side
+                        let lookup_url = {{ url_for('lookup')|tojson }} 
+                        //Set data to be posted to flask api
+                        let data = {"Windfarm": windfarm_data[i]['Wind Farm Name']}
+                        // fetch post request with data
+                        fetch(lookup_url, {
+                        "method": "POST",
+                        "headers": {"Content-Type": "application/json"},
+                        "body": JSON.stringify(data),
+                        })
+                        .then(function(response){
+                            return response.json();
+                        })
+                        .then(function(json){
+                            // Loop through the objects returned by server to get each object data and then add timestamps and windspeeds to an array
+                            for (const element of json) {
+                                timestamp_values.push(element['timestamp']['$date']);
+                                console.log(element['windspeed'])
+                                windspeed_values.push(element['windspeed']);
+                                windpower_values.push(element.windpower);
+                            };
+                            // calculate sum using forEach() method
+                            windpower_values.forEach( windpower => {
+                                windpower_sum += windpower;
+                            })
+                            
+
+                         })
+                        //Add that wind farms wind power to the counties total
+
+                       console.log("Worked");
+                       //If the coordinate is inside the county boundaries then stop the check we have found the county
+                       break;
+   
+                   }
+           }
+           
+       }
+           L.geoJson(choro_json).addTo(map);
+           console.log(choro_json)
+   }
+</script>
+
+<script>
+    async function getWindFarmData(){
+        // fetch post request with data
+        fetch(lookup_url, {
+        "method": "POST",
+        "headers": {"Content-Type": "application/json"},
+        "body": JSON.stringify(data),
+         })
+        .then(function(response){
+            return response.json();
+        })
+        .then(function(json){
+            // Loop through the objects returned by server to get each object data and then add timestamps and windspeeds to an array
+            for (const element of json) {
+                timestamp_values.push(element['timestamp']['$date']);
+                console.log(element['windspeed'])
+                windspeed_values.push(element['windspeed']);
+                windpower_values.push(element.windpower);
+            };
+            
+        })
     }
 </script>
 
