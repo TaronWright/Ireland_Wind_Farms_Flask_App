@@ -2,6 +2,7 @@ from flask import Flask, jsonify, Response
 from flask import request as flask_request
 from flask import render_template
 import pandas as pd
+import geopandas as gpd
 from flask_sqlalchemy import SQLAlchemy
 from geoalchemy2 import Geometry
 import csv
@@ -19,6 +20,7 @@ import aiohttp
 from bson import json_util
 import json
 import math
+from shapely.geometry import Point
 
 
 load_dotenv(find_dotenv())
@@ -30,7 +32,6 @@ cluster = MongoClient(connection_string)
 
 db = cluster['Test']
 collection = db['Test']
-
 
 def insert_many_windspeeds(data):
     collection = db['Test']
@@ -99,7 +100,9 @@ def gather_session_urls(session,name,lon,lat, rotordiameter, numberofturbines,cu
                 else:
                     print("Windspeed value was empty")
                     windfarmpower = 0
-                data = {"metadata":{"Wind Farm Name":name},
+                data = {"metadata":{"Wind Farm Name":name,
+                                    "Latitude":lat,
+                                    "Longitude":lon},
                         "timestamp": timestamp,
                         "windspeed":windspeed,
                         "windpower":windfarmpower}
@@ -128,7 +131,7 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 # Initialize scheduler
 scheduler = BackgroundScheduler()
 # Add the task to the scheduler to run at the start of every hour
-scheduler.add_job(gather_wind_data, 'cron', hour = "*", minute="44")
+scheduler.add_job(gather_wind_data, 'cron', hour = "*", minute="34")
 
 # Start the scheduler
 scheduler.start()
@@ -179,15 +182,39 @@ def lookup():
 
 @app.route("/windpower")
 def aggregate_windpower():
+    #Read Counties data into a geopandas dataframe
+    geojson_path = 'Counties_-_National_Statutory_Boundaries_-_2019_-_Generalised_20m.geojson'
+    counties_boundaries = gpd.read_file(geojson_path)
     #This is a MongoDB Query on a collection to check the data for a Wind farm
     aggregate_windpower = collection.aggregate([
         {
             "$group":
-            {"_id": "$metadata.Wind Farm Name", "windpower": {"$sum": "$windpower"}}
+            {"_id": "$metadata.Wind Farm Name", "Latitude": {"$first": "$metadata.Latitude"},
+            "Longitude": {"$first": "$metadata.Longitude"}, "windpower": {"$sum": "$windpower"}}
         }
         ])
-    print(json_util.dumps(aggregate_windpower))
-    return jsonify(json_util.dumps(aggregate_windpower))
+    #Create pandas dataframe
+    windpower_df = gpd.GeoDataFrame(aggregate_windpower)
+    # Create a GeoSeries of Point geometries from latitude and longitude
+    windpower_df['geometry'] = [Point(lon, lat) for lon, lat in zip(windpower_df['Longitude'], windpower_df['Latitude'])]
+    windpower_df.crs ="EPSG:4326"
+
+    # Use json_util.dumps to serialize each MongoDB document in the list
+    json_documents = [json.loads(json_util.dumps(doc)) for doc in aggregate_windpower]
+    # Perform spatial join to match points and polygons
+    pointInPolys = gpd.tools.sjoin(windpower_df, counties_boundaries, predicate="within", how='left')
+
+    grouped_by_county = pointInPolys.groupby('COUNTY')['windpower'].sum().reset_index()
+
+    print(grouped_by_county)
+    # Assuming 'point_in_polys' is your GeoDataFrame
+    
+
+    # Merge based on the 'county' column
+    merged_df = pd.merge(counties_boundaries, grouped_by_county, on='COUNTY', how='inner')
+    geojson_str = merged_df.to_json()
+
+    return geojson_str
 
 @app.route("/wind")
 def wind():
