@@ -152,7 +152,6 @@ def windfarm_details():
         windfarm_details= windfarm_data.loc[windfarm_data['Wind Farm Name']== windfarm_name ]
         # Convert DataFrame to JSON string
         json_data = windfarm_details.to_json(orient='records')
-        print(json_data)
     # Return JSON response
     return json.loads(json_data)
 
@@ -173,10 +172,12 @@ def choropleth():
 def lookup():
     if flask_request.method == 'POST':
         windfarm_name = flask_request.json['Windfarm']
+        print(windfarm_name)
         #This is a MongoDB Query on a collection to check the data for a Wind farm
-        windfarm_query = collection.find({"metadata":{"Wind Farm Name": windfarm_name}})
+        windfarm_query = collection.find({"metadata.Wind Farm Name": windfarm_name})
         return_query = []
         for row in windfarm_query:
+            print(row)
             return_query.append(row)
     return json.loads(json_util.dumps(return_query))
 

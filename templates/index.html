@@ -100,6 +100,32 @@
             font-size: 11px;
             font-weight: bold;
         }
+
+        .info {
+            padding: 6px 8px;
+            font: 14px/16px Arial, Helvetica, sans-serif;
+            background: white;
+            background: rgba(255,255,255,0.8);
+            box-shadow: 0 0 15px rgba(0,0,0,0.2);
+            border-radius: 5px;
+        }
+
+        .info h4 {
+            margin: 0 0 5px;
+            color: #777;
+        }
+
+        .legend {
+            line-height: 18px;
+            color: #555;
+        }
+        .legend i {
+            width: 18px;
+            height: 18px;
+            float: left;
+            margin-right: 8px;
+            opacity: 0.7;
+        }
     </style>
 <body>
 <!-- <div class="header"><h1>Wind Farms Map</h1></div> -->
@@ -334,11 +360,12 @@
         "body": JSON.stringify(data),
          })
         .then(function(response){
-            return response.json();
+            return response.json()
         })
         .then(function(json){
             // Loop through the objects returned by server to get each object data and then add timestamps and windspeeds to an array
             for (const element of json) {
+                console.log(element)
                 timestamp_values.push(element['timestamp']['$date']);
                 console.log(element['windspeed'])
                 windspeed_values.push(element['windspeed']);
@@ -347,7 +374,7 @@
             // Populate windChart x and y values with data 
             windChart.data.labels = timestamp_values
             windChart.data.datasets[0].data = windspeed_values
-
+            console.log("Wind speed values " + windpower_values)
             // Update the windchart with the new data rather than adding another layer everytime function is called
             updateChartData(windspeed_values, windpower_values) 
         })
@@ -427,6 +454,14 @@
             windChart.data.datasets[0].label = 'Wind Power';
         }
 
+        const object_check = windChart.data.datasets[0].data.some(function(element){ return typeof element === 'object'});
+        const all_zero_check = windChart.data.datasets[0].data.every(function(element){return element === 0 })
+        console.log(all_zero_check)
+        console.log(object_check)
+        if (object_check !== true && all_zero_check !== true){
+            chartYaxisLabels();
+
+        };
         // Update the windchart with the new data rather than adding another layer everytime function is called
         windChart.update();
 
@@ -451,6 +486,28 @@
 </script>
 
 <script>
+function getColor(windpower) {
+    console.log(windpower)
+        return  windpower > 1000000000 ? '#006d2c' :
+                windpower > 800000000 ? '#31a354' :
+                windpower > 600000000 ? '#74c476' :
+                windpower > 400000000 ? '#a1d99b' :
+                windpower > 200000000 ? '#c7e9c0' :
+                                        '#edf8e9' ;
+    };
+
+    function style(feature) {
+    return {
+        fillColor: getColor(feature.properties.windpower),
+        weight: 2,
+        opacity: 1,
+        color: 'white',
+        dashArray: '3',
+        fillOpacity: 0.7
+    };
+}
+</script>
+<script>
     async function getWindPowerPerCounty(){
         // //Declare arrays
         // let timestamp_values = [];
@@ -468,35 +525,53 @@
         county_windpower_list = await getWindFarmWindPower()
         
                     // })
-        L.geoJson(county_windpower_list, {style: style}).addTo(map);
-    }
-</script>
 
-<script>
-    function getColor(windpower) {
-        console.log("HERE" + windpower)
-    return  windpower > 1000000000 ? '#006d2c' :
-            windpower > 800000000 ? '#31a354' :
-            windpower > 600000000 ? '#74c476' :
-            windpower > 400000000 ? '#a1d99b' :
-            windpower > 200000000 ? '#c7e9c0' :
-                                    '#edf8e9' ;
-}
+  
 
-</script>
+        // Adding custom info control to map
+        var info = L.control();
 
-<script>
-    
-    function style(feature) {
-        return {
-            fillColor: getColor(feature.properties.windpower),
-            weight: 2,
-            opacity: 1,
-            color: 'white',
-            dashArray: '3',
-            fillOpacity: 0.7
+        info.onAdd = function (map) {
+            this._div = L.DomUtil.create('div', 'info'); // create a div with a class "info"
+            this.update();
+            return this._div;
         };
+
+        // method that we will use to update the control based on feature properties passed
+        info.update = function (props) {
+            this._div.innerHTML = '<h4>US Population Density</h4>' +  (props ?
+                '<b>' + props.name + '</b><br />' + props.density + ' people / mi<sup>2</sup>'
+                : 'Hover over a state');
+        };
+
+        info.addTo(map);
+        
+
+        geojson = L.geoJson(county_windpower_list, {
+            style: style,
+            onEachFeature: onEachFeature
+        }).addTo(map);
     }
+
+        // Now add a legend to the map
+        var legend = L.control({position: 'bottomright'});
+
+        legend.onAdd = function (map) {
+
+            var div = L.DomUtil.create('div', 'info legend'),
+                grades = [0, 10, 20, 50, 100, 200, 500, 1000],
+                labels = [];
+
+            // loop through our density intervals and generate a label with a colored square for each interval
+            for (var i = 0; i < grades.length; i++) {
+                div.innerHTML +=
+                    '<i style="background:' + getColor(grades[i] + 1) + '"></i> ' +
+                    grades[i] + (grades[i + 1] ? '&ndash;' + grades[i + 1] + '<br>' : '+');
+            }
+            return div;
+        };
+
+        legend.addTo(map);
 
 </script>
 
@@ -530,6 +605,41 @@
     // }
 </script>
 
+<script>
+    function chartYaxisLabels(){
+        windChart.options.scales.y.ticks = {callback:function(context,index){
+            return context/10**6 + "MW"
+        }}
+    }
+</script>
+
+<script>
+    function highlightFeature(e) {
+    var layer = e.target;
+    info.update(layer.feature.properties);
+
+    layer.setStyle({
+        weight: 5,
+        color: '#666',
+        dashArray: '',
+        fillOpacity: 0.7
+    });
+
+    layer.bringToFront();
+};
+
+function resetHighlight(e) {
+    geojson.resetStyle(e.target);
+    info.update();
+};
+
+function onEachFeature(feature, layer) {
+    layer.on({
+        mouseover: highlightFeature,
+        mouseout: resetHighlight,
+    });
+};
+</script>
 
 </body>
 </html>
