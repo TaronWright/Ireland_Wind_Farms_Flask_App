@@ -508,6 +508,7 @@ function getColor(windpower) {
 }
 </script>
 <script>
+    let info;
     async function getWindPowerPerCounty(){
         // //Declare arrays
         // let timestamp_values = [];
@@ -529,7 +530,7 @@ function getColor(windpower) {
   
 
         // Adding custom info control to map
-        var info = L.control();
+        info = L.control();
 
         info.onAdd = function (map) {
             this._div = L.DomUtil.create('div', 'info'); // create a div with a class "info"
@@ -540,7 +541,7 @@ function getColor(windpower) {
         // method that we will use to update the control based on feature properties passed
         info.update = function (props) {
             this._div.innerHTML = '<h4>US Population Density</h4>' +  (props ?
-                '<b>' + props.name + '</b><br />' + props.density + ' people / mi<sup>2</sup>'
+                '<b>' + props.windpower + '</b><br />' + props.windpower + ' MW '
                 : 'Hover over a state');
         };
 
@@ -551,7 +552,7 @@ function getColor(windpower) {
             style: style,
             onEachFeature: onEachFeature
         }).addTo(map);
-    }
+ 
 
         // Now add a legend to the map
         var legend = L.control({position: 'bottomright'});
@@ -572,7 +573,7 @@ function getColor(windpower) {
         };
 
         legend.addTo(map);
-
+    };
 </script>
 
 <script>
