@@ -223,4 +223,8 @@ def wind():
 
 
 if __name__ == '__main__':
+        
+    if not scheduler.running:
+        scheduler.start()
+        
     app.run(debug=True)

@@ -18,8 +18,13 @@
     <!-- Include Chartjs via CDN-->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
-
+    <link rel="stylesheet" href="{{ url_for('static', filename='turbine-at-angle.png') }}">
+    <script src = "https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js"></script>
+    <link rel="stylesheet" href ="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.Default.css">
+    
+    
     <style>
+
         #map { height:100%; 
         }
 
@@ -48,14 +53,14 @@
         }
 
         .map {
-            grid-row: 4/11;
-            grid-column: 1/4;
+            grid-row: 2/11;
+            grid-column: 1/5;
         }
         
         
         .turbineDetails{
             grid-row: 4/11;
-            grid-column: 4/6;
+            grid-column: 5/6;
         }
 
         .chart{
@@ -69,7 +74,7 @@
             max-height: 100%; /* Ensure content doesn't exceed the height of the grid item */
         }
         .card1{
-            grid-row: 1/4;
+            grid-row: 1/2;
             grid-column: 2/4;
         }
 
@@ -313,8 +318,13 @@
 </script>
 
 <script>
+    var turbine_icon = L.icon({
+    iconUrl: '{{ url_for("static", filename="turbine-at-angle.png") }}',
+    iconSize: [75, 75]
+    });
+
     //Set the map with center of London
-    let map = L.map('map').setView([52.505, -7.09], 7);
+    let map = L.map('map').setView([53.5, -7.75], 7);
 
     //Set the tile layer of the map using openstreetmap
     L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -322,19 +332,28 @@
     attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
     }).addTo(map);
 
+
     //Set a onclick function for the map to capture user click coordinates
     let popup = L.popup();
     
-    //Set all windfarm location markers
+    //import Windfarm data from Flask
     windfarm_data = {{windfarm_data | safe}}
 
-    // Loop through all windfarms and add a marker on the map for each
-    for (let i = 0; i < windfarm_data.length; i++){
-        marker = new L.marker([windfarm_data[i]['Latitude'], windfarm_data[i]['Longitude']])
-        //Bind Popup text to the Wind Farm Name which then is used by the onclick event to retrieve that wind farm's data from the server
+    //Create Cluster Group and add to map
+    var markers = L.markerClusterGroup();
+    
+
+    // Loop through all windfarms and add a marker on into the Cluster object for each
+    for (let i = 0; i < windfarm_data.length; i++) {
+    marker = new L.marker([windfarm_data[i]['Latitude'], windfarm_data[i]['Longitude']], { icon: turbine_icon })
         .bindPopup(windfarm_data[i]['Wind Farm Name'])
-        .addTo(map)
-        .on("click", clickMarker); };
+        .on("click", clickMarker);
+
+    markers.addLayer(marker);
+    }
+
+    map.addLayer(markers);
+    
 
     // Set values in global scope
     let timestamp_values;
@@ -552,7 +571,6 @@ function getColor(windpower) {
             style: style,
             onEachFeature: onEachFeature
         }).addTo(map);
- 
 
         // Now add a legend to the map
         var legend = L.control({position: 'bottomright'});
