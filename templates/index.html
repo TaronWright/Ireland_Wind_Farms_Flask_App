@@ -57,15 +57,9 @@
             grid-column: 1/5;
         }
         
-        
-        .turbineDetails{
-            grid-row: 4/11;
-            grid-column: 5/6;
-        }
-
         .chart{
             grid-row: 4/11;
-            grid-column: 6/11;
+            grid-column: 5/11;
         }
 
         canvas {
@@ -79,12 +73,12 @@
         }
 
         .card2{
-            grid-row: 1/4;
+            grid-row: 1/2;
             grid-column: 5/7;
         }
 
         .card3{
-            grid-row: 1/4;
+            grid-row: 1/2;
             grid-column: 8/10;
         }
 
@@ -131,6 +125,23 @@
             margin-right: 8px;
             opacity: 0.7;
         }
+        table {
+        font-family: arial, sans-serif;
+        font-size: smaller;
+        border-collapse: collapse;
+        width: 100%;
+        }
+
+        td, th {
+        border: 1px solid #dddddd;
+        text-align: left;
+        padding: 8px;
+        }
+
+        tr:nth-child(even) {
+        background-color: #dddddd;
+        }
+                
     </style>
 <body>
 <!-- <div class="header"><h1>Wind Farms Map</h1></div> -->
@@ -140,39 +151,7 @@
     <div class="card3"><button type="button" onclick= "getWindFarmWindPower()">Get Wind Power for all Windfarms</button></div>
     <div class="map" id="map"></div>
     <!-- Radio buttons for data selection -->
-    <div class="turbineDetails">
-        <div class = "detailsContainer">
-                <div>Windfarm Name:</div>
-                <div class="windfarmname"></div>
 
-                <div>Number of turbines:</div>
-                <div class="numberturbines"></div>
-
-                <div>Rotor Diameter:</div>
-                <div class="rotordiameter"></div>
-
-                <div>Minimum hub height:</div>
-                <div class="minhubheight"></div>
-
-                <div>Maximum hub height:</div>
-                <div class="maxhubheight"></div>
- 
-                <div>Cut-in wind speed:</div>
-                <div class="cutinspeed"></div>
-
-                <div>Cut-off wind speed:</div>
-                <div class="cutoffspeed"></div>
-
-                <div>Rated wind speed:</div>
-                <div class="ratedspeed"></div>
-
-                <div>Rated power:</div>
-                <div class="ratedpower"></div>
-
-                <div>Manufacturer:</div>
-                <div class="manufacturer"></div>
-        </div>
-    </div>
     <div class="chart">
         <div class="buttons"> 
             <label>
@@ -275,6 +254,10 @@
 </script>
 
 <script>
+        console.log(document.getElementsByClassName("detailsContainer").textContent)
+</script>
+
+<script>
     //data block 
     data = {
             labels: [],
@@ -343,13 +326,61 @@
     var markers = L.markerClusterGroup();
     
 
+
+    // Convert HTMLCollection to an array and extract innerHTML
+    var popupContent;
     // Loop through all windfarms and add a marker on into the Cluster object for each
     for (let i = 0; i < windfarm_data.length; i++) {
-    marker = new L.marker([windfarm_data[i]['Latitude'], windfarm_data[i]['Longitude']], { icon: turbine_icon })
-        .bindPopup(windfarm_data[i]['Wind Farm Name'])
-        .on("click", clickMarker);
+        popupContent = `<table>
+                        <tr>
+                            <td><b>Wind Farm Name:</b></td>
+                            <td>` + windfarm_data[i]['Wind Farm Name']+`</td>
+                        </tr>
+                        <tr>
+                            <td><b>Number of turbines:</b></td>
+                            <td>` + windfarm_data[i]['Number of Turbines']+`</td>
+                        </tr>
+                        <tr>
+                            <td><b>Rotor Diameter:</b></td>
+                            <td>` + windfarm_data[i]['Rotor diameter']+`m</td>
+                        </tr>
+                        <tr>
+                            <td><b>Minimum hub height:</b></td>
+                            <td>` + windfarm_data[i]['Minimum hub height']+`m</td>
+                        </tr>
+                        <tr>
+                            <td><b>Maximum hub height:</b></td>
+                            <td>` + windfarm_data[i]['Maximum hub height']+`m</td>
+                        </tr>
+                        <tr>
+                            <td><b>Cut-in wind speed:</b></td>
+                            <td>` + windfarm_data[i]['Cut-in wind speed']+`m/s</td>
+                        </tr>
+                        <tr>
+                            <td><b>Cut-off wind speed:</b></td>
+                            <td>` + windfarm_data[i]['Cut-off wind speed']+`m/s</td>
+                        </tr>
+                        <tr>
+                            <td><b>Rated wind speed:</b></td>
+                            <td>` + windfarm_data[i]['Rated wind speed']+`m/s</td>
+                        </tr>
 
+                        <tr>
+                            <td><b>Rated Power:</b></td>
+                            <td>` + windfarm_data[i]['Rated power']+`W</td>
+                        </tr>
+
+                        <tr>
+                            <td><b>Manufacturer:</b></td>
+                            <td>` + windfarm_data[i]['Manufacturer']+`</td>
+                        </tr>
+            </table>`
+    marker = new L.marker([windfarm_data[i]['Latitude'], windfarm_data[i]['Longitude']], { icon: turbine_icon })
+        .bindPopup(popupContent)
+        // Have to use an anonymous function to pass extra parameter of windfarm name of event click
+        .on("click", function(e){clickMarker(windfarm_data[i]['Wind Farm Name'],e)});
     markers.addLayer(marker);
+   
     }
 
     map.addLayer(markers);
@@ -359,15 +390,14 @@
     let timestamp_values;
     let windspeed_values;
     let windpower_values;
+
     // Function for clicking on map markers that makes call to the server for the windspeed data for that windfarm
-    function clickMarker(e) {
+    function clickMarker(windfarmName,e) {
         // Set to empty array on every click so values do not stack
         timestamp_values = [];
         windspeed_values = [];
         windpower_values = [];
         console.log(e)
-        // Set windfarm name to the popup content
-        let windfarmName = e.target._popup._content
         //Set url to the url for the lookup route on flask server-side
         let lookup_url = {{ url_for('lookup')|tojson }} 
         //Set data to be posted to flask api
@@ -397,68 +427,6 @@
             // Update the windchart with the new data rather than adding another layer everytime function is called
             updateChartData(windspeed_values, windpower_values) 
         })
-        //Set url to the url for the windturbine detials route on flask server-side
-        lookup_url = {{ url_for('windfarm_details')|tojson }} 
-        fetch(lookup_url, {
-        "method": "POST",
-        "headers": {"Content-Type": "application/json"},
-        "body": JSON.stringify(data),
-         })
-        .then(function(response){
-            return response.json();
-        }).then(function(json){
-            if (json[0]['Wind Farm Name'] != null ){
-                document.querySelector('.windfarmname').textContent = json[0]['Wind Farm Name']
-            } else{
-                document.querySelector('.windfarmname').textContent = "N/A"
-            }
-            if (json[0]['Number of Turbines'] != null ){
-                document.querySelector('.numberturbines').textContent = json[0]['Number of Turbines']
-            } else{
-                document.querySelector('.numberturbines').textContent = "N/A"
-            }
-            if (json[0]['Rotor diameter'] != null ){
-                document.querySelector('.rotordiameter').textContent  = json[0]['Rotor diameter'] + "m"
-            } else{
-                document.querySelector('.rotordiameter').textContent = "N/A"
-            }
-            if (json[0]['Minimum hub height']  != null ){
-                document.querySelector('.minhubheight').textContent  = json[0]['Minimum hub height'] + "m"
-            } else{
-                document.querySelector('.minhubheight').textContent = "N/A"
-            }
-            if (json[0]['Maximum hub height']  != null ){
-                document.querySelector('.maxhubheight').textContent = json[0]['Maximum hub height'] + "m"
-            } else{
-                document.querySelector('.maxhubheight').textContent = "N/A"
-            }
-            if (json[0]['Cut-in wind speed']  != null ){
-                document.querySelector('.cutinspeed').textContent = json[0]['Cut-in wind speed']  +"m/s"
-            } else{
-                document.querySelector('.cutinspeed').textContent = "N/A"
-            }
-            if (json[0]['Cut-off wind speed']  != null ){
-                document.querySelector('.cutoffspeed').textContent = json[0]['Cut-off wind speed'] + "m/s"
-            } else{
-                document.querySelector('.cutoffspeed').textContent = "N/A"
-            }
-            if (json[0]['Rated wind speed']  != null ){
-                document.querySelector('.ratedspeed').textContent = json[0]['Rated wind speed'] + "m/s"
-            } else{
-                document.querySelector('.ratedspeed').textContent = "N/A"
-            }
-            if (json[0]['Rated power']   != null ){
-                document.querySelector('.ratedpower').textContent = json[0]['Rated power'] + "W"
-            } else{
-                document.querySelector('.ratedpower').textContent = "N/A"
-            }
-            if (json[0]['Manufacturer']  != null ){
-                document.querySelector('.manufacturer').textContent = json[0]['Manufacturer']
-            } else{
-                document.querySelector('.manufacturer').textContent = "N/A"
-            }
-        }
-        )
     };
 
         // Function to update chart data based on selected radio button
@@ -529,24 +497,14 @@ function getColor(windpower) {
 <script>
     let info;
     async function getWindPowerPerCounty(){
-        // //Declare arrays
-        // let timestamp_values = [];
-        // let windspeed_values = [];
-        // let windpower_values = [];
-        // let windpower_sum = 0;
+  
         let choropleth_url = {{ url_for('choropleth')|tojson }}
 
         let choro_response = await fetch(choropleth_url);
         let choro_json = await choro_response.json();
 
-        // // Perform the point-in-polygon check
-
-        // // Begin looping through the counties
+        //Retrieve wind power generated per county
         county_windpower_list = await getWindFarmWindPower()
-        
-                    // })
-
-  
 
         // Adding custom info control to map
         info = L.control();
@@ -559,9 +517,10 @@ function getColor(windpower) {
 
         // method that we will use to update the control based on feature properties passed
         info.update = function (props) {
-            this._div.innerHTML = '<h4>US Population Density</h4>' +  (props ?
-                '<b>' + props.windpower + '</b><br />' + props.windpower + ' MW '
-                : 'Hover over a state');
+            console.log(props)
+            this._div.innerHTML = '<h4> Ireland Wind Power </h4>' +  (props ?
+                '<b>' + props.COUNTY+ '</b><br />' + Math.round(props.windpower/10**6) + ' MW '
+                : 'Hover over a county');
         };
 
         info.addTo(map);
@@ -603,25 +562,6 @@ function getColor(windpower) {
         console.log(windpower_json)
         return windpower_json
     }
-    //     // Fetch request with data
-    //     fetch(windpower_url)
-    //         .then(response => {
-    //             // Check if the response is not okay
-    //             if (!response.ok) {
-    //                 throw new Error(`HTTP error! Status: ${response.status}`);
-    //             }
-                
-    //             // Parse the JSON data from the response
-    //             return response.json();
-    //         })
-    //         .then(response => {
-    //             console.log("Json response: ", response);
-    //             // Handle the JSON data here as needed
-    //         })
-    //         .catch(error => {
-    //             console.error('Error fetching windpower data:', error);
-    //         });
-    // }
 </script>
 
 <script>
@@ -659,6 +599,8 @@ function onEachFeature(feature, layer) {
     });
 };
 </script>
+
+
 
 </body>
 </html>
