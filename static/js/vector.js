@@ -9,7 +9,7 @@ canvas.height = map.getSize().y;
 console.log(map.getSize().x)
 console.log(ctx);
 ctx.fillStyle = 'black';
-ctx.strokeStyle = 'white';
+ctx.strokeStyle = 'black';
 ctx.lineWidth = 1;
 
 class Particle{
@@ -90,4 +90,5 @@ function animate(){
     effect.render(ctx);
     requestAnimationFrame(animate);
 }
-animate();
+// Listen for the "tilesloaded" event on the map
+setTimeout(animate, 5000);

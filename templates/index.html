@@ -10,8 +10,7 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
      integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
      crossorigin=""/>
-     <!-- Turf CDN-->
-     <script src='https://unpkg.com/@turf/turf@6/turf.min.js'></script>
+
      <!-- Make sure you put this AFTER Leaflet's CSS -->
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
     crossorigin=""></script>
@@ -52,11 +51,11 @@
             display: block;
         }
 
-        .map {
-            grid-row: 2/11;
-            grid-column: 1/5;
+        .canvasDiv{
+        grid-row: 2/11;
+        grid-column: 1/5;
         }
-        
+
         .chart{
             grid-row: 4/11;
             grid-column: 5/11;
@@ -80,24 +79,6 @@
         .card3{
             grid-row: 1/2;
             grid-column: 8/10;
-        }
-
-        .detailsContainer {
-            display: grid;
-            grid-template-rows: repeat(10,  minmax(0, 1fr)); /* Split into ten rows */
-            grid-template-columns: repeat(2, 1fr);
-            column-gap: 25px;
-            margin: 10px;
-            max-width: 100%; /* Set to 100% to take up full width of the viewport */
-            /* width: 100vw; Ensure the container takes the full width of the viewport */
-            height: 100%; /* Ensure the container takes the full height of the viewport */
-        }
-
-        .detailsContainer > div {
-            align-self: center;
-            justify-self: center;
-            font-size: 11px;
-            font-weight: bold;
         }
 
         .info {
@@ -146,10 +127,12 @@
         top: 0;
         left: 0;
         pointer-events: none; /* Ensures clicks and pointer events go through the canvas to the map */
-        z-index: 5; /* Set z-index for the canvas, higher value means it will appear above */
-
         will-change: transform; /* Hint to the browser that the canvas will be transformed */
-        position: absolute;
+        }
+
+        .map{
+            width: 100%;
+            height: 100%;
         }
                 
     </style>
@@ -159,7 +142,7 @@
     <div class="card1"><button type="button" onclick= "getChoropleth()">choropleth layer</button></div>
     <div class="card2"><button type="button" onclick= "getWindPowerPerCounty()">Get Wind Power by County</button></div>
     <div class="card3"><button type="button" onclick= "getWindFarmWindPower()">Get Wind Power for all Windfarms</button></div>
-    <div class="map" id="map"><canvas id="vectorField"></canvas></div>
+    <div id="canvasDiv"><div class="map" id="map"><canvas id="vectorField"></canvas></div></div>
     
     <!-- Radio buttons for data selection -->
 
@@ -337,6 +320,13 @@
     maxZoom: 19,
     attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
     }).addTo(map);
+
+    // Instantiate the custom canvas layer
+    var canvasLayer = new customCanvasLayer();
+
+    // Add custom canvas layer to the map
+    canvasLayer.addTo(map);
+
 
 
     //Set a onclick function for the map to capture user click coordinates
