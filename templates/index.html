@@ -62,7 +62,7 @@
             grid-column: 5/11;
         }
 
-        canvas {
+        .windChart {
             /* Additional styles for the content inside grid items */
             max-width: 100%; /* Ensure content doesn't exceed the width of the grid item */
             max-height: 100%; /* Ensure content doesn't exceed the height of the grid item */
@@ -141,6 +141,16 @@
         tr:nth-child(even) {
         background-color: #dddddd;
         }
+        
+        .vectorField{
+        top: 0;
+        left: 0;
+        pointer-events: none; /* Ensures clicks and pointer events go through the canvas to the map */
+        z-index: 5; /* Set z-index for the canvas, higher value means it will appear above */
+
+        will-change: transform; /* Hint to the browser that the canvas will be transformed */
+        position: absolute;
+        }
                 
     </style>
 <body>
@@ -149,7 +159,8 @@
     <div class="card1"><button type="button" onclick= "getChoropleth()">choropleth layer</button></div>
     <div class="card2"><button type="button" onclick= "getWindPowerPerCounty()">Get Wind Power by County</button></div>
     <div class="card3"><button type="button" onclick= "getWindFarmWindPower()">Get Wind Power for all Windfarms</button></div>
-    <div class="map" id="map"></div>
+    <div class="map" id="map"><canvas id="vectorField"></canvas></div>
+    
     <!-- Radio buttons for data selection -->
 
     <div class="chart">
@@ -306,9 +317,21 @@
     iconSize: [75, 75]
     });
 
-    //Set the map with center of London
-    let map = L.map('map').setView([53.5, -7.75], 7);
+    //Set the map with center of Dublin
+    ireland_lat_min = 51.296276
+    ireland_lat_max = 55.413426
+    ireland_lon_min = -10.684204
+    ireland_lon_max = -5.361328
+    const southWest = L.latLng(ireland_lat_min, ireland_lon_min), // Define your southwest boundary
+    northEast = L.latLng(ireland_lat_max, ireland_lon_max), // Define your northeast boundary
+    bounds = L.latLngBounds(southWest, northEast); // Create a bounds object
 
+    var map = L.map('map', {
+    maxBounds: bounds, // Set the maximum bounds
+    maxBoundsViscosity: 1.0 // Make sure the map never goes outside the bounds
+    }).setView([53.5, -7.75], 7);
+
+    
     //Set the tile layer of the map using openstreetmap
     L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
     maxZoom: 19,
@@ -601,6 +624,6 @@ function onEachFeature(feature, layer) {
 </script>
 
 
-
+<script src="static/js/vector.js"></script>
 </body>
 </html>

@@ -2,22 +2,10 @@
 <html>
     <head>
         <title>CSS Wind</title>
-        <link rel="stylesheet" href="{{url_for('static',filename='css/styles.css')}}" rel="stylesheet">>
+        <link rel="stylesheet" href="static/css/styles.css">
     </head>
     <body>
-        <div class="main">
-            <div id="wind-wrap">
-                <div class="tree"></div>
-                <div class="grass"></div>
-
-                <ul class="leaf-wrap">
-                    <li class="leaf"></li>
-                    <li class="leaf"></li>
-                    <li class="leaf"></li>
-                    <li class="leaf"></li>
-                    <li class="leaf"></li>
-                </ul>
-            </div>
-        </div>
+        <canvas id="vectorField"></canvas>
+        <script src="static/js/vector.js"></script>
     </body>
 </html>
