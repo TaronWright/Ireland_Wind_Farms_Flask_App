@@ -279,18 +279,19 @@ def vectorfield():
     v_components = -wind_speeds * np.cos(wind_angles_rad)  # Negative sign because positive angles represent clockwise rotation
     # Combine u_components and v_components into tuples using zip
     wind_vectors = list(zip(u_components, v_components))
-    IrelandGrid(wind_vectors,coordinates)
-    return render_template('wind.html')
+    interpolated_wind_vectors = IrelandGrid(wind_vectors,coordinates)
+    return render_template('wind.html',coordinates = coordinates, interpolated_wind_vectors = interpolated_wind_vectors)
 
 def IrelandGrid(wind_vectors,coordinates):
     ireland_lat_min = 51.296276
     ireland_lat_max = 55.413426
     ireland_lon_min = -10.684204
     ireland_lon_max = -5.361328
-    num_rows = 20
-    num_cols = 20
-    lat_step = (ireland_lat_max - ireland_lat_min)/ num_rows
-    lon_step = (ireland_lon_min - ireland_lon_max)/ num_cols
+    cellSize = 0.1
+    num_rows = math.floor((ireland_lat_max - ireland_lat_min)/ cellSize)
+    print(num_rows)
+    num_cols = math.floor((ireland_lon_max - ireland_lon_min)/ cellSize)
+    print(num_cols)
 
     # Define grid cells and their locations
     grid_cells = []  # List of grid cell coordinates
@@ -299,8 +300,8 @@ def IrelandGrid(wind_vectors,coordinates):
     for i in range(num_rows):
         for j in range(num_cols):
             # Calculate the latitude and longitude for the center of the grid cell
-            lat_center = ireland_lat_min + (i + 0.5) * lat_step
-            lon_center = ireland_lon_min + (j + 0.5) * lon_step
+            lat_center = ireland_lat_min + (i + 0.5) * cellSize
+            lon_center = ireland_lon_min + (j + 0.5) * cellSize
             # Append the coordinates to the grid_cells list as a tuple
             grid_cells.append((lat_center, lon_center))
 
@@ -340,8 +341,7 @@ def IrelandGrid(wind_vectors,coordinates):
 
     # Interpolated wind vectors for each grid cell
     interpolated_wind_vectors = list(zip(interpolated_u, interpolated_v))
-    print(interpolated_wind_vectors)
-    pass
+    return interpolated_wind_vectors
 
 if __name__ == '__main__':
         

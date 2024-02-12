@@ -19,6 +19,7 @@
     <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
     <link rel="stylesheet" href="{{ url_for('static', filename='turbine-at-angle.png') }}">
     <script src = "https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js"></script>
+    <script src="static/js/vector.js"></script>
     <link rel="stylesheet" href ="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.Default.css">
     
     
@@ -51,7 +52,7 @@
             display: block;
         }
 
-        .canvasDiv{
+        .map{
         grid-row: 2/11;
         grid-column: 1/5;
         }
@@ -142,7 +143,7 @@
     <div class="card1"><button type="button" onclick= "getChoropleth()">choropleth layer</button></div>
     <div class="card2"><button type="button" onclick= "getWindPowerPerCounty()">Get Wind Power by County</button></div>
     <div class="card3"><button type="button" onclick= "getWindFarmWindPower()">Get Wind Power for all Windfarms</button></div>
-    <div id="canvasDiv"><div class="map" id="map"><canvas id="vectorField"></canvas></div></div>
+    <div class="map" id="map"><canvas id="vectorField"></canvas></div>
     
     <!-- Radio buttons for data selection -->
 
@@ -305,6 +306,7 @@
     ireland_lat_max = 55.413426
     ireland_lon_min = -10.684204
     ireland_lon_max = -5.361328
+
     const southWest = L.latLng(ireland_lat_min, ireland_lon_min), // Define your southwest boundary
     northEast = L.latLng(ireland_lat_max, ireland_lon_max), // Define your northeast boundary
     bounds = L.latLngBounds(southWest, northEast); // Create a bounds object
@@ -321,14 +323,27 @@
     attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
     }).addTo(map);
 
-    // Instantiate the custom canvas layer
-    var canvasLayer = new customCanvasLayer();
+    
+    var canvas = document.getElementById('vectorField');
+    var ctx = canvas.getContext('2d');
 
-    // Add custom canvas layer to the map
-    canvasLayer.addTo(map);
+  // Convert the bounding box to pixel coordinates
+  var topLeft = map.latLngToLayerPoint([55,-10]);
+  var bottomRight = map.latLngToLayerPoint([54, - 8]);
 
+  // Set the canvas size and position
+  canvas.style.width = (bottomRight.x - topLeft.x) + 'px';
+  canvas.style.height = (bottomRight.y - topLeft.y) + 'px';
+  canvas.style.left = topLeft.x + 'px';
+  canvas.style.top = topLeft.y + 'px';
 
+  // Set the canvas size to match its CSS size
+  canvas.width = bottomRight.x - topLeft.x;
+  canvas.height = bottomRight.y - topLeft.y;
 
+  // Draw on the canvas (example)
+  ctx.fillStyle = 'red';
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
     //Set a onclick function for the map to capture user click coordinates
     let popup = L.popup();
     
@@ -614,6 +629,6 @@ function onEachFeature(feature, layer) {
 </script>
 
 
-<script src="static/js/vector.js"></script>
+
 </body>
 </html>

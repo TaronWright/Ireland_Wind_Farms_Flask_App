@@ -1,16 +1,13 @@
-const canvas = document.getElementById("vectorField");
-const ctx = canvas.getContext("2d");
 
-// Set the z-index of the canvas
-canvas.style.zIndex = '1'; // Adjust the z-index as needed
-// Set canvas size to match map container size
-canvas.width = map.getSize().x;
-canvas.height = map.getSize().y;
-console.log(map.getSize().x)
-console.log(ctx);
-ctx.fillStyle = 'black';
-ctx.strokeStyle = 'black';
-ctx.lineWidth = 1;
+ireland_lat_min = 51.296276
+ireland_lat_max = 55.413426
+ireland_lon_min = -10.684204
+ireland_lon_max = -5.361328
+cellSize = 0.1
+latitude_width = (ireland_lat_max - ireland_lat_min)
+longitude_height = (ireland_lon_max - ireland_lon_min)
+num_rows = Math.floor(latitude_width/ cellSize)
+num_cols = Math.floor(longitude_height/ cellSize)
 
 class Particle{
     constructor(effect){
@@ -42,7 +39,6 @@ class Particle{
             //shift array method removes one element from the beginning of an array
             this.history.shift();
         }
-        console.log(this.x & this.y)
     }
 }
 
@@ -79,16 +75,50 @@ class Effect {
             particle.update();
         })
     }
-}
+};
 
-const effect = new Effect(canvas.width , canvas.height);
+// Define Custom Canvas Layer Class
+var CustomCanvasLayer = L.Layer.extend({
+    onAdd: function(map) {
+        this._map = map;
+        this._canvas = L.DomUtil.create('canvas', 'leaflet-custom-canvas-layer');
+        this._canvas.width = map.getPixelBounds().max.x - map.getPixelBounds().min.x// map.getSize().x;
+        this._canvas.height = map.getPixelBounds().max.y - map.getPixelBounds().min.y// map.getSize().y;
+        this._ctx = this._canvas.getContext('2d');
+        this._ctx.fillStyle = 'black';
+        this._ctx.strokeStyle = 'black';
+        this._ctx.lineWidth = 1;
+        map.getPanes().overlayPane.appendChild(this._canvas);
 
-effect.render(ctx);
-// Generate an animation loop where render method indefinitely in loop as function continually calls itself
-function animate(){
+        // map.on('moveend', this._redraw, this);
+
+        this._redraw();
+    },
+
+    onRemove: function(map) {
+        map.getPanes().overlayPane.removeChild(this._canvas);
+        map.off('moveend', this._redraw, this);
+    },
+
+    _redraw: function() {
+        var bounds = this._map.getBounds();
+        var topLeft = this._map.latLngToLayerPoint(bounds.getNorthWest());
+        L.DomUtil.setPosition(this._canvas, topLeft);
+        this.drawCanvas();
+    },
+
+    drawCanvas: function() {
+        // Reference to the vector.js code
+        const effect = new Effect(this._canvas.width, this._canvas.height);
+        effect.render(this._ctx);
+        animate(this._ctx,effect,this._canvas);
+    }
+});
+
+// Animation loop
+function animate(ctx,effect,canvas){
     ctx.clearRect(0,0,canvas.width, canvas.height);
     effect.render(ctx);
-    requestAnimationFrame(animate);
+    //Pass anonymous function into requestAnimationFrame to pass parameters
+    requestAnimationFrame(function(){animate(ctx,effect,canvas)});
 }
-// Listen for the "tilesloaded" event on the map
-setTimeout(animate, 5000);
