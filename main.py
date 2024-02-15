@@ -224,8 +224,8 @@ def aggregate_windpower():
 def wind():
     return render_template('wind.html')
 
-@app.route("/vectorfield")
-def vectorfield():
+@app.route("/windvectors")
+def windvectors():
     # Specify timestamp
     target_time = "2024-02-11T19:00:00"  # Example time, format: YYYY-MM-DDTHH:MM:SS
 
@@ -279,15 +279,17 @@ def vectorfield():
     v_components = -wind_speeds * np.cos(wind_angles_rad)  # Negative sign because positive angles represent clockwise rotation
     # Combine u_components and v_components into tuples using zip
     wind_vectors = list(zip(u_components, v_components))
-    interpolated_wind_vectors = IrelandGrid(wind_vectors,coordinates)
-    return render_template('wind.html',coordinates = coordinates, interpolated_wind_vectors = interpolated_wind_vectors)
+    interpolated_windvectors = IrelandGrid(wind_vectors,coordinates)
+    #return render_template('wind.html',coordinates = coordinates, interpolated_wind_vectors = interpolated_wind_vectors)
+
+    return interpolated_windvectors
 
 def IrelandGrid(wind_vectors,coordinates):
     ireland_lat_min = 51.296276
     ireland_lat_max = 55.413426
     ireland_lon_min = -10.684204
     ireland_lon_max = -5.361328
-    cellSize = 0.1
+    cellSize = 0.1 # degree step
     num_rows = math.floor((ireland_lat_max - ireland_lat_min)/ cellSize)
     print(num_rows)
     num_cols = math.floor((ireland_lon_max - ireland_lon_min)/ cellSize)
@@ -326,7 +328,7 @@ def IrelandGrid(wind_vectors,coordinates):
         
         # Calculate weights
         weights = 1 / distances**power_parameter
-        
+
         # Iterate through sampled wind vectors
         for j, (sampled_u, sampled_v) in enumerate(wind_vectors):
             # Calculate weighted wind vector components
@@ -339,9 +341,32 @@ def IrelandGrid(wind_vectors,coordinates):
             interpolated_u[i] = weighted_sum_u / total_weight
             interpolated_v[i] = weighted_sum_v / total_weight
 
+    interpolated_u = interpolated_u.tolist()
+    interpolated_v = interpolated_v.tolist()
+    wind_vectors = [{'header': {'parameterCategory': 2, 
+                         'parameterNumber': 2, 
+                         'lo1': ireland_lon_min, 
+                         'la1': ireland_lat_max, 
+                         'dx': cellSize, 
+                         'dy': cellSize, 
+                         'nx': num_cols, 
+                         'ny': num_rows, 
+                         'refTime': '2021-11-09T19:00:00Z'},
+             'data': interpolated_u},
+             {'header': {'parameterCategory': 2, 
+                         'parameterNumber': 3, 
+                         'lo1': ireland_lon_min, 
+                         'la1': ireland_lat_max,  
+                         'dx': cellSize, 
+                         'dy': cellSize,
+                         'nx': num_cols, 
+                         'ny': num_rows, 
+                         'refTime': '2021-11-09T19:00:00Z'},
+              'data': interpolated_v}]
     # Interpolated wind vectors for each grid cell
-    interpolated_wind_vectors = list(zip(interpolated_u, interpolated_v))
-    return interpolated_wind_vectors
+    #windvectors ={"u": interpolated_u, "v": interpolated_v}
+    json.dumps(wind_vectors)
+    return wind_vectors
 
 if __name__ == '__main__':
         

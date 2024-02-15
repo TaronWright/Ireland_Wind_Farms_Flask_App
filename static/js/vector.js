@@ -82,16 +82,14 @@ var CustomCanvasLayer = L.Layer.extend({
     onAdd: function(map) {
         this._map = map;
         this._canvas = L.DomUtil.create('canvas', 'leaflet-custom-canvas-layer');
-        this._canvas.width = map.getPixelBounds().max.x - map.getPixelBounds().min.x// map.getSize().x;
-        this._canvas.height = map.getPixelBounds().max.y - map.getPixelBounds().min.y// map.getSize().y;
+        this._canvas.width =  map.getSize().x;
+        this._canvas.height =  map.getSize().y;
         this._ctx = this._canvas.getContext('2d');
-        this._ctx.fillStyle = 'black';
-        this._ctx.strokeStyle = 'black';
+        this._ctx.fillStyle = 'white';
+        this._ctx.strokeStyle = 'white';
         this._ctx.lineWidth = 1;
         map.getPanes().overlayPane.appendChild(this._canvas);
-
         // map.on('moveend', this._redraw, this);
-
         this._redraw();
     },
 

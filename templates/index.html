@@ -21,7 +21,12 @@
     <script src = "https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js"></script>
     <script src="static/js/vector.js"></script>
     <link rel="stylesheet" href ="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.Default.css">
-    
+
+    <link rel="stylesheet" href="static/css/leaflet-velocity.css"/>
+    <link rel="stylesheet" href="static/css/leaflet-velocity.min.css"/>
+    <script src="static/js/leaflet-velocity.js"></script>
+    <script src="static/js/leaflet-velocity.min.js"></script>
+
     
     <style>
 
@@ -249,10 +254,6 @@
 </script>
 
 <script>
-        console.log(document.getElementsByClassName("detailsContainer").textContent)
-</script>
-
-<script>
     //data block 
     data = {
             labels: [],
@@ -316,41 +317,84 @@
     maxBoundsViscosity: 1.0 // Make sure the map never goes outside the bounds
     }).setView([53.5, -7.75], 7);
 
-    
-    //Set the tile layer of the map using openstreetmap
-    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    maxZoom: 19,
-    attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-    }).addTo(map);
+    var Stadia_AlidadeSmoothDark = L.tileLayer('https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.{ext}', {
+	minZoom: 0,
+	maxZoom: 20,
+	ext: 'png'
+    }).addTo(map)
 
     
-    var canvas = document.getElementById('vectorField');
-    var ctx = canvas.getContext('2d');
+    // //Set the tile layer of the map using openstreetmap
+    // L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    // maxZoom: 19,
+    // attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+    // }).addTo(map);
 
-  // Convert the bounding box to pixel coordinates
-  var topLeft = map.latLngToLayerPoint([55,-10]);
-  var bottomRight = map.latLngToLayerPoint([54, - 8]);
+    //Set url to the url for the lookup route on flask server-side
+    data_url = {{ url_for('windvectors')|tojson }} ;
 
-  // Set the canvas size and position
-  canvas.style.width = (bottomRight.x - topLeft.x) + 'px';
-  canvas.style.height = (bottomRight.y - topLeft.y) + 'px';
-  canvas.style.left = topLeft.x + 'px';
-  canvas.style.top = topLeft.y + 'px';
+    getWindvectors()
 
-  // Set the canvas size to match its CSS size
-  canvas.width = bottomRight.x - topLeft.x;
-  canvas.height = bottomRight.y - topLeft.y;
+    async function getWindvectors(){
+        let response = await fetch(data_url)
+        let data = await response.json()
+        console.log(data)
+        var velocityLayer = new L.velocityLayer({
+        particleMultiplier: 1/150,
+        frameRate: 30,
+        lineWidth: 1,
+        particleAge: 180,
+        displayValues: true,
+        displayValues: true,
+        displayOptions: {
+            // label prefix
+            velocityType: "Global Wind",
 
-  // Draw on the canvas (example)
-  ctx.fillStyle = 'red';
-  ctx.fillRect(0, 0, canvas.width, canvas.height);
+            // leaflet control position
+            position: "bottomleft",
+
+            // no data at cursor
+            emptyString: "No velocity data",
+
+            // see explanation below
+            angleConvention: "bearingCW",
+
+            // display cardinal direction alongside degrees
+            showCardinal: false,
+
+            // one of: ['ms', 'k/h', 'mph', 'kt']
+            speedUnit: "ms",
+
+            // direction label prefix
+            directionString: "Direction",
+
+            // speed label prefix
+            speedString: "Speed",
+        },
+        data: data, // see demo/*.json, or wind-js-server for example data service
+
+        // OPTIONAL
+        minVelocity: 0, // used to align color scale
+        maxVelocity: 10, // used to align color scale
+        velocityScale: 0.005, // modifier for particle animations, arbitrarily defaults to 0.005
+        velocityScale: .008, // 0.005
+        colorScale: ["rgb(255,255, 255)"],
+        onAdd: null, // callback function
+        onRemove: null, // callback function
+        opacity: 0.97, // layer opacity, default 0.97
+
+
+        });    
+    velocityLayer.addTo(map)
+    }
+    
     //Set a onclick function for the map to capture user click coordinates
     let popup = L.popup();
     
     //import Windfarm data from Flask
-    windfarm_data = {{windfarm_data | safe}}
+    windfarm_data = {{windfarm_data | safe}} 
 
-    //Create Cluster Group and add to map
+  //Create Cluster Group and add to map
     var markers = L.markerClusterGroup();
     
 
