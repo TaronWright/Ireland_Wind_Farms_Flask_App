@@ -923,11 +923,11 @@ var Windy = function Windy(params) {
 
     function draw() {
       // Fade existing particle trails.
-      var prev = "lighter";
-      g.globalCompositeOperation = "destination-in";
-      g.fillRect(bounds.x, bounds.y, bounds.width, bounds.height);
-      g.globalCompositeOperation = prev;
-      g.globalAlpha = OPACITY === 0 ? 0 : OPACITY * 0.9; // Draw new particle trails.
+      // var prev = "lighter";
+      // g.globalCompositeOperation = "destination-in";
+      // g.fillRect(bounds.x, bounds.y, bounds.width, bounds.height);
+      // g.globalCompositeOperation = prev;
+      // g.globalAlpha = OPACITY === 0 ? 0 : OPACITY * 0.9; // Draw new particle trails.
 
       buckets.forEach(function (bucket, i) {
         if (bucket.length > 0) {

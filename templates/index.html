@@ -67,10 +67,11 @@
             grid-column: 5/11;
         }
 
-        .windChart {
+        #windChart {
             /* Additional styles for the content inside grid items */
             max-width: 100%; /* Ensure content doesn't exceed the width of the grid item */
             max-height: 100%; /* Ensure content doesn't exceed the height of the grid item */
+            background:#252429fa;
         }
         .card1{
             grid-row: 1/2;
@@ -140,6 +141,8 @@
             width: 100%;
             height: 100%;
         }
+
+        
                 
     </style>
 <body>
@@ -165,7 +168,7 @@
         <button type="button" onclick="weekFilter()">Week</button>
         <button type="button" onclick="monthFilter()">Month</button>
         <button type="button" onclick="yearFilter()">Year</button>
-        <canvas class="h-full w-full" id="windChart"></canvas>
+        <canvas id="windChart"></canvas>
     </div>
 </div>
     
@@ -262,7 +265,12 @@
                 data: [],
                 borderColor: 'rgba(75, 192, 192, 1)',
                 borderWidth: 2,
-                fill: false
+                borderColor: 'rgb(75, 192, 192)',
+                tension: 0.25,
+                fill: {
+                target: 'origin',
+                above: 'rgb(75, 192, 192,0.1)',   // Area will be red above the origin
+              }
             }]
         }
     // config 
@@ -271,7 +279,7 @@
       data,
       options: {
             scales: {
-                x: {
+                    x: {
                     type: 'time',
                     time: {
                             unit: 'hour',
@@ -282,10 +290,18 @@
                     },
                     min: getYesterdaysDate(),
                     max: Date(),
-                },
+                    grid: {
+                        color: 'rgba(200, 200, 200, 0.05)',
+                        lineWidth: 1
+                        }
+                    },
                 y: {
-                    min: 0
-                }
+                    min: 0,
+                    grid: {
+                        color: 'rgba(200, 200, 200, 0.05)',
+                        lineWidth: 1
+                    }
+                },
             }
         }
     };
@@ -313,9 +329,10 @@
     bounds = L.latLngBounds(southWest, northEast); // Create a bounds object
 
     var map = L.map('map', {
+    minZoom: 7.1,
     maxBounds: bounds, // Set the maximum bounds
     maxBoundsViscosity: 1.0 // Make sure the map never goes outside the bounds
-    }).setView([53.5, -7.75], 7);
+    }).setView([53.5, -7.75], 7.1);
 
     var Stadia_AlidadeSmoothDark = L.tileLayer('https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.{ext}', {
 	minZoom: 0,
@@ -375,7 +392,7 @@
 
         // OPTIONAL
         minVelocity: 0, // used to align color scale
-        maxVelocity: 10, // used to align color scale
+        maxVelocity: 15, // used to align color scale
         velocityScale: 0.005, // modifier for particle animations, arbitrarily defaults to 0.005
         velocityScale: .008, // 0.005
         colorScale: ["rgb(255,255, 255)"],
@@ -539,7 +556,7 @@
         let choropleth_url = {{ url_for('choropleth')|tojson }}
         let response = await fetch(choropleth_url)
         let choropleth_json = await response.json()
-            L.geoJson(choropleth_json).addTo(map);
+            L.geoJson(choropleth_json,style = {"color": "#000","fillOpacity": 0.01}).addTo(map);
             console.log(choropleth_json)
     }
 </script>

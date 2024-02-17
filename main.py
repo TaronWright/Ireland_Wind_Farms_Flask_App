@@ -285,10 +285,10 @@ def windvectors():
     return interpolated_windvectors
 
 def IrelandGrid(wind_vectors,coordinates):
-    ireland_lat_min = 51.296276
-    ireland_lat_max = 55.413426
-    ireland_lon_min = -10.684204
-    ireland_lon_max = -5.361328
+    ireland_lat_min = 50.296276
+    ireland_lat_max = 56.413426
+    ireland_lon_min = -11.684204
+    ireland_lon_max = -4.361328
     cellSize = 0.1 # degree step
     num_rows = math.floor((ireland_lat_max - ireland_lat_min)/ cellSize)
     print(num_rows)
