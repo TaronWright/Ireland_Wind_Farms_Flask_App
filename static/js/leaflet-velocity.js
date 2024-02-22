@@ -488,7 +488,7 @@ var Windy = function Windy(params) {
   var FRAME_RATE = params.frameRate || 15;
   var FRAME_TIME = 1000 / FRAME_RATE; // desired frames per second
 
-  var OPACITY = 0.97;
+  var OPACITY = 0.99;
   var defaulColorScale = ["rgb(36,104, 180)", "rgb(60,157, 194)", "rgb(128,205,193 )", "rgb(151,218,168 )", "rgb(198,231,181)", "rgb(238,247,217)", "rgb(255,238,159)", "rgb(252,217,125)", "rgb(255,182,100)", "rgb(252,150,75)", "rgb(250,112,52)", "rgb(245,64,32)", "rgb(237,45,28)", "rgb(220,24,32)", "rgb(180,0,35)"];
   var colorScale = params.colorScale || defaulColorScale;
   var NULL_WIND_VECTOR = [NaN, NaN, null]; // singleton for no wind in the form: [u, v, magnitude]
@@ -923,11 +923,11 @@ var Windy = function Windy(params) {
 
     function draw() {
       // Fade existing particle trails.
-      // var prev = "lighter";
-      // g.globalCompositeOperation = "destination-in";
-      // g.fillRect(bounds.x, bounds.y, bounds.width, bounds.height);
-      // g.globalCompositeOperation = prev;
-      // g.globalAlpha = OPACITY === 0 ? 0 : OPACITY * 0.9; // Draw new particle trails.
+      var prev = "lighter";
+      g.globalCompositeOperation = "destination-in";
+      g.fillRect(bounds.x, bounds.y, bounds.width, bounds.height);
+      g.globalCompositeOperation = prev;
+      g.globalAlpha = OPACITY === 0 ? 0 : OPACITY * 0.92; // Draw new particle trails.
 
       buckets.forEach(function (bucket, i) {
         if (bucket.length > 0) {

@@ -33,6 +33,8 @@ cluster = MongoClient(connection_string)
 db = cluster['Test']
 collection = db['Test']
 
+# collection.delete_many({})
+
 def insert_many_windspeeds(data):
     collection = db['Test']
     collection.insert_many(data)
@@ -55,10 +57,10 @@ def gather_wind_data():
 def windpower(windspeed: float,rotordiameter: float, cutinspeed: float, cutoutspeed: float, ratedspeed:float):
      # Initiate constants:
     air_density = 1.225  # Standard air density at sea level in kg/m^3
-    power_coefficient = 0.593  # Ideal power coefficient (Betz limit)
+    power_coefficient = 0.3 # Ideal power coefficient (Betz limit) is 0.593 but 0.3 is more typical
 
     #Swept area
-    swept_area = math.pi * rotordiameter**2
+    swept_area = math.pi * (rotordiameter/2)**2
     #Calculate the power produced by a wind turbine.
 
     # Power produced by the wind turbine in watts.
@@ -372,5 +374,4 @@ if __name__ == '__main__':
         
     if not scheduler.running:
         scheduler.start()
-        
     app.run(debug=True)
