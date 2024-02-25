@@ -136,7 +136,7 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 # Initialize scheduler
 scheduler = BackgroundScheduler()
 # Add the task to the scheduler to run at the start of every hour
-scheduler.add_job(gather_wind_data, 'cron', hour = "*", minute="15")
+scheduler.add_job(gather_wind_data, 'cron', hour = "*", minute="41")
 
 # Start the scheduler
 scheduler.start()

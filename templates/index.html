@@ -76,16 +76,31 @@
         .card1{
             grid-row: 1/4;
             grid-column: 5/7;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center; /* Align content center */
+            padding-top: 10px; /* Adding padding to ensure content fits properly */
         }
 
         .card2{
             grid-row: 1/4;
             grid-column: 7/9;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center; /* Align content center */
+            padding-top: 10px; /* Adding padding to ensure content fits properly */
         }
 
         .card3{
             grid-row: 1/4;
             grid-column: 9/11;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center; /* Align content center */
+            padding-top: 10px; /* Adding padding to ensure content fits properly */
         }
 
         .info {
@@ -142,19 +157,36 @@
             height: 100%;
         }
 
-        
+        #windvector{
+            width: 75%;
+            height: 50%;
+        }
+
+        #winddirection{
+            height: 50%;
+        }
+        div h6{
+            position: absolute;
+            top: 10px;
+        }
+        div p{
+            position: relative;
+            bottom: -10px;
+            font-weight: bold;
+        }
                 
     </style>
 <body>
 <!-- <div class="header"><h1>Wind Farms Map</h1></div> -->
 <div class="container">
-    <div class="card1"><canvas id="output"></canvas></div>
-    <div class="card2"><canvas id="speed"></canvas></div>
-    <div class="card3"><canvas id="direction"></canvas> </div>
-    <div class="map" id="map"><canvas id="vectorField"></canvas></div>
+    <div class="card1"><h6>Output Efficiency</h6><canvas id="output"></canvas></div>
+    <div class="card2"><h6>Wind Speed</h6><img id="windvector"></img><p id="windspeed_mps"></p></div>
+    <div class="card3"><h6>Wind Direction</h6><img id="winddirection"></img><p id="winddirection_cardinal"></p></div>
+    <div class="map" id="map"><canvas id="vectorField"></canvas></p></div>
     
     <!-- Radio buttons for data selection -->
     <button type="button" onclick="dayFilter()">Day</button>
+    <button type= "button" onclick= "getWindPowerPerCounty()"></button>
     <button type="button" onclick="weekFilter()">Week</button>
     <button type="button" onclick="monthFilter()">Month</button>
     <button type="button" onclick="yearFilter()">Year</button>
@@ -323,7 +355,7 @@
             label: 'Hourly Output',
             data: [],
             backgroundColor: ['rgb(255, 99, 132)'],
-            hoverOffset: 4,
+            hoverOffset: 0,
             circumference: (ctx) => {
                 //get highest data value
                 const dataPoints = ctx.chart.data.datasets.map(
@@ -339,7 +371,7 @@
             label: 'Maximum Hourly Output',
             data: [],
             backgroundColor: ['rgb(102, 102, 102,0.2)'],
-            hoverOffset: 4,
+            hoverOffset: 0,
             //Circumference function looks different but we have already set max variable from previous function
             circumference: (ctx) => {
                 return (180)*ctx.dataset.data/max
@@ -403,12 +435,6 @@
 	ext: 'png'
     }).addTo(map)
 
-    
-    // //Set the tile layer of the map using openstreetmap
-    // L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    // maxZoom: 19,
-    // attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-    // }).addTo(map);
 
     //Set url to the url for the lookup route on flask server-side
     data_url = {{ url_for('windvectors')|tojson }} ;
@@ -550,7 +576,7 @@
         timestamp_values = [];
         windspeed_values = [];
         windpower_values = [];
-        console.log(e)
+        winddirection_values =[];
         // Create a temporary container element
         var tempContainer = document.createElement('div');
         tempContainer.innerHTML = e.target._popup._content;
@@ -593,6 +619,7 @@
             for (const element of json) {
                 timestamp_values.push(element['timestamp']['$date']);
                 windspeed_values.push(element['windspeed']);
+                winddirection_values.push(element['winddirection']);
                 windpower_values.push(element.windpower);
             };
             // Populate windChart x and y values with data 
@@ -610,7 +637,6 @@
             id: 'centertextline',
             beforeDatasetDraw(chart,args,plugins){
                 const { ctx, data } = chart;
-                console.log(chart)
                 xCenter = chart.chartArea.width/2;
                 yCenter = (chart.chartArea.height/3)*2;
 
@@ -644,11 +670,26 @@
                 }
             }
 
-            console.log(outputChart)
             outputChart.config._config.plugins[0] = centerTextLine
             outputChart.config._config.plugins[1] = overlapSlice
             outputChart.options.plugins.legend = {display:false}
-            console.log(outputChart)
+            wind_direction = parseFloat(winddirection_values.slice(-1)) + 180 
+            if (wind_direction > 360){
+                wind_direction = wind_direction - 360
+            }
+            wind_direction_card = wind_direction - 180
+            console.log(parseFloat(wind_direction))
+            if (wind_direction_card < 0 ){
+                wind_direction_card = 360 + wind_direction_card // wind direction will be negative degrees
+            }
+            cardinal_wind_direction = degreesToCardinalDirection(wind_direction_card)
+            console.log(cardinal_wind_direction)
+            document.getElementById("windvector").src = '{{ url_for("static", filename="windvector.svg") }}'
+            document.getElementById("winddirection").src = '{{url_for("static", filename= "windarrow.svg")}}'
+            document.getElementById("winddirection").style.transform = `rotate(${wind_direction}deg)`
+            document.getElementById("winddirection_cardinal").textContent  = cardinal_wind_direction 
+            document.getElementById("windspeed_mps").textContent = windspeed_values.slice(-1) + " m/s"
+            
             outputChart.update()
         })
     };
@@ -788,7 +829,48 @@ function onEachFeature(feature, layer) {
 };
 </script>
 
+<script>
+function degreesToCardinalDirection(deg) {
+    var cardinalDirection = '';
 
+    if (deg >= 0 && deg < 11.25 || deg >= 348.75) {
+      cardinalDirection = 'N';
+    } else if (deg >= 11.25 && deg < 33.75) {
+      cardinalDirection = 'NNW';
+    } else if (deg >= 33.75 && deg < 56.25) {
+      cardinalDirection = 'NW';
+    } else if (deg >= 56.25 && deg < 78.75) {
+      cardinalDirection = 'WNW';
+    } else if (deg >= 78.25 && deg < 101.25) {
+      cardinalDirection = 'W';
+    } else if (deg >= 101.25 && deg < 123.75) {
+      cardinalDirection = 'WSW';
+    } else if (deg >= 123.75 && deg < 146.25) {
+      cardinalDirection = 'SW';
+    } else if (deg >= 146.25 && deg < 168.75) {
+      cardinalDirection = 'SSW';
+    } else if (deg >= 168.75 && deg < 191.25) {
+      cardinalDirection = 'S';
+    } else if (deg >= 191.25 && deg < 213.75) {
+      cardinalDirection = 'SSE';
+    } else if (deg >= 213.75 && deg < 236.25) {
+      cardinalDirection = 'SE';
+    } else if (deg >= 236.25 && deg < 258.75) {
+      cardinalDirection = 'ESE';
+    } else if (deg >= 258.75 && deg < 281.25) {
+      cardinalDirection = 'E';
+    } else if (deg >= 281.25 && deg < 303.75) {
+      cardinalDirection = 'ENE';
+    } else if (deg >= 303.75 && deg < 326.25) {
+      cardinalDirection = 'NE';
+    } else if (deg >= 326.25 && deg < 348.75) {
+      cardinalDirection = 'NNE';
+    }
+
+    return cardinalDirection;
+
+}
+</script>
 
 </body>
 </html>
