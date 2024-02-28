@@ -246,7 +246,7 @@
     
     <!-- Radio buttons for data selection -->
     <button type="button" onclick="dayFilter()">Day</button>
-    <button type= "button" onclick= "getChoropleth()">Republic</button>
+    <button type= "button" onclick= "getWindPowerPerCounty()">Republic</button>
     <button type= "button" onclick= "NIgetChoropleth()">NI</button>
     <button type="button" onclick="weekFilter()">Week</button>
     <button type="button" onclick="monthFilter()">Month</button>
@@ -770,17 +770,17 @@ function hide_outputChart() {
 
 <script>
 function getColor(windpower) {
-        return  windpower > 1000000000 ? '#006d2c' :
-                windpower > 800000000 ? '#31a354' :
-                windpower > 600000000 ? '#74c476' :
-                windpower > 400000000 ? '#a1d99b' :
-                windpower > 200000000 ? '#c7e9c0' :
+        return  windpower > 100*(10**6) ? '#006d2c' :
+                windpower > 80*(10**6) ? '#31a354' :
+                windpower > 60*(10**6) ? '#74c476' :
+                windpower > 40*(10**6)? '#a1d99b' :
+                windpower > 20*(10**6) ? '#c7e9c0' :
                                         '#edf8e9' ;
     };
 
     function style(feature) {
     return {
-        fillColor: getColor(feature.properties.windpower),
+        fillColor: getColor(feature.properties['totalWindPower']),
         weight: 2,
         opacity: 1,
         color: 'white',
@@ -798,6 +798,7 @@ function getColor(windpower) {
         let choro_response = await fetch(choropleth_url);
         let choro_json = await choro_response.json();
 
+
         //Retrieve wind power generated per county
         county_windpower_list = await getWindFarmWindPower()
 
@@ -813,7 +814,7 @@ function getColor(windpower) {
         // method that we will use to update the control based on feature properties passed
         info.update = function (props) {
             this._div.innerHTML = '<h4> Ireland Wind Power </h4>' +  (props ?
-                '<b>' + props.COUNTY+ '</b><br />' + Math.round(props.windpower/10**6) + ' MW '
+                '<b>' + props['COUNTY']+ '</b><br />' + Math.round(props['totalWindPower']/10**6) + ' MW '
                 : 'Hover over a county');
         };
 
@@ -831,7 +832,7 @@ function getColor(windpower) {
         legend.onAdd = function (map) {
 
             var div = L.DomUtil.create('div', 'info legend'),
-                grades = [0, 10, 20, 50, 100, 200, 500, 1000],
+                grades = ["0MW", "20MW", "40MW", "80MW", "100MW"],
                 labels = [];
 
             // loop through our density intervals and generate a label with a colored square for each interval
@@ -853,6 +854,7 @@ function getColor(windpower) {
         let windpower_url = {{url_for('aggregate_windpower')|tojson}};
         let windpower_response = await fetch(windpower_url);
         let windpower_json = await windpower_response.json();
+        console.log(windpower_json)
         return windpower_json
     }
 </script>
