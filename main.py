@@ -42,14 +42,14 @@ def insert_many_windspeeds(data):
 
 def gather_wind_data():
     print(f"Background Task started at {datetime.now()}")
-    windfarm_df = pd.read_csv("Windfarm_WebScraped_DataV3.csv")
+    windfarm_df = pd.read_csv("Windfarm_WebScraped_DataV4.csv")
     now = datetime.now().replace(microsecond=0, second=0, minute=0)
     current_time = now.strftime('%Y-%m-%dT%H:%M')
     timestamp = datetime.today().replace(microsecond=0, second=0, minute=0)
     #Begin a session which keeps the same connection open for all api calls
     with requests.Session() as session:
         # Create a list of the wind speed results results using list comprehension 
-        windspeeds = [gather_session_urls(session = session,name = row['Wind Farm Name'],lon = row['Longitude'],lat = row['Latitude'],rotordiameter = row['Rotor diameter'], numberofturbines = row['Number of Turbines'] , cutinspeed=row['Cut-in wind speed'], cutoutspeed=row['Cut-off wind speed'], ratedspeed=row['Rated wind speed'], current_time = current_time,timestamp = timestamp) for index, row in windfarm_df.iterrows()]
+        windspeeds = [gather_session_urls(session = session,name = row['Wind Farm Name'],lon = row['Longitude'],lat = row['Latitude'],rotordiameter = row['Rotor diameter'], numberofturbines = row['Number of Turbines'] , cutinspeed=row['Cut-in wind speed'], cutoutspeed=row['Cut-off wind speed'], ratedspeed=row['Rated wind speed'], current_time = current_time,timestamp = timestamp, county = row['COUNTY']) for index, row in windfarm_df.iterrows()]
         for windspeed in windspeeds:
             print(windspeed)
         insert_many_windspeeds(windspeeds)
@@ -81,7 +81,7 @@ def windpower(windspeed: float,rotordiameter: float, cutinspeed: float, cutoutsp
 
 
 
-def gather_session_urls(session,name,lon,lat, rotordiameter, numberofturbines,cutinspeed, cutoutspeed, ratedspeed, current_time,timestamp):
+def gather_session_urls(session,name,lon,lat, rotordiameter, numberofturbines,cutinspeed, cutoutspeed, ratedspeed, current_time,timestamp,county):
     url = 'http://metwdb-openaccess.ichec.ie/metno-wdb2ts/locationforecast'
     qto = current_time
     qfrom = qto
@@ -110,7 +110,8 @@ def gather_session_urls(session,name,lon,lat, rotordiameter, numberofturbines,cu
                         "timestamp": timestamp,
                         "windspeed":windspeed,
                         "windpower":windfarmpower,
-                        "winddirection": winddirection}
+                        "winddirection": winddirection,
+                        "County":county}
                 print(f"Background Task Executed at {datetime.now()}")
                 return data
             else:
@@ -136,7 +137,7 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 # Initialize scheduler
 scheduler = BackgroundScheduler()
 # Add the task to the scheduler to run at the start of every hour
-scheduler.add_job(gather_wind_data, 'cron', hour = "*", minute="41")
+scheduler.add_job(gather_wind_data, 'cron', hour = "*", minute="48")
 
 # Start the scheduler
 scheduler.start()
@@ -144,14 +145,14 @@ scheduler.start()
 @app.route('/')
 def index():
     #Read Windfarm data into a pandas dataframe
-    windfarm_data = pd.read_csv("Windfarm_WebScraped_Datav3.csv")
+    windfarm_data = pd.read_csv("Windfarm_WebScraped_Datav4.csv")
     print(windfarm_data.to_json(orient="records"))
     return render_template('index.html',windfarm_data = windfarm_data.to_json(orient="records"))
 
 @app.route("/windfarm_details", methods = ['POST'])
 def windfarm_details():
     #Read Windfarm data into a pandas dataframe
-    windfarm_data = pd.read_csv("Windfarm_WebScraped_Datav3.csv")
+    windfarm_data = pd.read_csv("Windfarm_WebScraped_Datav4.csv")
     if flask_request.method == 'POST':
         windfarm_name = flask_request.json['Windfarm']
         windfarm_details= windfarm_data.loc[windfarm_data['Wind Farm Name']== windfarm_name ]
@@ -162,7 +163,20 @@ def windfarm_details():
 
 @app.route("/choropleth")
 def choropleth():
-    geojson_path = 'Counties_-_National_Statutory_Boundaries_-_2019_-_Generalised_20m.geojson'
+    geojson_path = 'Coast_-_National_250k_Map_Of_Ireland.geojson'
+    print(geojson_path)
+    try:
+        with open(geojson_path, 'r', encoding='utf-8') as file:
+            geojson_data = file.read()
+            return Response(geojson_data, content_type='application/json')
+    except FileNotFoundError:
+        return jsonify({"error": "GeoJSON file not found"}), 404
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+@app.route("/NIchoropleth")
+def NIchoropleth():
+    geojson_path = 'northern-ireland_1319.geojson'
     print(geojson_path)
     try:
         with open(geojson_path, 'r', encoding='utf-8') as file:

@@ -72,6 +72,7 @@
             max-width: 100%; /* Ensure content doesn't exceed the width of the grid item */
             max-height: 100%; /* Ensure content doesn't exceed the height of the grid item */
             background:#252429fa;
+            border-radius: 25px;
         }
         .card1{
             grid-row: 1/4;
@@ -158,12 +159,14 @@
         }
 
         #windvector{
-            width: 75%;
             height: 50%;
+            display: none;
+
         }
 
         #winddirection{
             height: 50%;
+            display: none;
         }
         div h6{
             position: absolute;
@@ -174,19 +177,77 @@
             bottom: -10px;
             font-weight: bold;
         }
-                
+
+        .alert {
+        padding: 10px;
+        width: 75%;
+        background-color: #f44336;
+        color: white;
+        opacity: 1;
+        transition: opacity 0.6s;
+        margin-bottom: 15px;
+        border-radius: 10px;
+        }
+
+        .alert.success {background-color: #04AA6D;}
+
+        .alert.info {
+        background-color: #2196F3;
+        width: 75%;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        }
+
+
+        .alert.warning {background-color: #ff9800;}
+
+        .closebtn {
+        margin-left: 15px;
+        color: white;
+        font-weight: bold;
+        float: right;
+        font-size: 22px;
+        line-height: 20px;
+        cursor: pointer;
+        transition: 0.3s;
+        
+        }
+
+        .closebtn:hover {
+        color: black;
+        }
+        
+        #exclamation{
+            width: 25px;
+            height: 25px;
+            display: inline-block;
+        }
+        #infotext {
+            flex-grow: 5;
+            bottom:0px;
+            font-weight: normal;
+            padding-left: 10px;
+        }
+
+
     </style>
 <body>
 <!-- <div class="header"><h1>Wind Farms Map</h1></div> -->
 <div class="container">
-    <div class="card1"><h6>Output Efficiency</h6><canvas id="output"></canvas></div>
-    <div class="card2"><h6>Wind Speed</h6><img id="windvector"></img><p id="windspeed_mps"></p></div>
+    <div class="card1"><h6>Output Efficiency</h6><canvas id="output"></canvas>
+        <div class="alert info"> 
+        <img id="exclamation" src="/static/exclamation-mark.svg"></id> <p id="infotext">Please select a wind farm on the map</p>
+      </div>
+    </div>
+    <div class="card2"><h6>Wind Speed</h6><img id="windvector"> </img><p id="windspeed_mps"></p></div>
     <div class="card3"><h6>Wind Direction</h6><img id="winddirection"></img><p id="winddirection_cardinal"></p></div>
     <div class="map" id="map"><canvas id="vectorField"></canvas></p></div>
     
     <!-- Radio buttons for data selection -->
     <button type="button" onclick="dayFilter()">Day</button>
-    <button type= "button" onclick= "getWindPowerPerCounty()"></button>
+    <button type= "button" onclick= "getChoropleth()">Republic</button>
+    <button type= "button" onclick= "NIgetChoropleth()">NI</button>
     <button type="button" onclick="weekFilter()">Week</button>
     <button type="button" onclick="monthFilter()">Month</button>
     <button type="button" onclick="yearFilter()">Year</button>
@@ -284,7 +345,7 @@
     data = {
             labels: [],
             datasets: [{
-                label: 'My Chart',
+                label: 'Wind Farm Energy Production',
                 data: [0],
                 borderColor: 'rgba(75, 192, 192, 1)',
                 borderWidth: 2,
@@ -301,6 +362,15 @@
       type: 'line',
       data,
       options: {
+        plugins: {
+            legend: {
+                labels: {
+                    font : {
+                        size: 20
+                    }
+                }
+            }
+        },
         responsive: true,
         maintainAspectRatio: false,
             scales: {
@@ -333,16 +403,25 @@
                     grid: {
                         color: 'rgba(200, 200, 200, 0.05)',
                         lineWidth: 1
+                    },
+                    ticks:{
+                        callback: function(value,index,values){
+                            if (typeof(data.datasets[0].data[0]) != "object" && data.datasets[0].data[0] > 1 ){
+                                return value/(10**6) + " MW"
+                            }
+                        }
                     }
                 },
             }
         }
     };
+
     // render init block
     let windChart = new Chart(
       document.getElementById('windChart'),
       config
     );
+
     //setup output doughnut chart
     //hoist max variable
     let max;
@@ -386,25 +465,12 @@
         plugins: []
     }
 );
+    
+hide_outputChart()
+function hide_outputChart() {
+  document.getElementById("output").style.display="none";
 
-
-    let speedChart = new Chart(
-        document.getElementById('speed'),
-        {
-            type: 'doughnut',
-
-        }
-
-    )
-    let directionChart = new Chart(
-        document.getElementById('direction'),
-        {
-            type: 'doughnut',
-        }
-
-    )
-
-
+}
 </script>
 
 <script>
@@ -423,18 +489,19 @@
     northEast = L.latLng(ireland_lat_max, ireland_lon_max), // Define your northeast boundary
     bounds = L.latLngBounds(southWest, northEast); // Create a bounds object
 
+    
+
     var map = L.map('map', {
     minZoom: 7.1,
     maxBounds: bounds, // Set the maximum bounds
     maxBoundsViscosity: 1.0 // Make sure the map never goes outside the bounds
     }).setView([53.5, -7.75], 7.1);
 
-    var Stadia_AlidadeSmoothDark = L.tileLayer('https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.{ext}', {
+    var AlidadeSmoothDark = L.tileLayer('https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.{ext}', {
 	minZoom: 0,
 	maxZoom: 20,
 	ext: 'png'
     }).addTo(map)
-
 
     //Set url to the url for the lookup route on flask server-side
     data_url = {{ url_for('windvectors')|tojson }} ;
@@ -449,33 +516,7 @@
         frameRate: 30,
         lineWidth: 1,
         particleAge: 180,
-        displayValues: true,
-        displayValues: true,
-        displayOptions: {
-            // label prefix
-            velocityType: "Global Wind",
-
-            // leaflet control position
-            position: "bottomleft",
-
-            // no data at cursor
-            emptyString: "No velocity data",
-
-            // see explanation below
-            angleConvention: "bearingCW",
-
-            // display cardinal direction alongside degrees
-            showCardinal: false,
-
-            // one of: ['ms', 'k/h', 'mph', 'kt']
-            speedUnit: "ms",
-
-            // direction label prefix
-            directionString: "Direction",
-
-            // speed label prefix
-            speedString: "Speed",
-        },
+        displayValues: false,
         data: data, // see demo/*.json, or wind-js-server for example data service
 
         // OPTIONAL
@@ -491,9 +532,16 @@
         opacity: 0.99, // layer opacity, default 0.97
 
 
-        });    
-    velocityLayer.addTo(map)
+        }); 
+    
+    var overlayWind = {"Wind": velocityLayer}
+    L.control.layers(null, overlayWind).addTo(map)
+    map.addLayer(velocityLayer);
     }
+
+    var markers = L.markerClusterGroup();
+    markers.addLayer(L.marker([53.5, -7.75]));
+    map.addLayer(markers);
     
     //Set a onclick function for the map to capture user click coordinates
     let popup = L.popup();
@@ -627,6 +675,7 @@
             windChart.data.datasets[0].data = windpower_values
             console.log("Wind power values " + windpower_values)
             windChart.data.datasets[0].label = windfarmName
+            
             windChart.update()
             //Set the fill data of the doughnut chart to the actual wind power
             outputChart.data.datasets[0].data[0] = windpower_values.slice(-1)
@@ -673,20 +722,26 @@
             outputChart.config._config.plugins[0] = centerTextLine
             outputChart.config._config.plugins[1] = overlapSlice
             outputChart.options.plugins.legend = {display:false}
-            wind_direction = parseFloat(winddirection_values.slice(-1)) + 180 
+            wind_direction = parseFloat(winddirection_values.slice(-1))
             if (wind_direction > 360){
                 wind_direction = wind_direction - 360
             }
-            wind_direction_card = wind_direction - 180
+            wind_direction_card = wind_direction
             console.log(parseFloat(wind_direction))
             if (wind_direction_card < 0 ){
                 wind_direction_card = 360 + wind_direction_card // wind direction will be negative degrees
             }
             cardinal_wind_direction = degreesToCardinalDirection(wind_direction_card)
             console.log(cardinal_wind_direction)
-            document.getElementById("windvector").src = '{{ url_for("static", filename="windvector.svg") }}'
-            document.getElementById("winddirection").src = '{{url_for("static", filename= "windarrow.svg")}}'
-            document.getElementById("winddirection").style.transform = `rotate(${wind_direction}deg)`
+            document.getElementsByClassName("alert info")[0].style.display = "none"
+            document.getElementById("output").style.display = "block"
+            windvectorElement = document.getElementById("windvector")
+            winddirectionElement = document.getElementById("winddirection")
+            windvectorElement.src = '{{ url_for("static", filename="windvector.svg") }}'
+            windvectorElement.style.display = "block"
+            winddirectionElement.src = '{{url_for("static", filename= "windarrow.svg")}}'
+            winddirectionElement.style.display = "block"
+            winddirectionElement.style.transform = `rotate(${wind_direction}deg)`
             document.getElementById("winddirection_cardinal").textContent  = cardinal_wind_direction 
             document.getElementById("windspeed_mps").textContent = windspeed_values.slice(-1) + " m/s"
             
@@ -700,8 +755,17 @@
         let choropleth_url = {{ url_for('choropleth')|tojson }}
         let response = await fetch(choropleth_url)
         let choropleth_json = await response.json()
-            L.geoJson(choropleth_json,style = {"color": "#000","fillOpacity": 0.01}).addTo(map);
+            L.geoJson(choropleth_json,style = {"color": "#FFFFFF","fillOpacity": 0,"weight": 0.2,"opacity":0.8,"zIndex":-1}).addTo(map);
     }
+</script>
+
+<script>
+    async function NIgetChoropleth(){
+       let NIchoropleth_url = {{ url_for('NIchoropleth')|tojson }}
+       let NIresponse = await fetch(NIchoropleth_url)
+       let NIchoropleth_json = await NIresponse.json()
+           L.geoJson(NIchoropleth_json,style = {"color": "#FFFFFF","fillOpacity": 0,"weight": 0.2,"opacity":0.8,"zIndex":-1}).addTo(map);
+   }
 </script>
 
 <script>
