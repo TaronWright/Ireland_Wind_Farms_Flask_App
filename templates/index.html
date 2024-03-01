@@ -56,12 +56,12 @@
         }
 
         .map{
-        grid-row: 1/11;
+        grid-row: 3/11;
         grid-column: 1/5;
         }
 
         .chart{
-            grid-row: 4/11;
+            grid-row: 6/11;
             grid-column: 5/11;
             color: #252429fa;
             background:#252429fa;
@@ -75,33 +75,36 @@
             border-radius: 25px;
         }
         .card1{
-            grid-row: 1/4;
+            position: relative; /* Make the ancestor element relatively positioned */
+            grid-row: 3/6;
             grid-column: 5/7;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center; /* Align content center */
-            padding-top: 10px; /* Adding padding to ensure content fits properly */
+            padding-top:25px;
         }
 
         .card2{
-            grid-row: 1/4;
+            position: relative; /* Make the ancestor element relatively positioned */
+            grid-row: 3/6;
             grid-column: 7/9;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center; /* Align content center */
-            padding-top: 10px; /* Adding padding to ensure content fits properly */
+            padding-top:25px;
         }
 
         .card3{
-            grid-row: 1/4;
+            position: relative; /* Make the ancestor element relatively positioned */
+            grid-row: 3/6;
             grid-column: 9/11;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center; /* Align content center */
-            padding-top: 10px; /* Adding padding to ensure content fits properly */
+            padding-top:25px;
         }
 
         .info {
@@ -122,6 +125,7 @@
             line-height: 18px;
             color: #555;
         }
+        
         .legend i {
             width: 18px;
             height: 18px;
@@ -169,13 +173,16 @@
             display: none;
         }
         div h6{
-            position: absolute;
-            top: 10px;
+            position:absolute;
+            top:10px;
+            display: inline-block; /* Make the child element behave like an inline element */
+            left: 50%;
+            transform: translate(-50%, 0px); /* Center both horizontally and vertically */
         }
         div p{
             position: relative;
-            bottom: -10px;
             font-weight: bold;
+            grid-row: 6 / span 1;
         }
 
         .alert {
@@ -230,6 +237,11 @@
             padding-left: 10px;
         }
 
+        #output{
+            grid-row: 3 / span 5;
+            
+        }
+
 
     </style>
 <body>
@@ -240,8 +252,16 @@
         <img id="exclamation" src="/static/exclamation-mark.svg"></id> <p id="infotext">Please select a wind farm on the map</p>
       </div>
     </div>
-    <div class="card2"><h6>Wind Speed</h6><img id="windvector"> </img><p id="windspeed_mps"></p></div>
-    <div class="card3"><h6>Wind Direction</h6><img id="winddirection"></img><p id="winddirection_cardinal"></p></div>
+    <div class="card2"><h6>Wind Speed</h6><img id="windvector"> </img>
+        <div class="alert info"> 
+            <img id="exclamation" src="/static/exclamation-mark.svg"></id> <p id="infotext">Please select a wind farm on the map</p>
+          </div>
+        <p id="windspeed_mps"></p></div>
+    <div class="card3"><h6>Wind Direction</h6><img id="winddirection"></img>
+        <p id="winddirection_cardinal"></p>
+        <div class="alert info"> 
+            <img id="exclamation" src="/static/exclamation-mark.svg"></id> <p id="infotext">Please select a wind farm on the map</p>
+          </div></div>
     <div class="map" id="map"><canvas id="vectorField"></canvas></p></div>
     
     <!-- Radio buttons for data selection -->
@@ -495,7 +515,7 @@ function hide_outputChart() {
     minZoom: 7.1,
     maxBounds: bounds, // Set the maximum bounds
     maxBoundsViscosity: 1.0 // Make sure the map never goes outside the bounds
-    }).setView([53.5, -7.75], 7.1);
+    }).setView([53.5, -7.75], 7);
 
     var AlidadeSmoothDark = L.tileLayer('https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.{ext}', {
 	minZoom: 0,
@@ -506,8 +526,10 @@ function hide_outputChart() {
     //Set url to the url for the lookup route on flask server-side
     data_url = {{ url_for('windvectors')|tojson }} ;
 
+    //Set the Wind Vectors overlay
     getWindvectors()
-
+    let overlayWind;
+    let layerControl;
     async function getWindvectors(){
         let response = await fetch(data_url)
         let data = await response.json()
@@ -534,14 +556,13 @@ function hide_outputChart() {
 
         }); 
     
-    var overlayWind = {"Wind": velocityLayer}
-    L.control.layers(null, overlayWind).addTo(map)
+    overlayWind = {
+        "Wind": velocityLayer
+    }
+    layerControl = L.control.layers(null, overlayWind)
+    layerControl.addTo(map)
     map.addLayer(velocityLayer);
     }
-
-    var markers = L.markerClusterGroup();
-    markers.addLayer(L.marker([53.5, -7.75]));
-    map.addLayer(markers);
     
     //Set a onclick function for the map to capture user click coordinates
     let popup = L.popup();
@@ -552,7 +573,6 @@ function hide_outputChart() {
   //Create Cluster Group and add to map
     var markers = L.markerClusterGroup();
     
-
 
     // Convert HTMLCollection to an array and extract innerHTML
     var popupContent;
@@ -734,6 +754,8 @@ function hide_outputChart() {
             cardinal_wind_direction = degreesToCardinalDirection(wind_direction_card)
             console.log(cardinal_wind_direction)
             document.getElementsByClassName("alert info")[0].style.display = "none"
+            document.getElementsByClassName("alert info")[1].style.display = "none"
+            document.getElementsByClassName("alert info")[2].style.display = "none"
             document.getElementById("output").style.display = "block"
             windvectorElement = document.getElementById("windvector")
             winddirectionElement = document.getElementById("winddirection")
@@ -751,21 +773,28 @@ function hide_outputChart() {
 
 </script>
 <script>
+    let featureGroup = L.featureGroup()
+    //Set the Republic of Ireland White Outline
+    
      async function getChoropleth(){
         let choropleth_url = {{ url_for('choropleth')|tojson }}
         let response = await fetch(choropleth_url)
         let choropleth_json = await response.json()
-            L.geoJson(choropleth_json,style = {"color": "#FFFFFF","fillOpacity": 0,"weight": 0.2,"opacity":0.8,"zIndex":-1}).addTo(map);
+            L.geoJson(choropleth_json,style = {"color": "#FFFFFF","fillOpacity": 0,"weight": 0.6,"opacity":0.8,"zIndex":-1}).addTo(featureGroup);
     }
 </script>
 
 <script>
+    //Set the Norhtern Ireland White Outline
+    
     async function NIgetChoropleth(){
        let NIchoropleth_url = {{ url_for('NIchoropleth')|tojson }}
        let NIresponse = await fetch(NIchoropleth_url)
        let NIchoropleth_json = await NIresponse.json()
-           L.geoJson(NIchoropleth_json,style = {"color": "#FFFFFF","fillOpacity": 0,"weight": 0.2,"opacity":0.8,"zIndex":-1}).addTo(map);
+           L.geoJson(NIchoropleth_json,style = {"color": "#FFFFFF","fillOpacity": 0,"weight": 0.6,"opacity":0.8,"zIndex":-1}).addTo(featureGroup);
    }
+   featureGroup.addTo(map)
+   featureGroup.bringToFront()
 </script>
 
 <script>
@@ -791,19 +820,34 @@ function getColor(windpower) {
 </script>
 <script>
     let info;
+    let geojson
     async function getWindPowerPerCounty(){
   
-        let choropleth_url = {{ url_for('choropleth')|tojson }}
-
-        let choro_response = await fetch(choropleth_url);
-        let choro_json = await choro_response.json();
-
-
         //Retrieve wind power generated per county
         county_windpower_list = await getWindFarmWindPower()
 
+        geojson = L.geoJson(county_windpower_list, {
+            style: style,
+            onEachFeature: onEachFeature
+        })
+
+        // geojson.addTo(map)
+        layerControl.addOverlay(geojson,"County")
+        getChoropleth()
+        NIgetChoropleth()
+        
+    };
+
+    
+</script>
+
+<script>
+    // Hoist legend object
+        let legend;
+        map.on('overlayadd', function(e){
+        if (e.name == 'County'){
         // Adding custom info control to map
-        info = L.control();
+        info = L.control({position: 'bottomleft'});
 
         info.onAdd = function (map) {
             this._div = L.DomUtil.create('div', 'info'); // create a div with a class "info"
@@ -815,37 +859,41 @@ function getColor(windpower) {
         info.update = function (props) {
             this._div.innerHTML = '<h4> Ireland Wind Power </h4>' +  (props ?
                 '<b>' + props['COUNTY']+ '</b><br />' + Math.round(props['totalWindPower']/10**6) + ' MW '
-                : 'Hover over a county');
+                : 'Hover over a county to see its <br /> wind energy production');
         };
 
         info.addTo(map);
-        
-
-        geojson = L.geoJson(county_windpower_list, {
-            style: style,
-            onEachFeature: onEachFeature
-        }).addTo(map);
-
         // Now add a legend to the map
-        var legend = L.control({position: 'bottomright'});
-
+        legend = L.control({position: 'bottomright'});
         legend.onAdd = function (map) {
 
-            var div = L.DomUtil.create('div', 'info legend'),
-                grades = ["0MW", "20MW", "40MW", "80MW", "100MW"],
-                labels = [];
+        var div = L.DomUtil.create('div', 'info legend'),
+            grades = ["0MW", "20MW", "40MW", "80MW", "100MW"],
+            labels = [];
 
-            // loop through our density intervals and generate a label with a colored square for each interval
-            for (var i = 0; i < grades.length; i++) {
-                div.innerHTML +=
-                    '<i style="background:' + getColor(grades[i] + 1) + '"></i> ' +
-                    grades[i] + (grades[i + 1] ? '&ndash;' + grades[i + 1] + '<br>' : '+');
-            }
-            return div;
+        // loop through our density intervals and generate a label with a colored square for each interval
+        for (var i = 0; i < grades.length; i++) {
+            div.innerHTML +=
+                '<i style="background:' + getColor(grades[i] + 1) + '"></i> ' +
+                grades[i] + (grades[i + 1] ? '&ndash;' + grades[i + 1] + '<br>' : '+');
+        }
+        return div;
         };
-
+        // Creating name property for legend object to indentify later
+        legend.name = "legend"
+        console.log(legend)
         legend.addTo(map);
-    };
+        } 
+    }
+    )
+
+    // Remove the legend and info object when the County overlay is removed
+    map.on('overlayremove', function(e){
+        if (e.name == 'County'){
+            map.removeControl(legend)
+            map.removeControl(info)
+        }
+    })
 </script>
 
 <script>
@@ -873,10 +921,10 @@ function getColor(windpower) {
     info.update(layer.feature.properties);
 
     layer.setStyle({
-        weight: 5,
-        color: '#666',
+        weight: 3,
+        color: '#FFFFFF',
         dashArray: '',
-        fillOpacity: 0.7
+        fillOpacity: 0.9
     });
 
     layer.bringToFront();
@@ -937,6 +985,8 @@ function degreesToCardinalDirection(deg) {
 
 }
 </script>
+
+<script>getWindPowerPerCounty() </script>
 
 </body>
 </html>

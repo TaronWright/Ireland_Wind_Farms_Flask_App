@@ -23,6 +23,7 @@ import math
 from shapely.geometry import Point
 import numpy as np
 import math
+import timeit
 
 load_dotenv(find_dotenv())
 password = os.environ.get("MONGODB_PWD")
@@ -137,6 +138,17 @@ app = Flask(__name__)
 app.config.from_object(Config())
 basedir = os.path.abspath(os.path.dirname(__file__))
 
+#Read Counties data into a geopandas dataframe
+geojson_path = 'Counties_-_National_Statutory_Boundaries_-_2019_-_Generalised_20m.geojson'
+with open(geojson_path, 'r', encoding='utf-8') as file:
+            test_data = json.load(file)
+counties_boundaries = gpd.read_file(geojson_path)
+counties_boundaries= counties_boundaries[['COUNTY','geometry']]
+county_geometry = [dict(_id = feature['properties']['COUNTY'], geometry = feature['geometry']) for feature in test_data['features']]
+
+
+
+
 
 # Initialize scheduler
 scheduler = BackgroundScheduler()
@@ -206,59 +218,87 @@ def lookup():
 
 @app.route("/windpower")
 def aggregate_windpower():
-    #Read Counties data into a geopandas dataframe
-    geojson_path = 'Counties_-_National_Statutory_Boundaries_-_2019_-_Generalised_20m.geojson'
-    counties_boundaries = gpd.read_file(geojson_path)
     # Calculate the timestamp for the last hour
     current_time = datetime.utcnow()
     one_hour_ago = current_time - timedelta(hours=1)
+    
     #First pipeline aggregation
-    last_hour = {
-        "$match": {
-            "timestamp": {"$gte": one_hour_ago}  # Filter documents based on timestamp
+    # last_hour = {
+    #     '$sort': {
+    #         'metadata.Wind Farm Name': 1, 
+    #         'timestamp': -1
+    #     }
+    # }
+    # #Second pipeline aggregation
+    # county_summed = {
+    #     '$group': {
+    #         '_id': '$County', 
+    #         'totalWindPower': {
+    #             '$sum': '$windpower'
+    #         }
+    #     }
+    # }
+
+
+    # Define the aggregation pipeline
+    pipeline = [
+    {
+        '$sort': {
+            'timestamp': -1
         }
-    }
-    #Second pipeline aggregation
-    county_summed = {
+    }, {
         '$group': {
-            '_id': '$County', 
+            '_id': '$metadata.Wind Farm Name', 
+            'lastEntry': {
+                '$first': '$$ROOT'
+            }
+        }
+    }, {
+        '$group': {
+            '_id': '$lastEntry.County', 
             'totalWindPower': {
-                '$sum': '$windpower'
+                '$sum': '$lastEntry.windpower'
             }
         }
     }
-
+]
     
-    # Define the aggregation pipeline
-    pipeline = [county_summed]
-    #This is a MongoDB Query on a collection to check the data for a Wind farm
     aggregate_windpower = collection.aggregate(pipeline)
-    #Create pandas dataframe
-    # windpower_df = gpd.GeoDataFrame(aggregate_windpower)
-    # # Create a GeoSeries of Point geometries from latitude and longitude
-    # windpower_df['geometry'] = [Point(lon, lat) for lon, lat in zip(windpower_df['Longitude'], windpower_df['Latitude'])]
-    # windpower_df.crs ="EPSG:4326"
 
-    # # Use json_util.dumps to serialize each MongoDB document in the list
-    # json_documents = [json.loads(json_util.dumps(doc)) for doc in aggregate_windpower]
-    # # Perform spatial join to match points and polygons
-    # pointInPolys = gpd.tools.sjoin(windpower_df, counties_boundaries, predicate="within", how='left')
-
-    # grouped_by_county = pointInPolys.groupby('COUNTY')['windpower'].sum().reset_index()
 
     # Use json_util.dumps to serialize each MongoDB document in the list
     county_windpower = [json.loads(json_util.dumps(doc)) for doc in aggregate_windpower]
+    print(county_windpower)
+    # End time measurement
+    print(f"After json_util.dumps to serialize each MongoDB document:{datetime.utcnow()}")
     #Convert list to Pandas DataSeries
     series_county_windpower = pd.DataFrame(county_windpower)
-    
     #Rename _id column to COUNTY
     series_county_windpower.rename(columns={"_id":"COUNTY"}, inplace = True)
-
-    # Merge based on the 'county' column
-    merged_df = pd.merge(counties_boundaries, series_county_windpower, on='COUNTY', how='left')
-    print(merged_df["COUNTY"])
+    print(series_county_windpower)
+    
+    # # Merge based on the 'county' column
+    merged_df = pd.merge(counties_boundaries, series_county_windpower, on='COUNTY')
+    
     #Convert DataFrame to geojson string
+    
     geojson_str = merged_df.to_json()
+    #End time measurement
+ 
+    # After all dataframe manipulation
+    print(f"After all dataframe manipulation:{datetime.utcnow()}")
+    # Iterate through wind power data
+    # Merged list with combined data
+
+    print(f"Start time:{datetime.utcnow()}")
+    # Create a dictionary for efficient lookups by _id
+    geometry_lookup = {d['_id']: d['geometry'] for d in county_geometry}
+
+    # Merge data using list comprehension
+    merged_data = [{**wind_power, 'geometry': geometry_lookup.get(wind_power['_id'])} for wind_power in county_windpower]
+    geo_merged_data = {"type": "FeatureCollection","features": merged_data}
+    print(f"End time:{datetime.utcnow()}")
+    # Print the merged data
 
     return geojson_str
 
