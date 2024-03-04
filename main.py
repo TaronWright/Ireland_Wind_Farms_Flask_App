@@ -25,6 +25,7 @@ import numpy as np
 import math
 import timeit
 
+
 load_dotenv(find_dotenv())
 password = os.environ.get("MONGODB_PWD")
 
@@ -37,24 +38,46 @@ collection = db['Test']
 
 # collection.delete_many({})
 
+
+
+
+            
+# set configuration values for APscheduler
+class Config:
+    SCHEDULER_API_ENABLED = True
+
+# Initialize app
+app = Flask(__name__)
+app.config.from_object(Config())
+
+# initialize scheduler
+scheduler = APScheduler()
+scheduler.init_app(app)
+scheduler.start()
+
+basedir = os.path.abspath(os.path.dirname(__file__))
+
 def insert_many_windspeeds(data):
     collection = db['Test']
     collection.insert_many(data)
     print(f"Windspeed data inserted into database at {datetime.now()}")
 
+# cron examples
+@scheduler.task('cron', id='scrape_wind_data', hour = "*", minute="43")
 def gather_wind_data():
-    print(f"Background Task started at {datetime.now()}")
-    windfarm_df = pd.read_csv("Windfarm_WebScraped_DataV4.csv")
-    now = datetime.now().replace(microsecond=0, second=0, minute=0)
-    current_time = now.strftime('%Y-%m-%dT%H:%M')
-    timestamp = datetime.today().replace(microsecond=0, second=0, minute=0)
-    #Begin a session which keeps the same connection open for all api calls
-    with requests.Session() as session:
-        # Create a list of the wind speed results results using list comprehension 
-        windspeeds = [gather_session_urls(session = session,name = row['Wind Farm Name'],lon = row['Longitude'],lat = row['Latitude'],rotordiameter = row['Rotor diameter'], numberofturbines = row['Number of Turbines'] , cutinspeed=row['Cut-in wind speed'], cutoutspeed=row['Cut-off wind speed'], ratedspeed=row['Rated wind speed'], current_time = current_time,timestamp = timestamp, county = row['COUNTY']) for index, row in windfarm_df.iterrows()]
-        for windspeed in windspeeds:
-            print(windspeed)
-        insert_many_windspeeds(windspeeds)
+    with scheduler.app.app_context():
+        print(f"Background Task started at {datetime.now()}")
+        windfarm_df = pd.read_csv("Windfarm_WebScraped_DataV4.csv")
+        now = datetime.now().replace(microsecond=0, second=0, minute=0)
+        current_time = now.strftime('%Y-%m-%dT%H:%M')
+        timestamp = datetime.today().replace(microsecond=0, second=0, minute=0)
+        #Begin a session which keeps the same connection open for all api calls
+        with requests.Session() as session:
+            # Create a list of the wind speed results results using list comprehension 
+            windspeeds = [gather_session_urls(session = session,name = row['Wind Farm Name'],lon = row['Longitude'],lat = row['Latitude'],rotordiameter = row['Rotor diameter'], numberofturbines = row['Number of Turbines'] , cutinspeed=row['Cut-in wind speed'], cutoutspeed=row['Cut-off wind speed'], ratedspeed=row['Rated wind speed'], current_time = current_time,timestamp = timestamp, county = row['COUNTY']) for index, row in windfarm_df.iterrows()]
+            for windspeed in windspeeds:
+                print(windspeed)
+            insert_many_windspeeds(windspeeds)
 
 def windpower(windspeed: float,rotordiameter: float, cutinspeed: float, cutoutspeed: float, ratedspeed:float):
      # Initiate constants:
@@ -125,18 +148,7 @@ def gather_session_urls(session,name,lon,lat, rotordiameter, numberofturbines,cu
         except Exception as e:
             print(f"Error processing wind data for lat={lat}, lon={lon}: {e}")
             return None
-            
-def test_scheduler():
-    print("Hello World")
 
-# set configuration values
-class Config:
-    SCHEDULER_API_ENABLED = True
-
-# Initialize app
-app = Flask(__name__)
-app.config.from_object(Config())
-basedir = os.path.abspath(os.path.dirname(__file__))
 
 #Read Counties data into a geopandas dataframe
 geojson_path = 'Counties_-_National_Statutory_Boundaries_-_2019_-_Generalised_20m.geojson'
@@ -146,17 +158,6 @@ counties_boundaries = gpd.read_file(geojson_path)
 counties_boundaries= counties_boundaries[['COUNTY','geometry']]
 county_geometry = [dict(_id = feature['properties']['COUNTY'], geometry = feature['geometry']) for feature in test_data['features']]
 
-
-
-
-
-# Initialize scheduler
-scheduler = BackgroundScheduler()
-# Add the task to the scheduler to run at the start of every hour
-scheduler.add_job(gather_wind_data, 'cron', hour = "*", minute="51")
-
-# Start the scheduler
-scheduler.start()
 
 @app.route('/')
 def index():
@@ -221,25 +222,6 @@ def aggregate_windpower():
     # Calculate the timestamp for the last hour
     current_time = datetime.utcnow()
     one_hour_ago = current_time - timedelta(hours=1)
-    
-    #First pipeline aggregation
-    # last_hour = {
-    #     '$sort': {
-    #         'metadata.Wind Farm Name': 1, 
-    #         'timestamp': -1
-    #     }
-    # }
-    # #Second pipeline aggregation
-    # county_summed = {
-    #     '$group': {
-    #         '_id': '$County', 
-    #         'totalWindPower': {
-    #             '$sum': '$windpower'
-    #         }
-    #     }
-    # }
-
-
     # Define the aggregation pipeline
     pipeline = [
     {
@@ -451,7 +433,4 @@ def IrelandGrid(wind_vectors,coordinates):
     return wind_vectors
 
 if __name__ == '__main__':
-        
-    if not scheduler.running:
-        scheduler.start()
     app.run(debug=True)
