@@ -25,6 +25,10 @@
     <link rel="stylesheet" href="static/css/leaflet-velocity.css"/>
     <link rel="stylesheet" href="static/css/leaflet-velocity.min.css"/>
     <script src="static/js/leaflet-velocity.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@drustack/leaflet.resetview/dist/L.Control.ResetView.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/@drustack/leaflet.resetview/dist/L.Control.ResetView.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/driver.js@1.0.1/dist/driver.js.iife.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/driver.js@1.0.1/dist/driver.css"/>
     
     <style>
 
@@ -265,6 +269,11 @@
             font-size: 24px;
             height: 72px;
         }
+
+        .increased-focus-padding {
+        outline: 2px solid blue; /* Adjust color and style as needed */
+        outline-offset: 5px; /* Increase the offset to create a padding effect */
+        }
         @media (max-width: 500px) {
 
         body {
@@ -273,7 +282,7 @@
         }
 
         #map{
-            height: 500px;
+            height: 700px;
             padding-left: 20px;
             padding-right:20px
         }
@@ -295,7 +304,7 @@
         #dashboard_title{
             position: relative;
             font-size: 16px;
-            height: 32px;
+            height: 48px;
         }
         .alert.info {
         font-size: 10px;
@@ -309,6 +318,9 @@
         #exclamation{
             height: 10px;
             width: 10px;
+        }
+        .chart{
+            height:400px
         }
         }
 
@@ -584,6 +596,13 @@ function hide_outputChart() {
     maxBoundsViscosity: 1.0 // Make sure the map never goes outside the bounds
     }).setView([53.5, -7.75], 7);
 
+    L.control.resetView({
+        position: "topleft",
+        title: "Reset view",
+        latlng: L.latLng([53.5, -7.75]),
+        zoom: 7,
+    }).addTo(map);
+
     var AlidadeSmoothDark = L.tileLayer('https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.{ext}', {
 	minZoom: 0,
 	maxZoom: 20,
@@ -593,10 +612,16 @@ function hide_outputChart() {
     //Set url to the url for the lookup route on flask server-side
     data_url = {{ url_for('windvectors')|tojson }} ;
 
-    //Set the Wind Vectors overlay
-    getWindvectors()
+    //
     let overlayWind;
     let layerControl;
+    layerControl = L.control.layers()
+    layerControl.addTo(map)
+
+    //Set the Wind Vectors overlay
+    getWindvectors()
+
+
     async function getWindvectors(){
         let response = await fetch(data_url)
         let data = await response.json()
@@ -623,12 +648,12 @@ function hide_outputChart() {
 
         }); 
     
-    overlayWind = {
-        "Wind": velocityLayer
-    }
-    layerControl = L.control.layers(null, overlayWind)
-    layerControl.addTo(map)
-    map.addLayer(velocityLayer);
+    // overlayWind = {
+    //     "Wind": velocityLayer
+    // }
+    // layerControl = L.control.layers(null, overlayWind)
+    // layerControl.addTo(map)
+    layerControl.addOverlay(velocityLayer,"Wind")
     }
     
     //Set a onclick function for the map to capture user click coordinates
@@ -898,7 +923,7 @@ function getColor(windpower) {
             onEachFeature: onEachFeature
         })
 
-        // geojson.addTo(map)
+        // Adding the county choropleth to the map
         layerControl.addOverlay(geojson,"County")
         getChoropleth()
         NIgetChoropleth()
@@ -1054,6 +1079,52 @@ function degreesToCardinalDirection(deg) {
 </script>
 
 <script>getWindPowerPerCounty() </script>
+
+<script>
+var leafletControlLayer = document.getElementsByClassName('leaflet-top leaflet-right')[0];
+wrapElementWithDiv(leafletControlLayer, 'wrapperId');
+function wrapElementWithDiv(element, wrapperId) {
+    // Create a new <div> element
+    var wrapper = document.createElement('div');
+
+    // Set the ID for the wrapper
+    wrapper.id = wrapperId;
+
+    // Set the padding-left for the wrapper to make it 40px wider on the left
+    wrapper.style.width = '100px';
+    wrapper.style.height = '60px';
+    // Add a class to the wrapper
+    wrapper.classList.add('leaflet-top');
+    wrapper.classList.add('leaflet-right')
+    
+    // Get the parent node of the element
+    var parent = element.parentNode;
+    
+    // Insert the new <div> before the target element
+    parent.insertBefore(wrapper, element);
+    
+    // Move the target element inside the new <div>
+    wrapper.appendChild(element);
+}
+
+const driver = window.driver.js.driver;
+
+const driverObj = driver({
+  showProgress: true,
+  steps: [
+    { popover: { title: 'Happy Coding', description: 'And that is all, go ahead and start adding tours to your applications.' } },
+    { element: '.map', popover: { title: 'Animated Tour Example', description: 'Here is the code example showing animated tour. Let\'s walk you through it.', side: "left", align: 'start' }},
+    { element: '.leaflet-right', popover: { title: 'Animated Tour Example', description: 'Here is the code example showing animated tour. Let\'s walk you through it.', side: "right", align: 'start', stagePadding: 20,}},
+    { element: '#card-container',popover: { title: 'Happy Coding', description: 'And that is all, go ahead and start adding tours to your applications.' } },
+    { element: '#windChart',popover: { title: 'Happy Coding', description: 'And that is all, go ahead and start adding tours to your applications.' } }
+  ]
+});
+
+driverObj.drive();
+
+</script>
+
+
 
 </body>
 </html>
