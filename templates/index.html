@@ -61,12 +61,12 @@
         }
 
         .map{
-        grid-row: 3/11;
+        grid-row: 2/11;
         grid-column: 1/5;
         }
 
         .chart{
-            grid-row: 6/11;
+            grid-row: 5/11;
             grid-column: 5/11;
             color: #252429fa;
             background:#252429fa;
@@ -81,7 +81,7 @@
         }
 
         #card-container{
-            grid-row:3/6;
+            grid-row:2/5;
             grid-column:5/11;
             display: flex;
             flex-direction: row;
@@ -190,6 +190,9 @@
         div h6{
             position:absolute;
             top:10px;
+            font-size: 20px;
+            width:100%;
+            text-align: center;
             display: inline-block; /* Make the child element behave like an inline element */
             left: 50%;
             transform: translate(-50%, 0px); /* Center both horizontally and vertically */
@@ -267,7 +270,7 @@
             align-items: center;
             justify-content: center;
             font-size: 24px;
-            height: 72px;
+            height: 60px;
         }
 
         .increased-focus-padding {
@@ -1112,11 +1115,12 @@ const driver = window.driver.js.driver;
 const driverObj = driver({
   showProgress: true,
   steps: [
-    { popover: { title: 'Happy Coding', description: 'And that is all, go ahead and start adding tours to your applications.' } },
-    { element: '.map', popover: { title: 'Animated Tour Example', description: 'Here is the code example showing animated tour. Let\'s walk you through it.', side: "left", align: 'start' }},
-    { element: '.leaflet-right', popover: { title: 'Animated Tour Example', description: 'Here is the code example showing animated tour. Let\'s walk you through it.', side: "right", align: 'start', stagePadding: 20,}},
-    { element: '#card-container',popover: { title: 'Happy Coding', description: 'And that is all, go ahead and start adding tours to your applications.' } },
-    { element: '#windChart',popover: { title: 'Happy Coding', description: 'And that is all, go ahead and start adding tours to your applications.' } }
+    { popover: { title: 'Welcome!', description: 'Welcome to the Ireland Wind Farm Dashboard. The purpose of this dashboard is to give an insight into our renewable wind energy production across Ireland. Enjoy the tour!' } },
+    { element: '.map', popover: { title: 'Ireland Wind Farm Map', description: 'This map shows the location of every wind farm across Ireland. The wind farms are clustered together. Select a cluster to expand it and then select a wind farm.', side: "left", align: 'start' }},
+    { element: '.leaflet-control-resetview-icon', popover: { title: 'Reset View', description: 'Select this button to reset your view of the map', side: "right", align: 'start' }},
+    { element: '.leaflet-right', popover: { title: 'Map overlay layers', description: 'This control allows us to add or remove layers from the map. Select a layer to see its effect.', side: "right", align: 'start', stagePadding: 20,}},
+    { element: '#card-container',popover: { title: 'Wind farm data', description: 'These cards give an insight into the wind farm production and the captured data.' } },
+    { element: '#windChart',popover: { title: 'Wiind farm graph', description: 'This graph shows a history of the hourly wind energy produced by the wind farm over the last 24 hours.' } }
   ]
 });
 
