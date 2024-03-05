@@ -63,7 +63,7 @@ def insert_many_windspeeds(data):
     print(f"Windspeed data inserted into database at {datetime.now()}")
 
 # cron examples
-@scheduler.task('cron', id='scrape_wind_data', hour = "*", minute="05")
+@scheduler.task('cron', id='scrape_wind_data', hour = "*", minute="16")
 def gather_wind_data():
     with scheduler.app.app_context():
         print(f"Background Task started at {datetime.now()}")
