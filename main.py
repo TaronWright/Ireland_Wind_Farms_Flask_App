@@ -3,27 +3,19 @@ from flask import request as flask_request
 from flask import render_template
 import pandas as pd
 import geopandas as gpd
-from flask_sqlalchemy import SQLAlchemy
-from geoalchemy2 import Geometry
-import csv
 from dataclasses import dataclass
 from datetime import datetime, timedelta
 import requests
 import xml.etree.ElementTree as ET
 from flask_apscheduler import APScheduler
-from apscheduler.schedulers.background import BackgroundScheduler
 import os
 from dotenv import load_dotenv, find_dotenv
 from pymongo import MongoClient
-import asyncio
-import aiohttp
 from bson import json_util
 import json
 import math
-from shapely.geometry import Point
 import numpy as np
 import math
-import timeit
 
 
 load_dotenv(find_dotenv())
@@ -63,7 +55,7 @@ def insert_many_windspeeds(data):
     print(f"Windspeed data inserted into database at {datetime.now()}")
 
 # cron examples
-@scheduler.task('cron', id='scrape_wind_data', hour = "*", minute="16")
+@scheduler.task('cron', id='scrape_wind_data', hour = "*", minute="08")
 def gather_wind_data():
     with scheduler.app.app_context():
         print(f"Background Task started at {datetime.now()}")
