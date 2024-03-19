@@ -19,9 +19,7 @@ import math
 
 
 load_dotenv(find_dotenv())
-password = os.environ.get("MONGODB_PWD")
-
-connection_string = f"mongodb+srv://twright:{password}@windfarm.seyuy3o.mongodb.net/?retryWrites=true&w=majority"
+connection_string = os.environ.get("CONNECTION_STRING")
 
 cluster = MongoClient(connection_string)
 
@@ -32,14 +30,13 @@ collection = db['Test']
 
 
 
-
             
 # set configuration values for APscheduler
 class Config:
     SCHEDULER_API_ENABLED = True
 
 # Initialize app
-app = Flask(__name__)
+app = Flask(__name__,static_folder='static',static_url_path='/static')
 app.config.from_object(Config())
 
 # initialize scheduler
@@ -52,14 +49,15 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 def insert_many_windspeeds(data):
     collection = db['Test']
     collection.insert_many(data)
+
     print(f"Windspeed data inserted into database at {datetime.now()}")
 
 # cron examples
-@scheduler.task('cron', id='scrape_wind_data', hour = "*", minute="08")
+@scheduler.task('cron', id='scrape_wind_data', hour = "*", minute="20")
 def gather_wind_data():
     with scheduler.app.app_context():
         print(f"Background Task started at {datetime.now()}")
-        windfarm_df = pd.read_csv("Windfarm_WebScraped_DataV4.csv")
+        windfarm_df = pd.read_csv("./static/Windfarm_WebScraped_DataV4.csv")
         now = datetime.now().replace(microsecond=0, second=0, minute=0)
         current_time = now.strftime('%Y-%m-%dT%H:%M')
         timestamp = datetime.today().replace(microsecond=0, second=0, minute=0)
@@ -154,14 +152,14 @@ county_geometry = [dict(_id = feature['properties']['COUNTY'], geometry = featur
 @app.route('/')
 def index():
     #Read Windfarm data into a pandas dataframe
-    windfarm_data = pd.read_csv("Windfarm_WebScraped_Datav4.csv")
+    windfarm_data = pd.read_csv("Windfarm_WebScraped_DataV4.csv")
     print(windfarm_data.to_json(orient="records"))
     return render_template('index.html',windfarm_data = windfarm_data.to_json(orient="records"))
 
 @app.route("/windfarm_details", methods = ['POST'])
 def windfarm_details():
     #Read Windfarm data into a pandas dataframe
-    windfarm_data = pd.read_csv("Windfarm_WebScraped_Datav4.csv")
+    windfarm_data = pd.read_csv("Windfarm_WebScraped_DataV4.csv")
     if flask_request.method == 'POST':
         windfarm_name = flask_request.json['Windfarm']
         windfarm_details= windfarm_data.loc[windfarm_data['Wind Farm Name']== windfarm_name ]
@@ -173,7 +171,6 @@ def windfarm_details():
 @app.route("/choropleth")
 def choropleth():
     geojson_path = 'Coast_-_National_250k_Map_Of_Ireland.geojson'
-    print(geojson_path)
     try:
         with open(geojson_path, 'r', encoding='utf-8') as file:
             geojson_data = file.read()
@@ -423,6 +420,3 @@ def IrelandGrid(wind_vectors,coordinates):
     #windvectors ={"u": interpolated_u, "v": interpolated_v}
     json.dumps(wind_vectors)
     return wind_vectors
-
-if __name__ == '__main__':
-    app.run(debug=True)

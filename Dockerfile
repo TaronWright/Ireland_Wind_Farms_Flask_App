@@ -1,15 +1,15 @@
 FROM python:3.12
 
-
 # set the working directory
-WORKDIR /app
+WORKDIR /flaskapp
 
 # install dependencies
-COPY ./requirements.txt /app
+COPY ./requirements.txt /flaskapp
 RUN pip install --no-cache-dir --upgrade -r requirements.txt
 
-#copy the scripts to the folder
-COPY . /app
+# Copy your Flask application code
+COPY . .
 
-#start the server
-CMD [ "python3", "-m" , "flask", "run", "--host=0.0.0.0", "--port", "80"]
+EXPOSE 5000
+
+
