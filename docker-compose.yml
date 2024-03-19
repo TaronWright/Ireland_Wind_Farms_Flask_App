@@ -1,23 +1,21 @@
 version: "3"
-
 services:
   app:
     build:
-      context: ./
+    context: ./
     image: tracrux/irelandwindfarms
     command: gunicorn wsgi:app --bind 0.0.0.0:5000
     volumes:
-      - ${WEBAPP_STORAGE_HOME}:/flaskapp/
-      - ${WEBAPP_STORAGE_HOME}static:/flaskapp/static
+      - .:/flaskapp
+      - ./static:/flaskapp/static
     ports:
-      - "5000"
-
+      - "5000:5000"
 
   nginx:
     image: nginx:latest
     volumes:
-      - ${WEBAPP_STORAGE_HOME}nginx.conf:/etc/nginx/nginx.conf:ro
-      - ${WEBAPP_STORAGE_HOME}static:/flaskapp/static
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./static:/flaskapp/static
     ports:
       - "80:80"
     depends_on:
